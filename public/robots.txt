@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://docchat-saas.vercel.app/sitemap.xml
