@@ -13,7 +13,6 @@
     "react-dom": "^18",
     "openai": "^4.47.1",
     "mammoth": "^1.7.2",
-    "pdfjs-dist": "^4.3.136",
     "react-markdown": "^9.0.1",
     "react-dropzone": "^14.2.3"
   },
