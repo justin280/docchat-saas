@@ -2,7 +2,8 @@ import NavBar from '@/app/components/NavBar';
 export const metadata = {
   title: 'Contact Us | DocChat AI',
   description: 'Get in touch with DocChat AI. Support, business opportunities, collaborations and partnerships — we would love to hear from you.',
-, alternates: { canonical: '/contact' } };
+  alternates: { canonical: '/contact' }
+};
 
 export default function ContactPage() {
   const s = {
@@ -30,7 +31,6 @@ export default function ContactPage() {
   return (
     <div style={s.page}>
             <NavBar activePath="/contact" />
-
 
       <div style={s.content}>
         <h1 style={s.h1}>Get in <span style={s.green}>Touch</span></h1>
