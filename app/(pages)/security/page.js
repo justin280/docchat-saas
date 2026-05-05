@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import NavBar from '@/app/components/NavBar';
 
 export const metadata = {
   title: 'Security & Compliance | DocChat AI — SOC2, HIPAA, Zero Retention',
@@ -6,27 +7,13 @@ export const metadata = {
   keywords: 'DocChat AI security, SOC2 compliance, HIPAA compliance, zero retention, document security, data privacy',
 };
 
-const NAV_PAGES = [
-  { slug: '/legal-ai', label: 'Legal AI' },
-  { slug: '/enterprise', label: 'Enterprise' },
-  { slug: '/healthcare', label: 'Healthcare' },
-  { slug: '/compare', label: 'vs Competitors' },
-  { slug: '/api-docs', label: 'API Docs' },
-  { slug: '/contact', label: 'Contact' },
-  { slug: '/security', label: 'Security' },
-];
 
 export default function SecurityPage() {
   return (
     <div style={{backgroundColor:'#0a0a0a',minHeight:'100vh',color:'#fff',fontFamily:'system-ui,sans-serif'}}>
       {/* Nav */}
-      <nav style={{display:'flex',alignItems:'center',gap:'16px',padding:'14px 20px',borderBottom:'1px solid #111',backgroundColor:'#0a0a0a',position:'sticky',top:0,zIndex:100,flexWrap:'wrap'}}>
-        <Link href="/" style={{fontWeight:'700',color:'#84cc16',marginRight:'auto',fontSize:'16px',textDecoration:'none'}}>DocChat AI</Link>
-        {NAV_PAGES.map(p=>(
-          <Link key={p.slug} href={p.slug} style={{color:'#9ca3af',fontSize:'13px',textDecoration:'none'}}>{p.label}</Link>
-        ))}
-        <Link href="/" style={{backgroundColor:'#84cc16',color:'#000',border:'none',borderRadius:'8px',padding:'8px 18px',fontSize:'13px',fontWeight:'700',textDecoration:'none'}}>Try Free</Link>
-      </nav>
+            <NavBar activePath="/security" />
+
 
       {/* Hero */}
       <section style={{textAlign:'center',padding:'80px 20px 60px',maxWidth:'900px',margin:'0 auto'}}>
