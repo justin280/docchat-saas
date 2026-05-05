@@ -46,6 +46,7 @@ const NAV_PAGES = [
   { slug: '/api-docs', label: 'API Docs' },
   { slug: '/contact', label: 'Contact' },
 
+  { slug: '/pricing', label: 'Pricing' },
   { slug: '/security', label: 'Security' },];
 export default function Home() {
   const [docs, setDocs] = useState([]);
@@ -448,7 +449,7 @@ export default function Home() {
                   ['Chat with multiple PDFs','✅ Up to 5','❌ 1 at a time','✅','✅'],
                   ['AI Excel / CSV analyzer','✅ Full support','❌','Limited','Limited'],
                   ['Contract review AI','✅ Specialized','Basic','Basic','Basic'],
-                  ['AI models available','3 (Llama/Mistral/DeepSeek)','1','1','1'],
+                  ['AI models available','11 models (Llama, Mistral, DeepSeek + more)','1','1','1'],
                   ['Document comparison','✅','❌','❌','❌'],
                   ['Auto-summarize on upload','✅','❌','✅','✅'],
                   ['Follow-up prompts','✅ AI-suggested','❌','❌','❌'],
