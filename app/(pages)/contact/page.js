@@ -42,8 +42,8 @@ export default function ContactPage() {
             <div style={s.cardIcon}>&#128587;</div>
             <h2 style={s.cardTitle}>Customer Support</h2>
             <p style={s.cardDesc}>Having trouble with a document upload, payment or feature? Our support team is here to help.</p>
-            <a href="mailto:support.docchatai@proton.me" style={s.link}>&#9993; support.docchatai@proton.me</a>
-            <div style={s.emailHighlight}>support.docchatai@proton.me</div>
+            <a href="mailto:support.docchatai@proton.me" style={s.link}>&#9993; support&#46;docchatai&#64;proton&#46;me</a>
+            <div style={s.emailHighlight}>support&#46;docchatai&#64;proton&#46;me</div>
             <p style={{color:'#6b7280',fontSize:'12px',marginTop:'12px',marginBottom:0}}>We aim to respond within 24 hours.</p>
           </div>
 
