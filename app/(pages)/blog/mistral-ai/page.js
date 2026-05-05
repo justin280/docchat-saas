@@ -1,5 +1,7 @@
 import NavBar from '@/app/components/NavBar';
-export const metadata = { title: 'Mistral AI for Document Analysis: Complete Guide 2026 | DocChat AI', description: 'Learn how Mistral AI models work and how to use Mistral Large for PDF analysis, contract review and document summarisation.' , alternates: { canonical: '/blog/mistral-ai' } };
+export const metadata = { title: 'Mistral AI for Document Analysis: Complete Guide 2026 | DocChat AI', description: 'Learn how Mistral AI models work and how to use Mistral Large for PDF analysis, contract review and document summarisation.',
+  alternates: { canonical: '/blog/mistral-ai' }
+};
 export default function Page() {
   return (
     <div style={{backgroundColor:'#0a0a0a',minHeight:'100vh',color:'#fff',fontFamily:'system-ui,sans-serif'}}>
