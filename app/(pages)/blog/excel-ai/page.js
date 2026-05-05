@@ -1,3 +1,4 @@
+import NavBar from '@/app/components/NavBar';
 export const metadata = {
   title: 'AI Excel Analyzer: Chat With Your Spreadsheets Using AI | DocChat AI',
   description: 'Use DocChat AI as an AI Excel analyzer. Upload XLSX, CSV and spreadsheets and ask questions in plain English. No formulas needed.',
@@ -6,7 +7,9 @@ export const metadata = {
 
 export default function Page() {
   return (
-    <main style={{minHeight:'100vh',backgroundColor:'#0a0a0a',color:'#fff',fontFamily:'system-ui,sans-serif',padding:'60px 20px',maxWidth:'800px',margin:'0 auto'}}>
+    <div style={{backgroundColor:'#0a0a0a',minHeight:'100vh',color:'#fff',fontFamily:'system-ui,sans-serif'}}>
+      <NavBar activePath="/blog/excel-ai" />
+      <main style={{minHeight:'100vh',backgroundColor:'#0a0a0a',color:'#fff',fontFamily:'system-ui,sans-serif',padding:'60px 20px',maxWidth:'800px',margin:'0 auto'}}>
       <h1 style={{fontSize:'36px',fontWeight:'800',marginBottom:'16px',color:'#84cc16'}}>AI Excel Analyzer: Chat With Your Spreadsheets</h1>
       <p style={{color:'#d1d5db',lineHeight:'1.8',marginBottom:'24px'}}>Spreadsheets hold critical business data — sales figures, financial models, project trackers — but extracting insights traditionally requires mastering complex formulas, pivot tables and charts. DocChat AI changes that by letting you chat with your Excel files in plain English.</p>
       <h2 style={{fontSize:'24px',fontWeight:'700',margin:'32px 0 12px',color:'#84cc16'}}>What Is an AI Excel Analyzer?</h2>
@@ -22,5 +25,6 @@ export default function Page() {
       <h2 style={{fontSize:'24px',fontWeight:'700',margin:'32px 0 12px',color:'#84cc16'}}>Get Started Free</h2>
       <p style={{color:'#d1d5db',lineHeight:'1.8',marginBottom:'24px'}}>DocChat AI offers a free plan so you can start analyzing your spreadsheets with AI today. No credit card required. <a href="/" style={{color:'#84cc16'}}>Try DocChat AI free</a> and ask your first question in under 60 seconds.</p>
     </main>
+      </div>
   );
 }
