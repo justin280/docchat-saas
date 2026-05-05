@@ -1,5 +1,5 @@
-'use client'; // v2
-import { useState } from 'react';
+'use client'; // v3
+import { useState, useRef } from 'react';
 
 const QUICK_PROMPTS = [
   { icon: '📝', label: 'Summarise' },
@@ -38,15 +38,14 @@ const TESTIMONIALS = [
   { name: 'Alex W.', role: 'Startup Founder', text: 'We use DocChat AI for due diligence. Uploading investor reports and chatting with them saves us days of manual work.' },
 ];
 
-const INDUSTRY_PAGES = [
+const NAV_PAGES = [
   { slug: '/legal-ai', label: 'Legal AI' },
   { slug: '/enterprise', label: 'Enterprise' },
   { slug: '/healthcare', label: 'Healthcare' },
   { slug: '/compare', label: 'vs Competitors' },
   { slug: '/api-docs', label: 'API Docs' },
-  { slug: '/compliance', label: 'Compliance' },
+  { slug: '/contact', label: 'Contact' },
 ];
-
 export default function Home() {
   const [docs, setDocs] = useState([]);
   const [messages, setMessages] = useState([]);
@@ -55,6 +54,9 @@ export default function Home() {
   const [view, setView] = useState('landing');
   const [selectedModel, setSelectedModel] = useState('meta/llama-3.1-70b-instruct');
   const [billing, setBilling] = useState('monthly');
+  const [uploadError, setUploadError] = useState('');
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef(null);
 
   const models = [
     { id: 'meta/llama-3.1-70b-instruct', label: 'Llama 3.1 70B' },
@@ -81,26 +83,53 @@ export default function Home() {
   ];
 
   async function handleCheckout(plan) {
-    const res = await fetch('/api/checkout', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({plan}) });
-    const data = await res.json();
-    if (data.url) window.location.href = data.url;
+    try {
+      const res = await fetch('/api/checkout', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({plan}) });
+      const data = await res.json();
+      if (data.url) window.location.href = data.url;
+    } catch(e) {
+      alert('Checkout error: ' + e.message);
+    }
   }
 
   async function handleUpload(e) {
     const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
+    setUploadError('');
+    setUploading(true);
+    setView('chat');
+    let added = 0;
     for (const file of files) {
-      if (docs.length >= 5) break;
-      const formData = new FormData();
-      formData.append('file', file);
-      const res = await fetch('/api/parse', { method: 'POST', body: formData });
-      const data = await res.json();
-      if (data.text) {
-        setDocs(prev => [...prev, { name: file.name, text: data.text, size: file.size }]);
+      if (docs.length + added >= 5) {
+        setUploadError('Maximum 5 documents reached.');
+        break;
+      }
+      try {
+        const formData = new FormData();
+        formData.append('file', file);
+        const res = await fetch('/api/parse', { method: 'POST', body: formData });
+        if (!res.ok) {
+          const errText = await res.text();
+          setUploadError('Failed to parse ' + file.name + ': ' + (errText || res.status));
+          continue;
+        }
+        const data = await res.json();
+        if (data.text && data.text.trim().length > 0) {
+          setDocs(prev => [...prev, { name: file.name, text: data.text, size: file.size }]);
+          added++;
+        } else if (data.error) {
+          setUploadError('Error reading ' + file.name + ': ' + data.error);
+        } else {
+          setUploadError('Could not extract text from ' + file.name + '. Please check the file is not password-protected.');
+        }
+      } catch(err) {
+        setUploadError('Upload failed for ' + file.name + ': ' + err.message + '. Please check your connection and try again.');
       }
     }
-    if (docs.length > 0 || files.length > 0) setView('chat');
+    setUploading(false);
+    // Reset file input so same file can be re-uploaded
+    if (fileInputRef.current) fileInputRef.current.value = '';
   }
-
   async function sendMessage(text) {
     const msg = text || input;
     if (!msg.trim()) return;
@@ -108,14 +137,18 @@ export default function Home() {
     const userMsg = { role: 'user', content: msg };
     setMessages(prev => [...prev, userMsg]);
     setLoading(true);
-    const context = docs.map(d => 'Document: ' + d.name + '\n' + d.text.substring(0, 8000)).join('\n\n---\n\n');
-    const res = await fetch('/api/chat', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ messages: [...messages, userMsg], context, model: selectedModel })
-    });
-    const data = await res.json();
-    setMessages(prev => [...prev, { role: 'assistant', content: data.content || 'Error getting response' }]);
+    try {
+      const context = docs.map(d => 'Document: ' + d.name + '\n' + d.text.substring(0, 8000)).join('\n\n---\n\n');
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ messages: [...messages, userMsg], context, model: selectedModel })
+      });
+      const data = await res.json();
+      setMessages(prev => [...prev, { role: 'assistant', content: data.content || 'Error getting response' }]);
+    } catch(err) {
+      setMessages(prev => [...prev, { role: 'assistant', content: 'Connection error. Please try again.' }]);
+    }
     setLoading(false);
   }
 
@@ -171,29 +204,28 @@ export default function Home() {
     faqQ: { fontWeight:'600', fontSize:'15px', display:'flex', justifyContent:'space-between', alignItems:'center' },
     faqA: { color:'#9ca3af', fontSize:'14px', lineHeight:'1.6', marginTop:'8px' },
     ctaSection: { backgroundColor:'#0f1f00', border:'1px solid #84cc16', borderRadius:'16px', padding:'48px', textAlign:'center', maxWidth:'800px', margin:'0 auto' },
-    navLinks: { display:'flex', gap:'16px', justifyContent:'center', flexWrap:'wrap', marginBottom:'20px' },
-    navLink: { color:'#84cc16', fontSize:'13px', textDecoration:'none' },
-    chatWrap: { display:'flex', height:'100vh', backgroundColor:'#0a0a0a' },
-    sidebar: { width:'260px', backgroundColor:'#111', borderRight:'1px solid #222', padding:'16px', display:'flex', flexDirection:'column', gap:'12px', overflowY:'auto' },
-    mainChat: { flex:1, display:'flex', flexDirection:'column' },
-    chatHeader: { display:'flex', alignItems:'center', justifyContent:'space-between', padding:'12px 16px', borderBottom:'1px solid #222', backgroundColor:'#111' },
-    msgArea: { flex:1, overflowY:'auto', padding:'16px', display:'flex', flexDirection:'column', gap:'12px' },
-    userBubble: { alignSelf:'flex-end', backgroundColor:'#84cc16', color:'#000', borderRadius:'12px', padding:'10px 14px', maxWidth:'70%', fontSize:'14px' },
-    aiBubble: { alignSelf:'flex-start', backgroundColor:'#1a1a1a', borderRadius:'12px', padding:'10px 14px', maxWidth:'80%', fontSize:'14px', lineHeight:'1.6', whiteSpace:'pre-wrap' },
-    inputRow: { display:'flex', gap:'8px', padding:'12px 16px', borderTop:'1px solid #222', backgroundColor:'#111' },
-    inputBox: { flex:1, backgroundColor:'#1a1a1a', border:'1px solid #333', borderRadius:'8px', padding:'10px 12px', color:'#fff', fontSize:'14px' },
-    sendBtn: { backgroundColor:'#84cc16', border:'none', borderRadius:'8px', padding:'10px 18px', color:'#000', fontWeight:'700', cursor:'pointer', fontSize:'14px' },
-    quickRow: { display:'flex', gap:'6px', padding:'8px 16px', flexWrap:'wrap', backgroundColor:'#0f0f0f' },
-    quickBtn: { backgroundColor:'#1a1a1a', border:'1px solid #333', borderRadius:'16px', padding:'4px 12px', color:'#d1d5db', fontSize:'12px', cursor:'pointer' },
-    modelBtn: { backgroundColor:'#1a1a1a', border:'1px solid #333', borderRadius:'6px', padding:'4px 10px', color:'#9ca3af', fontSize:'12px', cursor:'pointer' },
-    modelBtnActive: { backgroundColor:'#0f1f00', border:'1px solid #84cc16', borderRadius:'6px', padding:'4px 10px', color:'#84cc16', fontSize:'12px', cursor:'pointer' },
-    docCard: { backgroundColor:'#1a1a1a', borderRadius:'8px', padding:'10px 12px', fontSize:'12px' },
-    uploadBtn: { backgroundColor:'#84cc16', border:'none', borderRadius:'8px', padding:'10px', color:'#000', fontWeight:'700', cursor:'pointer', fontSize:'13px', textAlign:'center' },
-    backBtn: { backgroundColor:'transparent', border:'1px solid #333', borderRadius:'6px', padding:'6px 12px', color:'#9ca3af', fontSize:'12px', cursor:'pointer' },
     billingToggle: { display:'flex', gap:'8px', justifyContent:'center', alignItems:'center', marginBottom:'24px' },
     toggleBtn: { padding:'6px 16px', borderRadius:'20px', border:'1px solid #333', cursor:'pointer', fontSize:'13px' },
+    chatWrap: { display:'flex', height:'100vh', backgroundColor:'#0a0a0a' },
+    sidebar: { width:'260px', minWidth:'200px', backgroundColor:'#111', borderRight:'1px solid #222', padding:'16px', display:'flex', flexDirection:'column', gap:'12px', overflowY:'auto' },
+    mainChat: { flex:1, display:'flex', flexDirection:'column', minWidth:0 },
+    chatHeader: { display:'flex', alignItems:'center', justifyContent:'space-between', padding:'12px 16px', borderBottom:'1px solid #222', backgroundColor:'#111', flexShrink:0 },
+    msgArea: { flex:1, overflowY:'auto', padding:'16px', display:'flex', flexDirection:'column', gap:'12px' },
+    userBubble: { alignSelf:'flex-end', backgroundColor:'#84cc16', color:'#000', borderRadius:'12px', padding:'10px 14px', maxWidth:'80%', fontSize:'14px', wordBreak:'break-word' },
+    aiBubble: { alignSelf:'flex-start', backgroundColor:'#1a1a1a', borderRadius:'12px', padding:'10px 14px', maxWidth:'90%', fontSize:'14px', lineHeight:'1.6', whiteSpace:'pre-wrap', wordBreak:'break-word' },
+    inputRow: { display:'flex', gap:'8px', padding:'12px 16px', borderTop:'1px solid #222', backgroundColor:'#111', flexShrink:0 },
+    inputBox: { flex:1, backgroundColor:'#1a1a1a', border:'1px solid #333', borderRadius:'8px', padding:'10px 12px', color:'#fff', fontSize:'14px', minWidth:0 },
+    sendBtn: { backgroundColor:'#84cc16', border:'none', borderRadius:'8px', padding:'10px 18px', color:'#000', fontWeight:'700', cursor:'pointer', fontSize:'14px', flexShrink:0 },
+    quickRow: { display:'flex', gap:'6px', padding:'8px 16px', flexWrap:'wrap', backgroundColor:'#0f0f0f', flexShrink:0 },
+    quickBtn: { backgroundColor:'#1a1a1a', border:'1px solid #333', borderRadius:'16px', padding:'4px 12px', color:'#d1d5db', fontSize:'12px', cursor:'pointer' },
+    modelBtn: { backgroundColor:'#1a1a1a', border:'1px solid #333', borderRadius:'6px', padding:'4px 10px', color:'#9ca3af', fontSize:'12px', cursor:'pointer', marginBottom:'4px' },
+    modelBtnActive: { backgroundColor:'#0f1f00', border:'1px solid #84cc16', borderRadius:'6px', padding:'4px 10px', color:'#84cc16', fontSize:'12px', cursor:'pointer', marginBottom:'4px' },
+    docCard: { backgroundColor:'#1a1a1a', borderRadius:'8px', padding:'10px 12px', fontSize:'12px' },
+    uploadLabel: { backgroundColor:'#84cc16', border:'none', borderRadius:'8px', padding:'10px', color:'#000', fontWeight:'700', cursor:'pointer', fontSize:'13px', textAlign:'center', display:'block' },
+    uploadLabelDisabled: { backgroundColor:'#4b5563', border:'none', borderRadius:'8px', padding:'10px', color:'#9ca3af', fontSize:'13px', textAlign:'center', display:'block', cursor:'not-allowed' },
+    backBtn: { backgroundColor:'transparent', border:'1px solid #333', borderRadius:'6px', padding:'6px 12px', color:'#9ca3af', fontSize:'12px', cursor:'pointer' },
+    errorBox: { backgroundColor:'#1f0a0a', border:'1px solid #ef4444', borderRadius:'8px', padding:'10px 12px', fontSize:'12px', color:'#ef4444' },
   };
-
   const [openFaq, setOpenFaq] = useState(null);
   const faqs = [
     { q: 'What file formats does DocChat AI support?', a: 'PDF, DOCX, TXT, XLSX, CSV, Markdown, HTML, RTF, EPUB, ODT and more.' },
@@ -210,43 +242,75 @@ export default function Home() {
     return (
       <main style={s.chatWrap}>
         <aside style={s.sidebar}>
-          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-            <span style={{fontWeight:'700',fontSize:'14px',color:'#84cc16'}}>DocChat AI</span>
+          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:'8px'}}>
+            <span style={{fontWeight:'700',fontSize:'14px',color:'#84cc16',flexShrink:0}}>DocChat AI</span>
             <button style={s.backBtn} onClick={()=>setView('landing')}>Home</button>
           </div>
-          <label style={s.uploadBtn}>
-            + Add Document
-            <input type="file" accept=".pdf,.docx,.txt,.xlsx,.csv,.md,.html,.rtf,.epub,.odt" multiple style={{display:'none'}} onChange={handleUpload} />
-          </label>
+
+          {docs.length < 5 ? (
+            <label style={uploading ? s.uploadLabelDisabled : s.uploadLabel}>
+              {uploading ? 'Uploading...' : '+ Add Document'}
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".pdf,.docx,.txt,.xlsx,.csv,.md,.html,.rtf,.epub,.odt"
+                multiple
+                disabled={uploading}
+                style={{display:'none'}}
+                onChange={handleUpload}
+              />
+            </label>
+          ) : (
+            <div style={{backgroundColor:'#1a1a1a',borderRadius:'8px',padding:'10px',fontSize:'12px',color:'#6b7280',textAlign:'center'}}>Max 5 documents loaded</div>
+          )}
+
+          {uploadError && (
+            <div style={s.errorBox}>
+              <strong>Upload error:</strong> {uploadError}
+              <button onClick={()=>setUploadError('')} style={{display:'block',marginTop:'6px',backgroundColor:'transparent',border:'none',color:'#ef4444',cursor:'pointer',fontSize:'11px',padding:0,textDecoration:'underline'}}>Dismiss</button>
+            </div>
+          )}
+
           {docs.map((doc, i) => (
             <div key={i} style={s.docCard}>
-              <div style={{fontWeight:'600',marginBottom:'4px',wordBreak:'break-all'}}>{doc.name}</div>
-              <div style={{color:'#6b7280',fontSize:'11px'}}>{Math.round(doc.size/1024)}KB · {doc.text.split(' ').length} words</div>
+              <div style={{fontWeight:'600',marginBottom:'4px',wordBreak:'break-all',fontSize:'12px'}}>{doc.name}</div>
+              <div style={{color:'#6b7280',fontSize:'11px'}}>{(doc.size/1024).toFixed(0)}KB · {doc.text.split(' ').length.toLocaleString()} words</div>
               <button onClick={()=>setDocs(d=>d.filter((_,j)=>j!==i))} style={{marginTop:'6px',backgroundColor:'transparent',border:'none',color:'#ef4444',cursor:'pointer',fontSize:'11px',padding:0}}>Remove</button>
             </div>
           ))}
+
           <div style={{marginTop:'auto',borderTop:'1px solid #222',paddingTop:'12px'}}>
-            <div style={{fontSize:'11px',color:'#6b7280',marginBottom:'8px'}}>AI MODEL</div>
-            {models.map(m => (
-              <button key={m.id} style={selectedModel===m.id?s.modelBtnActive:s.modelBtn} onClick={()=>setSelectedModel(m.id)}>{m.label}</button>
-            ))}
+            <div style={{fontSize:'11px',color:'#6b7280',marginBottom:'8px',letterSpacing:'1px'}}>AI MODEL</div>
+            <div style={{display:'flex',flexDirection:'column',gap:'4px'}}>
+              {models.map(m => (
+                <button key={m.id} style={selectedModel===m.id?s.modelBtnActive:s.modelBtn} onClick={()=>setSelectedModel(m.id)}>{m.label}</button>
+              ))}
+            </div>
           </div>
         </aside>
+
         <div style={s.mainChat}>
           <div style={s.chatHeader}>
-            <span style={{fontWeight:'600',fontSize:'14px'}}>{docs.length} document{docs.length!==1?'s':''} loaded</span>
+            <span style={{fontWeight:'600',fontSize:'14px',color:'#9ca3af'}}>
+              {docs.length === 0 ? 'No documents loaded — add one to start' : docs.length + ' document' + (docs.length!==1?'s':'') + ' loaded'}
+            </span>
             <button style={s.backBtn} onClick={exportChat}>Export Chat</button>
           </div>
+
           <div style={s.quickRow}>
             {QUICK_PROMPTS.map((p,i) => (
-              <button key={i} style={s.quickBtn} onClick={()=>sendMessage(p.label + ' this document')}>{p.icon} {p.label}</button>
+              <button key={i} style={s.quickBtn} onClick={()=>sendMessage(p.label + ' this document')} disabled={docs.length===0}>{p.icon} {p.label}</button>
             ))}
           </div>
+
           <div style={s.msgArea}>
             {messages.length===0 && (
-              <div style={{textAlign:'center',color:'#4b5563',marginTop:'60px'}}>
+              <div style={{textAlign:'center',color:'#4b5563',marginTop:'60px',padding:'0 20px'}}>
                 <div style={{fontSize:'40px',marginBottom:'12px'}}>💬</div>
-                <div>Upload a document and start chatting</div>
+                {docs.length === 0
+                  ? <div>Add a document using the sidebar to get started</div>
+                  : <div>Your document is ready — ask a question below</div>
+                }
               </div>
             )}
             {messages.map((m,i) => (
@@ -254,31 +318,36 @@ export default function Home() {
             ))}
             {loading && <div style={s.aiBubble}>Thinking...</div>}
           </div>
+
           <div style={s.inputRow}>
-            <input style={s.inputBox} value={input} onChange={e=>setInput(e.target.value)} placeholder="Ask a question about your document..." onKeyDown={e=>e.key==='Enter'&&sendMessage()} />
-            <button style={s.sendBtn} onClick={()=>sendMessage()}>Send</button>
+            <input
+              style={s.inputBox}
+              value={input}
+              onChange={e=>setInput(e.target.value)}
+              placeholder={docs.length===0 ? 'Upload a document first...' : 'Ask a question about your document...'}
+              disabled={docs.length===0 && messages.length===0}
+              onKeyDown={e=>e.key==='Enter'&&!e.shiftKey&&sendMessage()}
+            />
+            <button style={{...s.sendBtn, opacity: docs.length===0&&messages.length===0?0.5:1}} onClick={()=>sendMessage()} disabled={docs.length===0&&messages.length===0}>Send</button>
           </div>
         </div>
       </main>
     );
   }
-
   return (
     <main style={s.page}>
-      {/* NAV */}
-      <nav style={{...s.navLinks, padding:'16px 20px', borderBottom:'1px solid #111', backgroundColor:'#0a0a0a', position:'sticky', top:0, zIndex:100}}>
-        <span style={{fontWeight:'700',color:'#84cc16',marginRight:'auto'}}>DocChat AI</span>
-        {INDUSTRY_PAGES.map(p=>(
-          <a key={p.slug} href={p.slug} style={s.navLink}>{p.label}</a>
+      <nav style={{display:'flex',alignItems:'center',gap:'16px',padding:'14px 20px',borderBottom:'1px solid #111',backgroundColor:'#0a0a0a',position:'sticky',top:0,zIndex:100,flexWrap:'wrap'}}>
+        <span style={{fontWeight:'700',color:'#84cc16',marginRight:'auto',fontSize:'16px'}}>DocChat AI</span>
+        {NAV_PAGES.map(p=>(
+          <a key={p.slug} href={p.slug} style={{color:'#9ca3af',fontSize:'13px',textDecoration:'none'}}>{p.label}</a>
         ))}
-        <button style={{...s.ctaBtn, padding:'6px 16px', fontSize:'13px'}} onClick={()=>setView('chat')}>Try Free</button>
+        <button style={{...s.ctaBtn, padding:'8px 18px', fontSize:'13px'}} onClick={()=>setView('chat')}>Try Free</button>
       </nav>
 
-      {/* HERO */}
       <section style={s.hero}>
         <div style={s.logo}><div style={s.dot}></div><span style={{fontSize:'24px',fontWeight:'700'}}>DocChat <span style={s.h1green}>AI</span></span></div>
         <h1 style={s.h1}>Chat with any <span style={s.h1green}>PDF</span> or document instantly</h1>
-        <h2 style={{...s.subtitle, fontSize:'18px', fontWeight:'400'}}>Upload up to 5 documents in any format — PDF, DOCX, XLSX, TXT, Markdown and more — then ask questions across all of them.</h2>
+        <h2 style={{fontSize:'18px',fontWeight:'400',color:'#9ca3af',maxWidth:'700px',margin:'0 auto 24px',lineHeight:'1.6'}}>Upload up to 5 documents in any format — PDF, DOCX, XLSX, TXT, Markdown and more — then ask questions across all of them.</h2>
         <div style={s.badges}>
           {['PDF','DOCX','XLSX','TXT','Markdown','HTML','RTF','EPUB','CSV'].map(f=>(
             <span key={f} style={s.badge}>{f}</span>
@@ -288,7 +357,6 @@ export default function Home() {
         <p style={s.poweredBy}>Powered by NVIDIA NIM · Llama · Mistral · DeepSeek</p>
       </section>
 
-      {/* FEATURES */}
       <section style={s.section}>
         <h2 style={s.h2}>Everything you need to work smarter with documents</h2>
         <p style={s.h2sub}>Advanced RAG architecture · Follow-up prompts · Document comparison · Auto-summarize</p>
@@ -303,7 +371,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* USE CASES */}
       <section style={{...s.section, backgroundColor:'#0f0f0f', maxWidth:'100%', padding:'60px 20px'}}>
         <div style={{maxWidth:'1100px',margin:'0 auto'}}>
           <h2 style={s.h2}>Built for every industry</h2>
@@ -320,7 +387,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* COMPETITOR COMPARISON */}
       <section style={s.compareSec}>
         <div style={{maxWidth:'1100px',margin:'0 auto'}}>
           <h2 style={s.h2}>DocChat AI vs ChatPDF vs ChatDOC vs Humata</h2>
@@ -364,7 +430,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* PRICING */}
       <section style={s.section}>
         <h2 style={s.h2}>Simple, transparent pricing</h2>
         <p style={s.h2sub}>Start free. Upgrade when you need more power.</p>
@@ -390,7 +455,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* TESTIMONIALS */}
       <section style={{...s.section, paddingTop:'20px'}}>
         <h2 style={s.h2}>Trusted by professionals worldwide</h2>
         <p style={s.h2sub}>Join thousands of lawyers, analysts, researchers and founders</p>
@@ -406,7 +470,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FAQ */}
       <section style={{...s.section, paddingTop:'20px'}}>
         <h2 style={s.h2}>Frequently Asked Questions</h2>
         <div style={{maxWidth:'700px',margin:'0 auto'}}>
@@ -419,7 +482,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA */}
       <section style={s.section}>
         <div style={s.ctaSection}>
           <h2 style={{...s.h2, marginBottom:'12px'}}>Ready to stop scrolling through documents?</h2>
@@ -428,21 +490,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FOOTER */}
       <footer style={{borderTop:'1px solid #111',padding:'24px 20px',textAlign:'center'}}>
         <div style={{display:'flex',gap:'16px',justifyContent:'center',flexWrap:'wrap',alignItems:'center',marginBottom:'8px'}}>
-          {INDUSTRY_PAGES.map(p=>(
+          {NAV_PAGES.map(p=>(
             <a key={p.slug} href={p.slug} style={{color:'#6b7280',fontSize:'12px',textDecoration:'none'}}>{p.label}</a>
           ))}
         </div>
-        <div style={{display:'flex',gap:'16px',justifyContent:'center',flexWrap:'wrap',alignItems:'center',marginBottom:'8px'}}>
-          <a href="mailto:support.docchatai@proton.me" style={{color:'#6b7280',fontSize:'12px',textDecoration:'none'}}>support.docchatai&#64;proton.me</a>
-          <a href="https://www.facebook.com/share/18tcsvjgAh/" target="_blank" rel="noopener noreferrer" style={{color:'#6b7280',fontSize:'12px',textDecoration:'none'}}>Facebook</a>
-          <a href="https://www.instagram.com/docchatai?igsh=MWxocDY1NGdncXZnNw==" target="_blank" rel="noopener noreferrer" style={{color:'#6b7280',fontSize:'12px',textDecoration:'none'}}>Instagram</a>
-          <a href="https://x.com/DocChatAI" target="_blank" rel="noopener noreferrer" style={{color:'#6b7280',fontSize:'12px',textDecoration:'none'}}>X (Twitter)</a>
-          <a href="https://www.linkedin.com/in/docchat-ai-1a3475408" target="_blank" rel="noopener noreferrer" style={{color:'#6b7280',fontSize:'12px',textDecoration:'none'}}>LinkedIn</a>
-        </div>
-        <p style={{color:'#4b5563',fontSize:'12px',margin:0}}>&#169; 2026 DocChat AI &#183; Powered by NVIDIA NIM &#183; Secure payments by Stripe</p>
+        <p style={{color:'#4b5563',fontSize:'12px',margin:0}}>© 2026 DocChat AI · Powered by NVIDIA NIM · Secure payments by Stripe</p>
       </footer>
     </main>
   );
