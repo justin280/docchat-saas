@@ -1,5 +1,7 @@
 import NavBar from '@/app/components/NavBar';
-export const metadata = { title: 'AI for Healthcare Research — HIPAA-Ready Document Analysis | DocChat AI', description: 'DocChat AI for healthcare. Process clinical studies, medical literature and patient documents with HIPAA-ready AI.' , alternates: { canonical: '/healthcare' } };
+export const metadata = { title: 'AI for Healthcare Research — HIPAA-Ready Document Analysis | DocChat AI', description: 'DocChat AI for healthcare. Process clinical studies, medical literature and patient documents with HIPAA-ready AI.',
+  alternates: { canonical: '/healthcare' }
+};
 export default function Page() {
   return (
     <div style={{backgroundColor:'#0a0a0a',minHeight:'100vh',color:'#fff',fontFamily:'system-ui,sans-serif'}}>
