@@ -1,5 +1,5 @@
 import NavBar from '@/app/components/NavBar';
-export const metadata = { title: 'Enterprise Document AI — SOC2, SSO, Admin Controls | DocChat AI', description: 'DocChat AI for enterprise teams. SOC2-ready, SSO (Google/Microsoft), admin dashboard, API access and team workspaces.' };
+export const metadata = { title: 'Enterprise Document AI — SOC2, SSO, Admin Controls | DocChat AI', description: 'DocChat AI for enterprise teams. SOC2-ready, SSO (Google/Microsoft), admin dashboard, API access and team workspaces.' , alternates: { canonical: '/enterprise' } };
 export default function Page() {
   return (
     <div style={{backgroundColor:'#0a0a0a',minHeight:'100vh',color:'#fff',fontFamily:'system-ui,sans-serif'}}>
