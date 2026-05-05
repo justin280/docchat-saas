@@ -2,7 +2,7 @@ export default function sitemap() {
   const baseUrl = 'https://docchat-saas.vercel.app';
   const lastModified = new Date('2026-05-05');
   
-  const staticPages = [
+  return [
     { url: baseUrl, lastModified, changeFrequency: 'weekly', priority: 1.0 },
     { url: baseUrl + '/enterprise', lastModified, changeFrequency: 'monthly', priority: 0.9 },
     { url: baseUrl + '/healthcare', lastModified, changeFrequency: 'monthly', priority: 0.9 },
@@ -11,6 +11,8 @@ export default function sitemap() {
     { url: baseUrl + '/security', lastModified, changeFrequency: 'monthly', priority: 0.9 },
     { url: baseUrl + '/security/documents', lastModified, changeFrequency: 'monthly', priority: 0.8 },
     { url: baseUrl + '/compare', lastModified, changeFrequency: 'monthly', priority: 0.8 },
+    { url: baseUrl + '/compare/chatpdf-vs-docchat', lastModified, changeFrequency: 'monthly', priority: 0.85 },
+    { url: baseUrl + '/compare/humata-vs-docchat', lastModified, changeFrequency: 'monthly', priority: 0.85 },
     { url: baseUrl + '/compliance', lastModified, changeFrequency: 'monthly', priority: 0.8 },
     { url: baseUrl + '/api-docs', lastModified, changeFrequency: 'monthly', priority: 0.8 },
     { url: baseUrl + '/contact', lastModified, changeFrequency: 'monthly', priority: 0.7 },
@@ -20,6 +22,4 @@ export default function sitemap() {
     { url: baseUrl + '/blog/financial-report-analysis', lastModified, changeFrequency: 'monthly', priority: 0.7 },
     { url: baseUrl + '/blog/mistral-ai', lastModified, changeFrequency: 'monthly', priority: 0.7 },
   ];
-  
-  return staticPages;
 }
