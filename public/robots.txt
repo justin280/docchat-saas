@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
+Disallow: /api/
 
 Sitemap: https://docchat-saas.vercel.app/sitemap.xml
+
+# DocChat AI - AI-powered document analysis
+# https://docchat-saas.vercel.app
