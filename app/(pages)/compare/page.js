@@ -28,4 +28,23 @@ export default function Page() {
     </main>
       </div>
   );
+
+      {/* Detailed Comparison Pages */}
+      <div style={{maxWidth:'900px', margin:'0 auto 60px', padding:'0 24px'}}>
+        <h2 style={{fontSize:'1.4rem', fontWeight:'800', color:'#fff', marginBottom:'20px', textAlign:'center'}}>
+          Detailed Tool Comparisons
+        </h2>
+        <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(280px,1fr))', gap:'16px'}}>
+          {[
+            {href:'/compare/chatpdf-vs-docchat', title:'DocChat AI vs ChatPDF', desc:'11 AI models vs 1 · Zero retention · Multi-format support'},
+            {href:'/compare/humata-vs-docchat', title:'DocChat AI vs Humata', desc:'Open-source models · HIPAA-ready · Excel & CSV analysis'},
+          ].map(({href,title,desc}) => (
+            <a key={href} href={href} style={{display:'block', background:'#111', border:'1px solid #222', borderRadius:'12px', padding:'20px', textDecoration:'none', color:'inherit', transition:'border-color 0.2s'}}>
+              <div style={{fontWeight:'700', color:'#fff', marginBottom:'8px'}}>{title}</div>
+              <div style={{color:'#6b7280', fontSize:'0.85rem'}}>{desc}</div>
+              <div style={{color:'#84cc16', fontSize:'0.85rem', marginTop:'8px', fontWeight:'600'}}>Read comparison &#8594;</div>
+            </a>
+          ))}
+        </div>
+      </div>
 }
