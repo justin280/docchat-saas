@@ -1,5 +1,5 @@
 import NavBar from '@/app/components/NavBar';
-export const metadata = { title: 'DocChat AI vs ChatPDF vs ChatDOC vs Humata | DocChat AI', description: 'Compare the best AI document chat tools. DocChat AI beats ChatPDF, ChatDOC and Humata on features, price and flexibility.' };
+export const metadata = { title: 'DocChat AI vs ChatPDF vs ChatDOC vs Humata | DocChat AI', description: 'Compare the best AI document chat tools. DocChat AI beats ChatPDF, ChatDOC and Humata on features, price and flexibility.' , alternates: { canonical: '/compare' } };
 export default function Page() {
   return (
     <div style={{backgroundColor:'#0a0a0a',minHeight:'100vh',color:'#fff',fontFamily:'system-ui,sans-serif'}}>
