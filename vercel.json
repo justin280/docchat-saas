@@ -1,0 +1,10 @@
+{
+  "functions": {
+    "app/api/parse/route.js": {
+      "maxDuration": 30
+    },
+    "app/api/chat/route.js": {
+      "maxDuration": 30
+    }
+  }
+}
