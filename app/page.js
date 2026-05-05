@@ -1,4 +1,4 @@
-'use client';
+'use client'; // v2
 import { useState } from 'react';
 
 const QUICK_PROMPTS = [
