@@ -1,5 +1,7 @@
 import NavBar from '@/app/components/NavBar';
-export const metadata = { title: 'DeepSeek AI: The New Frontier in Open-Source Document Analysis | DocChat AI', description: 'Learn how DeepSeek AI works, why it is competitive with GPT-4, and how to use DeepSeek AI for document analysis with DocChat AI.' , alternates: { canonical: '/blog/deepseek-ai' } };
+export const metadata = { title: 'DeepSeek AI: The New Frontier in Open-Source Document Analysis | DocChat AI', description: 'Learn how DeepSeek AI works, why it is competitive with GPT-4, and how to use DeepSeek AI for document analysis with DocChat AI.',
+  alternates: { canonical: '/blog/deepseek-ai' }
+};
 export default function Page() {
   return (
     <div style={{backgroundColor:'#0a0a0a',minHeight:'100vh',color:'#fff',fontFamily:'system-ui,sans-serif'}}>
