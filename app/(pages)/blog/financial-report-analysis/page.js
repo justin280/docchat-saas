@@ -1,5 +1,7 @@
 import NavBar from '@/app/components/NavBar';
-export const metadata = { title: 'Financial Report Analysis with AI: Guide for Analysts and CFOs | DocChat AI', description: 'Use AI for financial report analysis. Upload annual reports, P&L statements and board decks to get instant insights from DocChat AI.' , alternates: { canonical: '/blog/financial-report-analysis' } };
+export const metadata = { title: 'Financial Report Analysis with AI: Guide for Analysts and CFOs | DocChat AI', description: 'Use AI for financial report analysis. Upload annual reports, P&L statements and board decks to get instant insights from DocChat AI.',
+  alternates: { canonical: '/blog/financial-report-analysis' }
+};
 export default function Page() {
   return (
     <div style={{backgroundColor:'#0a0a0a',minHeight:'100vh',color:'#fff',fontFamily:'system-ui,sans-serif'}}>
