@@ -5,7 +5,7 @@ export const metadata = {
   title: 'Security & Compliance | DocChat AI — SOC2, HIPAA, Zero Retention',
   description: 'DocChat AI security architecture — SOC2-aligned, HIPAA-ready, zero document retention. Your documents are processed in-session only and never stored.',
   keywords: 'DocChat AI security, SOC2 compliance, HIPAA compliance, zero retention, document security, data privacy',
-};
+, alternates: { canonical: '/security' } };
 
 
 export default function SecurityPage() {
