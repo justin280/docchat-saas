@@ -4,7 +4,7 @@ export const metadata = {
   metadataBase: new URL('https://docchat-saas.vercel.app'),
   title: {
     default: 'DocChat AI — Chat With Any Document Instantly',
-    template: '%s | DocChat AI'
+    template: '%s'
   },
   description: 'Upload PDFs, DOCX, Excel, CSV, Markdown and 10+ formats. Ask questions, get instant AI answers powered by NVIDIA NIM. Try free — no credit card needed.',
   keywords: ['chat with PDF', 'document AI', 'AI document analysis', 'PDF chatbot', 'DOCX analysis', 'DocChat AI', 'NVIDIA NIM', 'document summarizer'],
