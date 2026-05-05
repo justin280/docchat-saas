@@ -3,7 +3,8 @@ export const metadata = {
   title: 'AI Excel Analyzer: Chat With Your Spreadsheets Using AI | DocChat AI',
   description: 'Use DocChat AI as an AI Excel analyzer. Upload XLSX, CSV and spreadsheets and ask questions in plain English. No formulas needed.',
   keywords: 'AI Excel analyzer, chat with Excel, spreadsheet AI, XLSX AI, CSV analyzer AI',
-, alternates: { canonical: '/blog/excel-ai' } };
+  alternates: { canonical: '/blog/excel-ai' }
+};
 
 export default function Page() {
   return (
