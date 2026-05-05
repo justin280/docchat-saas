@@ -147,11 +147,10 @@ export default function Home() {
     setMessages(prev => [...prev, userMsg]);
     setLoading(true);
     try {
-      const context = docs.map(d => 'Document: ' + d.name + '\n' + d.text.substring(0, 8000)).join('\n\n---\n\n');
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({ messages: [...messages, userMsg], context, model: selectedModel })
+        body: JSON.stringify({ messages: [...messages, userMsg], docs, model: selectedModel })
       });
       const data = await res.json();
       setMessages(prev => [...prev, { role: 'assistant', content: data.error ? data.error : (data.content || 'No response received. Please try again.') }]);
