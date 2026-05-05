@@ -45,7 +45,8 @@ const NAV_PAGES = [
   { slug: '/compare', label: 'vs Competitors' },
   { slug: '/api-docs', label: 'API Docs' },
   { slug: '/contact', label: 'Contact' },
-];
+
+  { slug: '/security', label: 'Security' },];
 export default function Home() {
   const [docs, setDocs] = useState([]);
   const [messages, setMessages] = useState([]);
