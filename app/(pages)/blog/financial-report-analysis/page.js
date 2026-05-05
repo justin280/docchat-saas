@@ -1,7 +1,10 @@
+import NavBar from '@/app/components/NavBar';
 export const metadata = { title: 'Financial Report Analysis with AI: Guide for Analysts and CFOs | DocChat AI', description: 'Use AI for financial report analysis. Upload annual reports, P&L statements and board decks to get instant insights from DocChat AI.' };
 export default function Page() {
   return (
-    <main style={{minHeight:'100vh',backgroundColor:'#0a0a0a',color:'#fff',fontFamily:'system-ui,sans-serif',padding:'60px 20px',maxWidth:'800px',margin:'0 auto'}}>
+    <div style={{backgroundColor:'#0a0a0a',minHeight:'100vh',color:'#fff',fontFamily:'system-ui,sans-serif'}}>
+      <NavBar activePath="/blog/financial-report-analysis" />
+      <main style={{minHeight:'100vh',backgroundColor:'#0a0a0a',color:'#fff',fontFamily:'system-ui,sans-serif',padding:'60px 20px',maxWidth:'800px',margin:'0 auto'}}>
       <a href="/" style={{color:'#84cc16',textDecoration:'none',fontSize:'14px'}}>&#8592; Back to DocChat AI</a>
       <h1 style={{fontSize:'clamp(24px,4vw,40px)',fontWeight:'700',margin:'32px 0 16px'}}>Financial Report Analysis with AI: <span style={{color:"#84cc16"}}>Instant Insights from Any Report</span></h1>
       <p style={{color:'#9ca3af',marginBottom:'40px',fontSize:'15px'}}>Finance teams use DocChat AI to analyse annual reports, earnings calls, investor decks and financial statements in minutes — not hours.</p>
@@ -26,5 +29,6 @@ export default function Page() {
         <a href="/" style={{display:'inline-block',backgroundColor:'#84cc16',color:'#000',padding:'12px 24px',borderRadius:'8px',fontWeight:'700',textDecoration:'none'}}>Start Free</a>
       </div>
     </main>
+      </div>
   );
 }
