@@ -1,68 +1,114 @@
 import OpenAI from 'openai';
 
-const client = new OpenAI({
-  apiKey: process.env.NVIDIA_API_KEY,
-  baseURL: 'https://integrate.api.nvidia.com/v1',
-});
+const NVIDIA_API_KEY = process.env.NVIDIA_API_KEY;
 
-export const MODELS = {
-  'llama-3.1-70b': {
-    id: 'meta/llama-3.1-70b-instruct',
-    label: 'Llama 3.1 70B',
-    badge: 'Fast',
-  },
-  'mistral-medium': {
-    id: 'mistralai/mistral-large-2-instruct',
-    label: 'Mistral Large',
-    badge: 'Precise',
-  },
-  'deepseek': {
-    id: 'deepseek-ai/deepseek-r1',
-    label: 'DeepSeek R1',
-    badge: 'Reasoning',
-  },
+// Model registry - maps UI id to NVIDIA NIM model string
+const MODEL_MAP = {
+  'llama-3.1-70b':    'meta/llama-3.1-70b-instruct',
+  'llama-3.3-70b':    'meta/llama-3.3-70b-instruct',
+  'llama-3.1-8b':     'meta/llama-3.1-8b-instruct',
+  'mistral-large':    'mistralai/mistral-large-2-instruct',
+  'mistral-nemo':     'mistralai/mistral-nemo-12b-instruct',
+  'deepseek-r1':      'deepseek-ai/deepseek-r1',
+  'deepseek-v3':      'deepseek-ai/deepseek-v3',
+  'gemma-3-27b':      'google/gemma-3-27b-it',
+  'phi-4':            'microsoft/phi-4',
+  'qwen2.5-72b':      'qwen/qwen2.5-72b-instruct',
+  'nemotron-70b':     'nvidia/llama-3.1-nemotron-70b-instruct',
 };
+
+// Context window limits (chars) per model — conservative to avoid 400 errors
+const CONTEXT_LIMITS = {
+  'llama-3.1-70b':  60000,
+  'llama-3.3-70b':  60000,
+  'llama-3.1-8b':   24000,
+  'mistral-large':  60000,
+  'mistral-nemo':   40000,
+  'deepseek-r1':    40000,
+  'deepseek-v3':    60000,
+  'gemma-3-27b':    60000,
+  'phi-4':          40000,
+  'qwen2.5-72b':    60000,
+  'nemotron-70b':   60000,
+};
+
+function buildContext(docs, modelId) {
+  const limit = CONTEXT_LIMITS[modelId] || 50000;
+  // Reserve ~2000 chars for system prompt and question
+  const docBudget = limit - 2000;
+
+  if (!docs || docs.length === 0) return '';
+
+  const perDoc = Math.floor(docBudget / docs.length);
+  let ctx = '';
+  for (const doc of docs) {
+    const text = doc.content || '';
+    if (text.length <= perDoc) {
+      ctx += '--- Document: ' + doc.name + ' ---\n' + text + '\n\n';
+    } else {
+      // Smart truncation: take first 60% + last 40% to capture intro and conclusion
+      const head = Math.floor(perDoc * 0.6);
+      const tail = perDoc - head;
+      const truncated = text.slice(0, head) + '\n\n[... middle section truncated for context window ...]\n\n' + text.slice(-tail);
+      ctx += '--- Document: ' + doc.name + ' (truncated to fit context window) ---\n' + truncated + '\n\n';
+    }
+  }
+  return ctx;
+}
 
 export async function POST(req) {
   try {
-    const { messages, documents, model = 'llama-3.1-70b' } = await req.json();
+    const { messages, docs, model: modelId = 'llama-3.1-70b' } = await req.json();
 
-    // Support both single docText (legacy) and multi-doc array
-    const docs = documents || [];
-
-    // Build combined document context
-    let docContext = '';
-    if (docs.length === 1) {
-      docContext = `DOCUMENT: ${docs[0].name}\n\n${docs[0].text.slice(0, 14000)}`;
-    } else if (docs.length > 1) {
-      docContext = docs.map((d, i) =>
-        `--- DOCUMENT ${i + 1}: ${d.name} ---\n${d.text.slice(0, Math.floor(12000 / docs.length))}`
-      ).join('\n\n');
+    if (!NVIDIA_API_KEY) {
+      return Response.json({ error: 'NVIDIA_API_KEY not configured' }, { status: 500 });
     }
 
-    const selectedModel = MODELS[model] || MODELS['llama-3.1-70b'];
+    const nimModel = MODEL_MAP[modelId] || MODEL_MAP['llama-3.1-70b'];
+    const docContext = buildContext(docs, modelId);
 
-    const systemPrompt = `You are an expert document analyst. The user has uploaded ${docs.length} document(s).
-Answer questions accurately and concisely based ONLY on the document content provided.
-Always cite which document you are drawing from when answering across multiple documents.
-If the answer is not in the documents, say so clearly — never make up information.
+    const systemPrompt = docContext
+      ? 'You are a helpful document analysis assistant. The user has uploaded the following document(s). Answer questions accurately based on the content provided. If asked about something not in the documents, say so clearly.\n\nDOCUMENT CONTENT:\n' + docContext
+      : 'You are a helpful AI assistant. Be concise and accurate.';
 
-${docContext}`;
-
-    const completion = await client.chat.completions.create({
-      model: selectedModel.id,
-      messages: [
-        { role: 'system', content: systemPrompt },
-        ...messages.map(m => ({ role: m.role, content: m.content })),
-      ],
-      temperature: 0.2,
-      max_tokens: 1500,
+    const client = new OpenAI({
+      apiKey: NVIDIA_API_KEY,
+      baseURL: 'https://integrate.api.nvidia.com/v1',
     });
 
-    const reply = completion.choices[0]?.message?.content || 'Sorry, I could not generate a response.';
-    return Response.json({ reply, model: selectedModel.label });
+    const completion = await client.chat.completions.create({
+      model: nimModel,
+      messages: [
+        { role: 'system', content: systemPrompt },
+        ...messages,
+      ],
+      max_tokens: 1500,
+      temperature: 0.6,
+    });
+
+    const reply = completion.choices?.[0]?.message?.content || 'No response generated.';
+    const wasTruncated = docs && docs.some(d => (d.content || '').length > (CONTEXT_LIMITS[modelId] || 50000) / (docs.length || 1));
+
+    return Response.json({ content: reply, model: nimModel, truncated: wasTruncated });
+
   } catch (err) {
-    console.error(err);
-    return Response.json({ reply: 'Error: ' + err.message }, { status: 500 });
+    const status = err?.status || err?.response?.status || 500;
+    const msg = err?.message || err?.error?.message || 'Unknown error';
+
+    // Surface specific known errors
+    if (status === 400) {
+      return Response.json({ error: 'Document too large for this model. Try switching to a model with a larger context window, or upload a shorter document.' }, { status: 400 });
+    }
+    if (status === 401) {
+      return Response.json({ error: 'API key invalid or expired. Please check your NVIDIA API key in Vercel environment variables.' }, { status: 401 });
+    }
+    if (status === 429) {
+      return Response.json({ error: 'Rate limit reached. Please wait a moment and try again.' }, { status: 429 });
+    }
+    if (status === 503 || status === 504) {
+      return Response.json({ error: 'AI model is temporarily unavailable. Try switching to a different model.' }, { status: 503 });
+    }
+
+    return Response.json({ error: 'Error: ' + msg }, { status: 500 });
   }
 }
