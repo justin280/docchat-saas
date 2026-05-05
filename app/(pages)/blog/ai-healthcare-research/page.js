@@ -1,5 +1,5 @@
 import NavBar from '@/app/components/NavBar';
-export const metadata = { title: 'AI for Healthcare Research: How to Analyse Medical Documents with AI | DocChat AI', description: 'How AI is transforming healthcare research. Use AI to analyse clinical studies, medical literature and patient documents — HIPAA-ready.' };
+export const metadata = { title: 'AI for Healthcare Research: How to Analyse Medical Documents with AI | DocChat AI', description: 'How AI is transforming healthcare research. Use AI to analyse clinical studies, medical literature and patient documents — HIPAA-ready.' , alternates: { canonical: '/blog/ai-healthcare-research' } };
 export default function Page() {
   return (
     <div style={{backgroundColor:'#0a0a0a',minHeight:'100vh',color:'#fff',fontFamily:'system-ui,sans-serif'}}>
