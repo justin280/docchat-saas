@@ -1,7 +1,10 @@
+import NavBar from '@/app/components/NavBar';
 export const metadata = { title: 'Mistral AI for Document Analysis: Complete Guide 2026 | DocChat AI', description: 'Learn how Mistral AI models work and how to use Mistral Large for PDF analysis, contract review and document summarisation.' };
 export default function Page() {
   return (
-    <main style={{minHeight:'100vh',backgroundColor:'#0a0a0a',color:'#fff',fontFamily:'system-ui,sans-serif',padding:'60px 20px',maxWidth:'800px',margin:'0 auto'}}>
+    <div style={{backgroundColor:'#0a0a0a',minHeight:'100vh',color:'#fff',fontFamily:'system-ui,sans-serif'}}>
+      <NavBar activePath="/blog/mistral-ai" />
+      <main style={{minHeight:'100vh',backgroundColor:'#0a0a0a',color:'#fff',fontFamily:'system-ui,sans-serif',padding:'60px 20px',maxWidth:'800px',margin:'0 auto'}}>
       <a href="/" style={{color:'#84cc16',textDecoration:'none',fontSize:'14px'}}>&#8592; Back to DocChat AI</a>
       <h1 style={{fontSize:'clamp(24px,4vw,40px)',fontWeight:'700',margin:'32px 0 16px'}}>Mistral AI for Document Analysis: <span style={{color:"#84cc16"}}>Complete Guide</span></h1>
       <p style={{color:'#9ca3af',marginBottom:'40px',fontSize:'15px'}}>Mistral AI has built some of the most efficient large language models in existence. Mistral Large is a top choice for document analysis, legal review and multilingual content.</p>
@@ -25,5 +28,6 @@ export default function Page() {
         <a href="/" style={{display:'inline-block',backgroundColor:'#84cc16',color:'#000',padding:'12px 24px',borderRadius:'8px',fontWeight:'700',textDecoration:'none'}}>Start Free</a>
       </div>
     </main>
+      </div>
   );
 }
