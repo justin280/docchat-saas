@@ -1,7 +1,10 @@
+import NavBar from '@/app/components/NavBar';
 export const metadata = { title: 'AI for Healthcare Research — HIPAA-Ready Document Analysis | DocChat AI', description: 'DocChat AI for healthcare. Process clinical studies, medical literature and patient documents with HIPAA-ready AI.' };
 export default function Page() {
   return (
-    <main style={{minHeight:'100vh',backgroundColor:'#0a0a0a',color:'#fff',fontFamily:'system-ui,sans-serif',padding:'60px 20px',maxWidth:'900px',margin:'0 auto'}}>
+    <div style={{backgroundColor:'#0a0a0a',minHeight:'100vh',color:'#fff',fontFamily:'system-ui,sans-serif'}}>
+      <NavBar activePath="/healthcare" />
+      <main style={{minHeight:'100vh',backgroundColor:'#0a0a0a',color:'#fff',fontFamily:'system-ui,sans-serif',padding:'60px 20px',maxWidth:'900px',margin:'0 auto'}}>
       <a href="/" style={{color:'#84cc16',textDecoration:'none',fontSize:'14px'}}>&#8592; Back to DocChat AI</a>
       <h1 style={{fontSize:'clamp(24px,4vw,40px)',fontWeight:'700',margin:'32px 0 16px'}}>AI for <span style={{color:'#84cc16'}}>Healthcare Research</span></h1>
       <h2 style={{fontSize:'18px',color:'#9ca3af',fontWeight:'400',marginBottom:'32px'}}>Process clinical studies, medical literature and healthcare documents with HIPAA-ready AI — powered by NVIDIA NIM</h2>
@@ -19,5 +22,6 @@ export default function Page() {
       </ul>
       <a href="/" style={{display:'inline-block',backgroundColor:'#84cc16',color:'#000',padding:'14px 28px',borderRadius:'8px',fontWeight:'700',textDecoration:'none',marginTop:'24px'}}>Try Free — No Credit Card</a>
     </main>
+      </div>
   );
 }
