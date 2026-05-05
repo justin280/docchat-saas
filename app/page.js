@@ -47,7 +47,9 @@ const NAV_PAGES = [
   { slug: '/contact', label: 'Contact' },
 
   { slug: '/security', label: 'Security' },];
-const models = [
+
+export default function Home() {
+  const models = [
   { id: 'llama-3.1-70b',  label: 'Llama 3.1 70B',    badge: 'Popular' },
   { id: 'llama-3.3-70b',  label: 'Llama 3.3 70B',    badge: 'New' },
   { id: 'llama-3.1-8b',   label: 'Llama 3.1 8B',     badge: 'Fast' },
@@ -61,7 +63,6 @@ const models = [
   { id: 'nemotron-70b',   label: 'Nemotron 70B',      badge: null },
 ];
 
-export default function Home() {
   const [docs, setDocs] = useState([]);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
