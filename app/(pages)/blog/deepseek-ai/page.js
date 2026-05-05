@@ -1,7 +1,10 @@
+import NavBar from '@/app/components/NavBar';
 export const metadata = { title: 'DeepSeek AI: The New Frontier in Open-Source Document Analysis | DocChat AI', description: 'Learn how DeepSeek AI works, why it is competitive with GPT-4, and how to use DeepSeek AI for document analysis with DocChat AI.' };
 export default function Page() {
   return (
-    <main style={{minHeight:'100vh',backgroundColor:'#0a0a0a',color:'#fff',fontFamily:'system-ui,sans-serif',padding:'60px 20px',maxWidth:'800px',margin:'0 auto'}}>
+    <div style={{backgroundColor:'#0a0a0a',minHeight:'100vh',color:'#fff',fontFamily:'system-ui,sans-serif'}}>
+      <NavBar activePath="/blog/deepseek-ai" />
+      <main style={{minHeight:'100vh',backgroundColor:'#0a0a0a',color:'#fff',fontFamily:'system-ui,sans-serif',padding:'60px 20px',maxWidth:'800px',margin:'0 auto'}}>
       <a href="/" style={{color:'#84cc16',textDecoration:'none',fontSize:'14px'}}>&#8592; Back to DocChat AI</a>
       <h1 style={{fontSize:'clamp(24px,4vw,40px)',fontWeight:'700',margin:'32px 0 16px'}}>DeepSeek AI: What It Is and How to Use It for <span style={{color:"#84cc16"}}>Document Analysis</span></h1>
       <p style={{color:'#9ca3af',marginBottom:'40px',fontSize:'15px'}}>Updated May 2026 — DeepSeek AI has emerged as one of the most capable open-source AI models available, matching GPT-4 on many benchmarks at a fraction of the cost.</p>
@@ -25,5 +28,6 @@ export default function Page() {
         <a href="/" style={{display:'inline-block',backgroundColor:'#84cc16',color:'#000',padding:'12px 24px',borderRadius:'8px',fontWeight:'700',textDecoration:'none'}}>Start Free</a>
       </div>
     </main>
+      </div>
   );
 }
