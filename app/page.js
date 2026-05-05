@@ -47,7 +47,7 @@ const NAV_PAGES = [
   { slug: '/contact', label: 'Contact' },
 
   { slug: '/security', label: 'Security' },];
-const MODELS = [
+const models = [
   { id: 'llama-3.1-70b',  label: 'Llama 3.1 70B',    badge: 'Popular' },
   { id: 'llama-3.3-70b',  label: 'Llama 3.3 70B',    badge: 'New' },
   { id: 'llama-3.1-8b',   label: 'Llama 3.1 8B',     badge: 'Fast' },
