@@ -387,7 +387,7 @@ export default function Home() {
       </nav>
 
       <section style={s.hero}>
-        <div style={s.logo}><div style={s.dot}></div><span style={{fontSize:'24px',fontWeight:'700'}}>DocChat <span style={s.h1green}>AI</span></span></div>
+        <div style={s.logo}><img src="/logo.png" alt="DocChat AI" width="40" height="40" style={{borderRadius:'8px'}} /><span style={{fontSize:'24px',fontWeight:'700'}}>DocChat <span style={s.h1green}>AI</span></span></div>
         <h1 style={s.h1}>Chat with any <span style={s.h1green}>PDF</span> or document instantly</h1>
         <h2 style={{fontSize:'18px',fontWeight:'400',color:'#9ca3af',maxWidth:'700px',margin:'0 auto 24px',lineHeight:'1.6'}}>Upload up to 5 documents in any format — PDF, DOCX, XLSX, TXT, Markdown and more — then ask questions across all of them.</h2>
         <div style={s.badges}>
