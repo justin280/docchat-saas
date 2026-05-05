@@ -90,7 +90,30 @@ export default function SecurityPage() {
       </section>
 
       {/* CTA */}
-      <section style={{textAlign:'center',padding:'0 20px 100px'}}>
+      
+      {/* Security Documents CTA */}
+      <section style={{maxWidth:'1000px',margin:'0 auto',padding:'0 20px 40px'}}>
+        <div style={{background:'linear-gradient(135deg,#111 0%,#1a2a0a 100%)',border:'1px solid #84cc16',borderRadius:'16px',padding:'40px',textAlign:'center'}}>
+          <span style={{fontSize:'36px',display:'block',marginBottom:'16px'}}>&#128196;</span>
+          <h2 style={{fontSize:'26px',fontWeight:'800',margin:'0 0 12px'}}>Enterprise Security Documentation</h2>
+          <p style={{color:'#9ca3af',fontSize:'15px',margin:'0 0 8px',lineHeight:1.7,maxWidth:'560px',display:'inline-block'}}>
+            Download our full enterprise security pack: Architecture Review, BAA template, Security Assessment questionnaire, CAIQ mapping, and Incident Response plan.
+          </p>
+          <div style={{display:'flex',gap:'12px',justifyContent:'center',flexWrap:'wrap',marginTop:'24px'}}>
+            <Link href="/security/documents" style={{backgroundColor:'#84cc16',color:'#000',padding:'13px 32px',borderRadius:'8px',fontWeight:'700',fontSize:'15px',textDecoration:'none',display:'inline-block'}}>View &amp; Download Documents</Link>
+            <Link href="/contact" style={{backgroundColor:'transparent',color:'#84cc16',padding:'13px 32px',borderRadius:'8px',fontWeight:'700',fontSize:'15px',textDecoration:'none',display:'inline-block',border:'1px solid #84cc16'}}>Request Signed BAA</Link>
+          </div>
+          <div style={{display:'flex',gap:'24px',justifyContent:'center',flexWrap:'wrap',marginTop:'20px'}}>
+            {['Enterprise Security Overview','Architecture Review Package','BAA + Security Assessment'].map((d,i) => (
+              <span key={i} style={{color:'#6b7280',fontSize:'12px',display:'flex',alignItems:'center',gap:'5px'}}>
+                <span style={{color:'#84cc16'}}>&#10003;</span>{d}
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+<section style={{textAlign:'center',padding:'0 20px 100px'}}>
         <p style={{color:'#9ca3af',marginBottom:'24px',fontSize:'16px'}}>Have a security question or need enterprise documentation?</p>
         <Link href="/contact" style={{backgroundColor:'#84cc16',color:'#000',padding:'14px 36px',borderRadius:'8px',fontWeight:'700',fontSize:'16px',textDecoration:'none',display:'inline-block'}}>Contact Security Team</Link>
       </section>
