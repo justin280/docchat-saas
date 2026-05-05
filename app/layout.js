@@ -15,6 +15,8 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'DocChat AI — Chat With Any Document Instantly',
     description: 'Upload PDFs, DOCX, Excel, CSV and more. Get instant AI-powered answers from your documents.',
+    site: '@DocChatAI',
+    creator: '@DocChatAI',
   },
   alternates: { canonical: 'https://docchat-saas.vercel.app' },
 };
@@ -44,7 +46,9 @@ const schemaOrg = {
       "contactPoint": {"@type":"ContactPoint","contactType":"customer support","email":"support.docchatai@proton.me"},
       "sameAs": [
         "https://www.facebook.com/share/18tcsvjgAh/",
-        "https://www.instagram.com/docchatai"
+        "https://www.instagram.com/docchatai",
+        "https://x.com/DocChatAI",
+        "https://www.linkedin.com/in/docchat-ai-1a3475408"
       ]
     },
     {
