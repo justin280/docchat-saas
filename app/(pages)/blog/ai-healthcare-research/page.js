@@ -1,7 +1,10 @@
+import NavBar from '@/app/components/NavBar';
 export const metadata = { title: 'AI for Healthcare Research: How to Analyse Medical Documents with AI | DocChat AI', description: 'How AI is transforming healthcare research. Use AI to analyse clinical studies, medical literature and patient documents — HIPAA-ready.' };
 export default function Page() {
   return (
-    <main style={{minHeight:'100vh',backgroundColor:'#0a0a0a',color:'#fff',fontFamily:'system-ui,sans-serif',padding:'60px 20px',maxWidth:'800px',margin:'0 auto'}}>
+    <div style={{backgroundColor:'#0a0a0a',minHeight:'100vh',color:'#fff',fontFamily:'system-ui,sans-serif'}}>
+      <NavBar activePath="/blog/ai-healthcare-research" />
+      <main style={{minHeight:'100vh',backgroundColor:'#0a0a0a',color:'#fff',fontFamily:'system-ui,sans-serif',padding:'60px 20px',maxWidth:'800px',margin:'0 auto'}}>
       <a href="/" style={{color:'#84cc16',textDecoration:'none',fontSize:'14px'}}>&#8592; Back to DocChat AI</a>
       <h1 style={{fontSize:'clamp(24px,4vw,40px)',fontWeight:'700',margin:'32px 0 16px'}}>AI for Healthcare Research: <span style={{color:"#84cc16"}}>Transforming Medical Document Analysis</span></h1>
       <p style={{color:'#9ca3af',marginBottom:'40px',fontSize:'15px'}}>AI is revolutionising how healthcare professionals process clinical literature. Learn how DocChat AI powers HIPAA-ready document analysis for researchers, clinicians and health data teams.</p>
@@ -26,5 +29,6 @@ export default function Page() {
         <a href="/" style={{display:'inline-block',backgroundColor:'#84cc16',color:'#000',padding:'12px 24px',borderRadius:'8px',fontWeight:'700',textDecoration:'none'}}>Start Free</a>
       </div>
     </main>
+      </div>
   );
 }
