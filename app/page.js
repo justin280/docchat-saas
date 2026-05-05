@@ -439,6 +439,8 @@ export default function Home() {
           <a href="mailto:support.docchatai@proton.me" style={{color:'#6b7280',fontSize:'12px',textDecoration:'none'}}>support.docchatai&#64;proton.me</a>
           <a href="https://www.facebook.com/share/18tcsvjgAh/" target="_blank" rel="noopener noreferrer" style={{color:'#6b7280',fontSize:'12px',textDecoration:'none'}}>Facebook</a>
           <a href="https://www.instagram.com/docchatai?igsh=MWxocDY1NGdncXZnNw==" target="_blank" rel="noopener noreferrer" style={{color:'#6b7280',fontSize:'12px',textDecoration:'none'}}>Instagram</a>
+          <a href="https://x.com/DocChatAI" target="_blank" rel="noopener noreferrer" style={{color:'#6b7280',fontSize:'12px',textDecoration:'none'}}>X (Twitter)</a>
+          <a href="https://www.linkedin.com/in/docchat-ai-1a3475408" target="_blank" rel="noopener noreferrer" style={{color:'#6b7280',fontSize:'12px',textDecoration:'none'}}>LinkedIn</a>
         </div>
         <p style={{color:'#4b5563',fontSize:'12px',margin:0}}>&#169; 2026 DocChat AI &#183; Powered by NVIDIA NIM &#183; Secure payments by Stripe</p>
       </footer>
