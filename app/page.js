@@ -47,25 +47,27 @@ const NAV_PAGES = [
   { slug: '/contact', label: 'Contact' },
 
   { slug: '/security', label: 'Security' },];
+const MODELS = [
+  { id: 'llama-3.1-70b',  label: 'Llama 3.1 70B',    badge: 'Popular' },
+  { id: 'llama-3.3-70b',  label: 'Llama 3.3 70B',    badge: 'New' },
+  { id: 'llama-3.1-8b',   label: 'Llama 3.1 8B',     badge: 'Fast' },
+  { id: 'mistral-large',  label: 'Mistral Large',     badge: null },
+  { id: 'mistral-nemo',   label: 'Mistral NeMo 12B',  badge: 'Fast' },
+  { id: 'deepseek-r1',    label: 'DeepSeek R1',       badge: null },
+  { id: 'deepseek-v3',    label: 'DeepSeek V3',       badge: 'New' },
+  { id: 'gemma-3-27b',    label: 'Gemma 3 27B',       badge: 'New' },
+  { id: 'phi-4',          label: 'Phi-4',             badge: 'New' },
+  { id: 'qwen2.5-72b',    label: 'Qwen 2.5 72B',      badge: 'New' },
+  { id: 'nemotron-70b',   label: 'Nemotron 70B',      badge: null },
+];
+
 export default function Home() {
   const [docs, setDocs] = useState([]);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [view, setView] = useState('landing');
-  const [
-  { id: 'llama-3.1-70b',  label: 'Llama 3.1 70B',      badge: 'Popular' },
-  { id: 'llama-3.3-70b',  label: 'Llama 3.3 70B',      badge: 'New' },
-  { id: 'llama-3.1-8b',   label: 'Llama 3.1 8B',       badge: 'Fast' },
-  { id: 'mistral-large',  label: 'Mistral Large',       badge: '' },
-  { id: 'mistral-nemo',   label: 'Mistral NeMo 12B',   badge: 'Fast' },
-  { id: 'deepseek-r1',    label: 'DeepSeek R1',         badge: '' },
-  { id: 'deepseek-v3',    label: 'DeepSeek V3',         badge: 'New' },
-  { id: 'gemma-3-27b',    label: 'Gemma 3 27B',         badge: 'New' },
-  { id: 'phi-4',          label: 'Phi-4',               badge: 'New' },
-  { id: 'qwen2.5-72b',    label: 'Qwen 2.5 72B',       badge: 'New' },
-  { id: 'nemotron-70b',   label: 'Nemotron 70B',        badge: '' },
-];
+  const [selectedModel, setSelectedModel] = useState('llama-3.1-70b');
 
   const pricingPlans = [
     {
@@ -148,7 +150,7 @@ export default function Home() {
         body: JSON.stringify({ messages: [...messages, userMsg], context, model: selectedModel })
       });
       const data = await res.json();
-      setMessages(prev => [...prev, { role: 'assistant', content: data.error ? '⚠️ ' + data.error : (data.content || 'Error getting response') + (data.truncated ? '\n\n_Note: This document was too large to fit entirely in the AI context window. Results are based on the beginning and end of the document. For best results with large documents, switch to a model with a larger context window._' : '') }]);
+      setMessages(prev => [...prev, { role: 'assistant', content: data.error ? '⚠️ ' + data.error : (data.error ? data.error : (data.content || 'No response received. Please try again.')) + (data.truncated ? '\n\n_Note: This document was too large to fit entirely in the AI context window. Results are based on the beginning and end of the document. For best results with large documents, switch to a model with a larger context window._' : '') }]);
     } catch(err) {
       setMessages(prev => [...prev, { role: 'assistant', content: 'Connection error. Please try again.' }]);
     }
