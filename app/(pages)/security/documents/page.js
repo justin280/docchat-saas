@@ -1,19 +1,11 @@
 import Link from 'next/link';
+import NavBar from '@/app/components/NavBar';
 
 export const metadata = {
   title: 'Security Documents | DocChat AI — Enterprise Security Pack',
   description: 'Download DocChat AI enterprise security documentation: Security Overview, Architecture Review Package, BAA & Security Assessment.',
 };
 
-const NAV_PAGES = [
-  { slug: '/legal-ai', label: 'Legal AI' },
-  { slug: '/enterprise', label: 'Enterprise' },
-  { slug: '/healthcare', label: 'Healthcare' },
-  { slug: '/compare', label: 'vs Competitors' },
-  { slug: '/api-docs', label: 'API Docs' },
-  { slug: '/contact', label: 'Contact' },
-  { slug: '/security', label: 'Security' },
-];
 
 const DOCS = [
   {
@@ -58,13 +50,8 @@ export default function SecurityDocumentsPage() {
   return (
     <div style={{backgroundColor:'#0a0a0a',minHeight:'100vh',color:'#fff',fontFamily:'system-ui,sans-serif'}}>
       {/* Nav */}
-      <nav style={{display:'flex',alignItems:'center',gap:'16px',padding:'14px 20px',borderBottom:'1px solid #111',backgroundColor:'#0a0a0a',position:'sticky',top:0,zIndex:100,flexWrap:'wrap'}}>
-        <Link href="/" style={{fontWeight:'700',color:'#84cc16',marginRight:'auto',fontSize:'16px',textDecoration:'none'}}>DocChat AI</Link>
-        {NAV_PAGES.map(p=>(
-          <Link key={p.slug} href={p.slug} style={{color:'#9ca3af',fontSize:'13px',textDecoration:'none'}}>{p.label}</Link>
-        ))}
-        <Link href="/" style={{backgroundColor:'#84cc16',color:'#000',borderRadius:'8px',padding:'8px 18px',fontSize:'13px',fontWeight:'700',textDecoration:'none'}}>Try Free</Link>
-      </nav>
+            <NavBar activePath="/security/documents" />
+
 
       {/* Hero */}
       <section style={{textAlign:'center',padding:'64px 20px 48px',maxWidth:'860px',margin:'0 auto'}}>
