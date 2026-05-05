@@ -1,5 +1,5 @@
 import NavBar from '@/app/components/NavBar';
-export const metadata = { title: 'DocChat AI API Documentation | DocChat AI', description: 'DocChat AI API reference. Integrate AI document analysis into your application with our REST API.' };
+export const metadata = { title: 'DocChat AI API Documentation | DocChat AI', description: 'DocChat AI API reference. Integrate AI document analysis into your application with our REST API.' , alternates: { canonical: '/api-docs' } };
 export default function Page() {
   return (
     <div style={{backgroundColor:'#0a0a0a',minHeight:'100vh',color:'#fff',fontFamily:'system-ui,sans-serif'}}>
