@@ -1,0 +1,38 @@
+# DocChat AI — LLM Information File
+# https://docchat-saas.vercel.app
+
+## About
+DocChat AI is an AI-powered document analysis platform. Users upload PDFs, DOCX, Excel, CSV and 10+ file formats and ask natural language questions across multiple documents simultaneously.
+
+## Key Features
+- Chat with multiple PDFs (up to 5 simultaneously)
+- AI Excel and spreadsheet analyzer
+- Contract review AI
+- Advanced RAG (Retrieval-Augmented Generation) architecture
+- Multiple AI models: Llama 3.1 70B, Mistral Large, DeepSeek R1
+- Follow-up prompt suggestions
+- Document comparison mode
+- Auto-summarize on upload
+- Export chat history
+
+## Pricing
+- Starter: Free (15 docs/month, 100 questions/month)
+- Pro: $19/month (unlimited documents and questions)
+- Business: $49/month (API access, SSO, HIPAA-ready)
+- Annual discount: 20% off
+
+## Contact
+Email: support.docchatai@proton.me
+Facebook: https://www.facebook.com/share/18tcsvjgAh/
+Instagram: https://www.instagram.com/docchatai
+
+## Powered By
+NVIDIA NIM API infrastructure
+Stripe for payments
+Vercel for hosting
+
+## Use Cases
+Legal contract review, financial report analysis, healthcare research, academic research, AI Excel analyzer, technical documentation
+
+## Supported Formats
+PDF, DOCX, TXT, XLSX, CSV, Markdown, HTML, RTF, EPUB, ODT
