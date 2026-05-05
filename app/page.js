@@ -21,7 +21,7 @@ const USE_CASES = [
 
 const FEATURES = [
   { icon: '📁', title: 'Chat With Multiple PDFs', desc: 'Upload up to 5 documents simultaneously and ask questions across all of them at once.' },
-  { icon: '🤖', title: '11 AI Models', desc: 'Choose from 11 AI models including Llama 3.3, DeepSeek V3, Gemma 3, Phi-4, Qwen 2.5, Nemotron and more.' },
+  { icon: '🤖', title: '11 AI Models', desc: 'Choose from 11 AI models: Llama 3.3, DeepSeek V3, Gemma 3, Phi-4, Qwen 2.5, Nemotron and more.' },
   { icon: '⚡', title: 'Quick Prompts', desc: 'One-click: Summarise, Key Points, Action Items, Risks, Dates.' },
   { icon: '📊', title: 'AI Excel Analyzer', desc: 'Deep spreadsheet and CSV analysis with multi-sheet support.' },
   { icon: '⬇️', title: 'Export Chat', desc: 'Download your entire conversation as a .txt file.' },
@@ -47,28 +47,31 @@ const NAV_PAGES = [
   { slug: '/contact', label: 'Contact' },
 
   { slug: '/security', label: 'Security' },];
-
 export default function Home() {
-  const models = [
-  { id: 'llama-3.1-70b',  label: 'Llama 3.1 70B',    badge: 'Popular' },
-  { id: 'llama-3.3-70b',  label: 'Llama 3.3 70B',    badge: 'New' },
-  { id: 'llama-3.1-8b',   label: 'Llama 3.1 8B',     badge: 'Fast' },
-  { id: 'mistral-large',  label: 'Mistral Large',     badge: null },
-  { id: 'mistral-nemo',   label: 'Mistral NeMo 12B',  badge: 'Fast' },
-  { id: 'deepseek-r1',    label: 'DeepSeek R1',       badge: null },
-  { id: 'deepseek-v3',    label: 'DeepSeek V3',       badge: 'New' },
-  { id: 'gemma-3-27b',    label: 'Gemma 3 27B',       badge: 'New' },
-  { id: 'phi-4',          label: 'Phi-4',             badge: 'New' },
-  { id: 'qwen2.5-72b',    label: 'Qwen 2.5 72B',      badge: 'New' },
-  { id: 'nemotron-70b',   label: 'Nemotron 70B',      badge: null },
-];
-
   const [docs, setDocs] = useState([]);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [view, setView] = useState('landing');
-  const [selectedModel, setSelectedModel] = useState('llama-3.1-70b');
+  const [selectedModel, setSelectedModel] = useState('meta/llama-3.1-70b-instruct');
+  const [billing, setBilling] = useState('monthly');
+  const [uploadError, setUploadError] = useState('');
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef(null);
+
+  const models = [
+    { id: 'llama-3.1-70b',  label: 'Llama 3.1 70B',    badge: 'Popular' },
+    { id: 'llama-3.3-70b',  label: 'Llama 3.3 70B',    badge: 'New' },
+    { id: 'llama-3.1-8b',   label: 'Llama 3.1 8B',     badge: 'Fast' },
+    { id: 'mistral-large',  label: 'Mistral Large',     badge: null },
+    { id: 'mistral-nemo',   label: 'Mistral NeMo 12B',  badge: 'Fast' },
+    { id: 'deepseek-r1',    label: 'DeepSeek R1',       badge: null },
+    { id: 'deepseek-v3',    label: 'DeepSeek V3',       badge: 'New' },
+    { id: 'gemma-3-27b',    label: 'Gemma 3 27B',       badge: 'New' },
+    { id: 'phi-4',          label: 'Phi-4',             badge: 'New' },
+    { id: 'qwen2.5-72b',    label: 'Qwen 2.5 72B',      badge: 'New' },
+    { id: 'nemotron-70b',   label: 'Nemotron 70B',      badge: null },
+  ];
 
   const pricingPlans = [
     {
@@ -151,7 +154,7 @@ export default function Home() {
         body: JSON.stringify({ messages: [...messages, userMsg], context, model: selectedModel })
       });
       const data = await res.json();
-      setMessages(prev => [...prev, { role: 'assistant', content: data.error ? '⚠️ ' + data.error : (data.error ? data.error : (data.content || 'No response received. Please try again.')) + (data.truncated ? '\n\n_Note: This document was too large to fit entirely in the AI context window. Results are based on the beginning and end of the document. For best results with large documents, switch to a model with a larger context window._' : '') }]);
+      setMessages(prev => [...prev, { role: 'assistant', content: data.error ? data.error : (data.content || 'No response received. Please try again.') }]);
     } catch(err) {
       setMessages(prev => [...prev, { role: 'assistant', content: 'Connection error. Please try again.' }]);
     }
