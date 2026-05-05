@@ -2,7 +2,7 @@ import NavBar from '@/app/components/NavBar';
 export const metadata = {
   title: 'Contact Us | DocChat AI',
   description: 'Get in touch with DocChat AI. Support, business opportunities, collaborations and partnerships — we would love to hear from you.',
-};
+, alternates: { canonical: '/contact' } };
 
 export default function ContactPage() {
   const s = {
