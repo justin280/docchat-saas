@@ -1,5 +1,7 @@
 import NavBar from '@/app/components/NavBar';
-export const metadata = { title: 'Contract Review AI — Legal Document Analysis | DocChat AI', description: 'AI contract review for lawyers and legal teams. Extract clauses, obligations, risks and compliance requirements instantly.' , alternates: { canonical: '/legal-ai' } };
+export const metadata = { title: 'Contract Review AI — Legal Document Analysis | DocChat AI', description: 'AI contract review for lawyers and legal teams. Extract clauses, obligations, risks and compliance requirements instantly.',
+  alternates: { canonical: '/legal-ai' }
+};
 export default function Page() {
   return (
     <div style={{backgroundColor:'#0a0a0a',minHeight:'100vh',color:'#fff',fontFamily:'system-ui,sans-serif'}}>
