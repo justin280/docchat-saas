@@ -1,4 +1,5 @@
 import NavBar from '@/app/components/NavBar';
+import StickyBar from '@/app/components/StickyBar';
 export const metadata = { title: 'AI for Healthcare Research — HIPAA-Ready Document Analysis | DocChat AI', description: 'DocChat AI for healthcare. Process clinical studies, medical literature and patient documents with HIPAA-ready AI.',
   alternates: { canonical: '/healthcare' }
 };
@@ -24,6 +25,7 @@ export default function Page() {
       </ul>
       <a href="/" style={{display:'inline-block',backgroundColor:'#84cc16',color:'#000',padding:'14px 28px',borderRadius:'8px',fontWeight:'700',textDecoration:'none',marginTop:'24px'}}>Try Free — No Credit Card</a>
     </main>
-      </div>
+      <StickyBar />
+    </div>
   );
 }
