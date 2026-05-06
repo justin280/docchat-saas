@@ -1,9 +1,7 @@
 export const runtime = 'nodejs';
 
-import mammoth from 'mammoth';
-import * as XLSX from 'xlsx';
-
-// Re-implementation of parse logic that accepts a URL instead of a file upload
+// parse-demo: fetches a static file from /public and pipes it through /api/parse
+// This reuses all existing document parsing logic (PDF, DOCX, XLSX, etc.)
 export async function POST(req) {
   try {
     const { fileUrl, fileName } = await req.json();
@@ -11,61 +9,35 @@ export async function POST(req) {
       return Response.json({ text: '', error: 'Missing fileUrl or fileName' }, { status: 400 });
     }
 
-    // Fetch the static file from the public folder
+    // Build the absolute base URL for internal API calls
     const baseUrl = process.env.VERCEL_URL
       ? 'https://' + process.env.VERCEL_URL
-      : 'http://localhost:3000';
+      : (process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000');
 
-    const fullUrl = fileUrl.startsWith('http') ? fileUrl : baseUrl + fileUrl;
-    const res = await fetch(fullUrl);
-    if (!res.ok) {
-      return Response.json({ text: '', error: 'Failed to fetch file: ' + res.status }, { status: 500 });
+    // Fetch the static sample file from the /public folder
+    const fileRes = await fetch(baseUrl + fileUrl);
+    if (!fileRes.ok) {
+      return Response.json({ text: '', error: 'Could not load sample file: ' + fileRes.status }, { status: 500 });
     }
 
-    const arrayBuffer = await res.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
-    const ext = fileName.split('.').pop().toLowerCase();
-    let text = '';
+    const fileBlob = await fileRes.blob();
 
-    if (ext === 'pdf') {
-      // Use pdf-parse-fork or extract text via Buffer
-      // Simple PDF text extraction using regex on raw buffer
-      const str = buffer.toString('latin1');
-      const matches = str.match(/BT[\s\S]*?ET/g) || [];
-      const textParts = [];
-      for (const block of matches) {
-        const tjs = block.match(/\(([^)]+)\)\s*Tj/g) || [];
-        for (const tj of tjs) {
-          const m = tj.match(/\(([^)]+)\)/);
-          if (m) textParts.push(m[1]);
-        }
-      }
-      if (textParts.length > 0) {
-        text = textParts.join(' ');
-      } else {
-        // Fallback: try to extract readable ASCII text from PDF binary
-        const readable = str.replace(/[^\x20-\x7e\n\r\t]/g, ' ').replace(/\s+/g, ' ').trim();
-        // Extract meaningful chunks (words longer than 3 chars)
-        const words = readable.split(' ').filter(w => w.length > 3 && /[a-zA-Z]/.test(w));
-        text = words.join(' ');
-      }
-    } else if (ext === 'docx') {
-      const result = await mammoth.extractRawText({ buffer });
-      text = result.value;
-    } else if (ext === 'xlsx' || ext === 'csv') {
-      const workbook = XLSX.read(buffer, { type: 'buffer' });
-      const sheets = workbook.SheetNames.map(name => {
-        const ws = workbook.Sheets[name];
-        return 'Sheet: ' + name + '\n' + XLSX.utils.sheet_to_csv(ws);
-      });
-      text = sheets.join('\n\n');
-    } else if (ext === 'txt' || ext === 'md' || ext === 'html' || ext === 'rtf') {
-      text = buffer.toString('utf-8');
-    } else {
-      text = buffer.toString('utf-8');
+    // Forward to /api/parse as multipart/form-data — reuses all parsing logic
+    const form = new FormData();
+    form.append('file', fileBlob, fileName);
+
+    const parseRes = await fetch(baseUrl + '/api/parse', {
+      method: 'POST',
+      body: form,
+    });
+
+    if (!parseRes.ok) {
+      const err = await parseRes.json().catch(() => ({}));
+      return Response.json({ text: '', error: err.error || 'Parse failed' }, { status: 500 });
     }
 
-    return Response.json({ text: text.trim(), filename: fileName, size: buffer.length });
+    const data = await parseRes.json();
+    return Response.json({ text: data.text || '', filename: fileName, size: fileBlob.size });
   } catch (err) {
     console.error('parse-demo error:', err);
     return Response.json({ text: '', error: err.message }, { status: 500 });
