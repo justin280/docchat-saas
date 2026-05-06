@@ -193,7 +193,7 @@ export default function DemoPage() {
   const DocModal = () => viewingDoc && docFullscreen ? (
     <div style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.95)', zIndex: 500, display: 'flex', flexDirection: 'column' }}>
       <div style={{ padding: '12px 20px', borderBottom: '1px solid #222', display: 'flex', alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#0d0d0d' }}>
-        <div style={{ display: 'flex', align Items: 'center', gap: '10px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <span style={{ fontSize: '20px' }}>📄</span>
           <span style={{ color: '#fff', fontWeight: '700', fontSize: '15px' }}>{viewingDoc.name}</span>
         </div>
