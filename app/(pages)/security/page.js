@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import NavBar from '@/app/components/NavBar';
+import StickyBar from '@/app/components/StickyBar';
 
 export const metadata = {
   title: 'Security & Compliance | DocChat AI — SOC2, HIPAA, Zero Retention',
@@ -105,9 +106,10 @@ export default function SecurityPage() {
       </section>
 
       {/* Footer */}
-      <footer style={{borderTop:'1px solid #111',padding:'24px 20px',textAlign:'center',color:'#6b7280',fontSize:'13px'}}>
+      <footer style={{borderTop:'1px solid #111',padding:'24px 20px',paddingBottom:'80px',textAlign:'center',color:'#6b7280',fontSize:'13px'}}>
         <p style={{margin:0}}>© {new Date().getFullYear()} DocChat AI — <Link href="/contact" style={{color:'#9ca3af',textDecoration:'none'}}>Contact</Link> · <Link href="/" style={{color:'#9ca3af',textDecoration:'none'}}>Home</Link></p>
       </footer>
+      <StickyBar />
     </div>
   );
 }
