@@ -1,10 +1,11 @@
 import NavBar from '@/app/components/NavBar';
+import StickyBar from '@/app/components/StickyBar';
 export const metadata = { title: 'DocChat AI vs ChatPDF vs ChatDOC vs Humata | DocChat AI', description: 'Compare the best AI document chat tools. DocChat AI beats ChatPDF, ChatDOC and Humata on features, price and flexibility.',
   alternates: { canonical: '/compare' }
 };
 export default function Page() {
   return (
-    <div style={{backgroundColor:'#0a0a0a',minHeight:'100vh',color:'#fff',fontFamily:'system-ui,sans-serif'}}>
+    <div style={{backgroundColor:'#0a0a0a',minHeight:'100vh',color:'#fff',fontFamily:'system-ui,sans-serif',paddingBottom:'70px'}}>
       <NavBar activePath="/compare" />
       <main style={{minHeight:'100vh',backgroundColor:'#0a0a0a',color:'#fff',fontFamily:'system-ui,sans-serif',padding:'60px 20px',maxWidth:'900px',margin:'0 auto'}}>
       <a href="/" style={{color:'#84cc16',textDecoration:'none',fontSize:'14px'}}>&#8592; Back to DocChat AI</a>
@@ -46,5 +47,6 @@ export default function Page() {
             </a>
           ))}
         </div>
-      </div>
+      <StickyBar />
+    </div>
 }
