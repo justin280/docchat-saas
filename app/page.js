@@ -632,7 +632,7 @@ export default function Home() {
         </div>
       </section>
 
-      <footer style={{borderTop:'1px solid #111',padding:'24px 20px',paddingBottom:'80px',textAlign:'center'}}>
+      <footer style={{borderTop:'1px solid #111',padding:'24px 20px',paddingBottom:'120px',textAlign:'center'}}>
         <div style={{display:'flex',gap:'16px',justifyContent:'center',flexWrap:'wrap',alignItems:'center',marginBottom:'8px'}}>
           {NAV_PAGES.map(p=>(
             <a key={p.slug} href={p.slug} style={{color:'#6b7280',fontSize:'12px',textDecoration:'none'}}>{p.label}</a>
