@@ -1,4 +1,5 @@
-import NavBar from '@/app/components/NavBar';
+import Nav,paddingBottom:'70px'ar from '@/app/components/NavBar';
+import StickyBar from '@/app/components/StickyBar';
 export const metadata = { title: 'Enterprise Document AI — SOC2, SSO, Admin Controls | DocChat AI', description: 'DocChat AI for enterprise teams. SOC2-ready, SSO (Google/Microsoft), admin dashboard, API access and team workspaces.' , alternates: { canonical: '/enterprise' } };
 export default function Page() {
   return (
@@ -24,6 +25,7 @@ export default function Page() {
       </ul>
       <a href="mailto:support.docchatai@proton.me" style={{display:'inline-block',backgroundColor:'#84cc16',color:'#000',padding:'14px 28px',borderRadius:'8px',fontWeight:'700',textDecoration:'none',marginTop:'24px'}}>Contact Enterprise Sales</a>
     </main>
-      </div>
+      <StickyBar />
+    </div>
   );
 }
