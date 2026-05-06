@@ -1,4 +1,5 @@
-import NavBar from '@/app/components/NavBar';
+import Nav,paddingBottom:'70px'ar from '@/app/components/NavBar';
+import StickyBar from '@/app/components/StickyBar';
 export const metadata = { title: 'SOC2, HIPAA and Security Compliance | DocChat AI', description: 'DocChat AI security and compliance information. SOC2-aligned, HIPAA-ready, zero data retention, encrypted communications.',
   alternates: { canonical: '/compliance' }
 };
@@ -27,6 +28,7 @@ export default function Page() {
       </ul>
       <a href="mailto:support.docchatai@proton.me" style={{display:'inline-block',backgroundColor:'#84cc16',color:'#000',padding:'14px 28px',borderRadius:'8px',fontWeight:'700',textDecoration:'none',marginTop:'24px'}}>Request Security Documentation</a>
     </main>
-      </div>
+      <StickyBar />
+    </div>
   );
 }
