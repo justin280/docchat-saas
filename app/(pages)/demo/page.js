@@ -106,10 +106,10 @@ export default function DemoPage() {
         for (const line of lines) {
           if (line.startsWith('data: ')) {
             const data = line.slice(6).trim();
-            if (data === '[DONE]') break;
+            if (!data || data === '[DONE]') continue;
             try {
               const parsed = JSON.parse(data);
-              const delta = parsed.choices?.[0]?.delta?.content || '';
+              const delta = parsed.token ?? parsed.choices?.[0]?.delta?.content ?? '';
               reply += delta;
               setMessages(prev => {
                 const updated = [...prev];
