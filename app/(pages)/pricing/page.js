@@ -139,6 +139,8 @@ export default function PricingPage() {
             <li style={s.feature}><span style={s.featureCheck}>&#10003;</span> Email support</li>
           </ul>
           <a href="/" style={s.ctaFeatured}>Start Pro Trial</a>
+          <p style={{textAlign:'center', color:'#6b7280', fontSize:'12px', marginTop:'10px', marginBottom:'0'}}>14-day free trial · No credit card required</p>
+          <a href="/demo" style={{display:'block', textAlign:'center', color:'#9ca3af', fontSize:'12px', marginTop:'6px', textDecoration:'none'}}>Not sure? Try the free demo first →</a>
         </div>
 
         <div style={s.card}>
