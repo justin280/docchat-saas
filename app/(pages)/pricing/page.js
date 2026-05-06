@@ -82,7 +82,12 @@ export default function PricingPage() {
       <div style={s.hero}>
         <div style={s.badge}>PRICING</div>
         <h1 style={s.h1}>Simple, Transparent Pricing</h1>
-        <p style={s.sub}>Start free. Scale as you grow. No hidden fees, no per-seat licensing. Cancel anytime.</p>
+        <p style={s.sub}>Start free — no credit card, no email, no sign-up required. Scale as you grow. No hidden fees. Cancel anytime.</p>
+      <div style={{display:'flex', justifyContent:'center', gap:'16px', flexWrap:'wrap', marginTop:'12px'}}>
+        <span style={{backgroundColor:'#14532d', color:'#86efac', fontSize:'13px', fontWeight:'600', padding:'5px 14px', borderRadius:'20px', border:'1px solid #16a34a'}}>✓ Free plan forever</span>
+        <span style={{backgroundColor:'#14532d', color:'#86efac', fontSize:'13px', fontWeight:'600', padding:'5px 14px', borderRadius:'20px', border:'1px solid #16a34a'}}>✓ No credit card needed</span>
+        <span style={{backgroundColor:'#14532d', color:'#86efac', fontSize:'13px', fontWeight:'600', padding:'5px 14px', borderRadius:'20px', border:'1px solid #16a34a'}}>✓ No email required</span>
+      </div>
       </div>
 
       <div style={s.grid}>
@@ -93,6 +98,11 @@ export default function PricingPage() {
             <span style={s.pricePer}>/month</span>
           </div>
           <p style={s.planDesc}>Perfect for individuals exploring AI document analysis.</p>
+          <div style={{display:'flex', flexWrap:'wrap', gap:'6px', margin:'10px 0 0 0'}}>
+            <span style={{backgroundColor:'#14532d', color:'#86efac', fontSize:'11px', fontWeight:'700', padding:'3px 8px', borderRadius:'12px', border:'1px solid #16a34a'}}>✓ No credit card</span>
+            <span style={{backgroundColor:'#14532d', color:'#86efac', fontSize:'11px', fontWeight:'700', padding:'3px 8px', borderRadius:'12px', border:'1px solid #16a34a'}}>✓ No email</span>
+            <span style={{backgroundColor:'#14532d', color:'#86efac', fontSize:'11px', fontWeight:'700', padding:'3px 8px', borderRadius:'12px', border:'1px solid #16a34a'}}>✓ No sign-up</span>
+          </div>
           <div style={s.divider} />
           <ul style={s.featureList}>
             <li style={s.feature}><span style={s.featureCheck}>&#10003;</span> 15 documents/month</li>
@@ -105,6 +115,8 @@ export default function PricingPage() {
             <li style={s.feature}><span style={s.featureMuted}>&#8212;</span> <span style={s.featureMuted}>No priority support</span></li>
           </ul>
           <a href="/" style={s.ctaFree}>Get Started Free</a>
+          <p style={{textAlign:'center', color:'#6b7280', fontSize:'12px', margin:'10px 0 0 0'}}>No credit card · No email · No sign-up</p>
+          <a href="/demo" style={{display:'block', textAlign:'center', color:'#84cc16', fontSize:'12px', marginTop:'6px', textDecoration:'none', fontWeight:'600'}}>🔬 Try the free demo first →</a>
         </div>
 
         <div style={s.cardFeatured}>
