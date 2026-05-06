@@ -1,5 +1,6 @@
 'use client'; // v3
 import { useState, useRef } from 'react';
+import Link from 'next/link';
 
 const QUICK_PROMPTS = [
   { icon: '📝', label: 'Summarise' },
@@ -396,6 +397,7 @@ export default function Home() {
           ))}
         </div>
         <button style={s.ctaBtn} onClick={()=>setView('chat')}>Try Free — No Credit Card Needed</button>
+        <a href="/demo" style={{display:'inline-block', marginTop:'12px', backgroundColor:'transparent', color:'#84cc16', border:'2px solid #84cc16', borderRadius:'8px', padding:'12px 24px', fontSize:'15px', fontWeight:'600', cursor:'pointer', textDecoration:'none'}}>🔬 Try Live Demo</a>
         <p style={s.poweredBy}>Powered by NVIDIA NIM · Llama · Mistral · DeepSeek</p>
       </section>
 
