@@ -1,4 +1,5 @@
 import NavBar from '@/app/components/NavBar';
+import StickyBar from '@/app/components/StickyBar';
 
 export const metadata = {
   title: 'Pricing — DocChat AI Plans | Free, Pro & Business',
@@ -8,7 +9,7 @@ export const metadata = {
 
 export default function PricingPage() {
   const s = {
-    page: { background: '#0a0a0a', color: '#f9fafb', minHeight: '100vh', fontFamily: 'Inter, system-ui, sans-serif' },
+    page: { background: '#0a0a0a', color: '#f9fafb', minHeight: '100vh', fontFamily: 'Inter, system-ui, sans-serif', paddingBottom: '70px' },
     hero: { textAlign: 'center', padding: '80px 24px 40px', maxWidth: '800px', margin: '0 auto' },
     badge: { display: 'inline-block', background: '#1a2e00', color: '#84cc16', border: '1px solid #84cc16', borderRadius: '20px', padding: '6px 16px', fontSize: '12px', fontWeight: '700', letterSpacing: '0.1em', marginBottom: '24px' },
     h1: { fontSize: 'clamp(2rem, 5vw, 3.2rem)', fontWeight: '900', color: '#fff', marginBottom: '16px', lineHeight: '1.2' },
@@ -213,6 +214,7 @@ export default function PricingPage() {
           Powered by <strong style={{color: '#9ca3af'}}>NVIDIA NIM</strong> &#183; SOC2-aligned &#183; HIPAA-ready &#183; Zero retention
         </p>
       </div>
+      <StickyBar />
     </div>
   );
 }
