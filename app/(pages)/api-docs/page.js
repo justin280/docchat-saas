@@ -1,4 +1,5 @@
-import NavBar from '@/app/components/NavBar';
+import Nav,paddingBottom:'70px'ar from '@/app/components/NavBar';
+import StickyBar from '@/app/components/StickyBar';
 export const metadata = { title: 'DocChat AI API Documentation | DocChat AI', description: 'DocChat AI API reference. Integrate AI document analysis into your application with our REST API.' , alternates: { canonical: '/api-docs' } };
 export default function Page() {
   return (
@@ -21,6 +22,7 @@ export default function Page() {
       <p style={{color:'#9ca3af',marginTop:'24px',fontSize:'14px'}}>Full API access is available on the Business plan. Contact us to request your API key.</p>
       <a href="mailto:support.docchatai@proton.me" style={{display:'inline-block',backgroundColor:'#84cc16',color:'#000',padding:'14px 28px',borderRadius:'8px',fontWeight:'700',textDecoration:'none',marginTop:'16px'}}>Request API Access</a>
     </main>
-      </div>
+      <StickyBar />
+    </div>
   );
 }
