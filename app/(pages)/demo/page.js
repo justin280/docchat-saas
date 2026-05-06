@@ -3,8 +3,6 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 
-export const metadata_demo = { title: 'Live Demo | DocChat AI' };
-
 const DEMO_DOCS = [
   { url: '/docs/docchat-architecture-review-package.pdf', name: 'Architecture Review.pdf', label: 'Architecture Review' },
   { url: '/docs/docchat-enterprise-security-overview.pdf', name: 'Enterprise Security Overview.pdf', label: 'Enterprise Security Overview' },
@@ -37,18 +35,15 @@ export default function DemoPage() {
   const [selectedModel, setSelectedModel] = useState('meta/llama-3.1-70b-instruct');
   const [error, setError] = useState('');
   const messagesEndRef = useRef(null);
+  const replyRef = useRef('');
 
-  useEffect(() => {
-    loadDemoDocs();
-  }, []);
-
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  useEffect(() => { loadDemoDocs(); }, []);
+  useEffect(() => { messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages]);
 
   async function loadDemoDocs() {
     setLoadingDocs(true);
     setLoadProgress(0);
+    setMessages([]);
     const loaded = [];
     for (let i = 0; i < DEMO_DOCS.length; i++) {
       const doc = DEMO_DOCS[i];
@@ -60,21 +55,16 @@ export default function DemoPage() {
           body: JSON.stringify({ fileUrl: doc.url, fileName: doc.name }),
         });
         const data = await res.json();
-        if (data.text) {
-          loaded.push({ name: doc.name, text: data.text, size: data.size || 0 });
-        }
-      } catch (e) {
-        console.error('Failed to load demo doc:', doc.name, e);
-      }
+        if (data.text) loaded.push({ name: doc.name, text: data.text, size: data.size || 0 });
+      } catch (e) { console.error('Demo load error:', e); }
       setLoadProgress(Math.round(((i + 1) / DEMO_DOCS.length) * 100));
     }
     setDocs(loaded);
     setLoadingDocs(false);
-    setLoadStatus('');
     if (loaded.length > 0) {
       setMessages([{
         role: 'assistant',
-        content: '👋 Welcome to the **DocChat AI demo**! I have loaded ' + loaded.length + ' sample document' + (loaded.length > 1 ? 's' : '') + ' for you:\n\n' + loaded.map(d => '📄 **' + d.name + '**').join('\n') + '\n\nFeel free to ask anything about these documents, or try one of the suggested questions below.',
+        content: '👋 Welcome to the **DocChat AI demo**! I have loaded ' + loaded.length + ' sample document' + (loaded.length > 1 ? 's' : '') + ' for you:\n\n' + loaded.map(d => '📄 **' + d.name + '**').join('\n') + '\n\nFeel free to ask anything, or try a suggested question below.',
       }]);
     }
   }
@@ -87,41 +77,50 @@ export default function DemoPage() {
     const newMessages = [...messages, { role: 'user', content: userText }];
     setMessages(newMessages);
     setLoading(true);
+    replyRef.current = '';
+
+    // Add empty assistant placeholder
+    setMessages(prev => [...prev, { role: 'assistant', content: '' }]);
+
     try {
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ messages: newMessages, docs, model: selectedModel }),
       });
-      if (!res.ok) throw new Error('Chat request failed');
+      if (!res.ok) throw new Error('Chat request failed: ' + res.status);
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
-      let reply = '';
-      setMessages(prev => [...prev, { role: 'assistant', content: '' }]);
+      let buffer = '';
+
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
-        const chunk = decoder.decode(value, { stream: true });
-        const lines = chunk.split('\n');
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop() || '';
         for (const line of lines) {
-          if (line.startsWith('data: ')) {
-            const data = line.slice(6).trim();
-            if (!data || data === '[DONE]') continue;
-            try {
-              const parsed = JSON.parse(data);
-              const delta = parsed.token ?? parsed.choices?.[0]?.delta?.content ?? '';
-              reply += delta;
+          if (!line.startsWith('data: ')) continue;
+          const data = line.slice(6).trim();
+          if (!data || data === '[DONE]') continue;
+          try {
+            const parsed = JSON.parse(data);
+            const token = parsed.token ?? parsed.choices?.[0]?.delta?.content ?? '';
+            if (token) {
+              replyRef.current += token;
+              const snapshot = replyRef.current;
               setMessages(prev => {
                 const updated = [...prev];
-                updated[updated.length - 1] = { role: 'assistant', content: reply };
+                updated[updated.length - 1] = { role: 'assistant', content: snapshot };
                 return updated;
               });
-            } catch {}
-          }
+            }
+          } catch {}
         }
       }
     } catch (e) {
       setError('Something went wrong. Please try again.');
+      setMessages(prev => prev.slice(0, -1));
     } finally {
       setLoading(false);
     }
@@ -136,27 +135,26 @@ export default function DemoPage() {
     resetBtn: { backgroundColor: 'transparent', color: '#9ca3af', border: '1px solid #333', borderRadius: '7px', padding: '6px 12px', fontSize: '12px', cursor: 'pointer' },
     main: { flex: 1, display: 'flex', flexDirection: 'column', maxWidth: '860px', width: '100%', margin: '0 auto', padding: '16px 20px 100px' },
     loadBox: { flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '20px', padding: '60px 20px' },
-    loadTitle: { fontSize: '18px', fontWeight: '600', color: '#fff' },
-    loadSub: { fontSize: '14px', color: '#9ca3af' },
     progressBar: { width: '100%', maxWidth: '320px', height: '6px', backgroundColor: '#1a1a1a', borderRadius: '3px', overflow: 'hidden' },
     progressFill: { height: '100%', backgroundColor: '#84cc16', borderRadius: '3px', transition: 'width 0.3s' },
     docChips: { display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '16px' },
     docChip: { backgroundColor: '#111', border: '1px solid #222', borderRadius: '8px', padding: '5px 12px', fontSize: '12px', color: '#9ca3af', display: 'flex', alignItems: 'center', gap: '5px' },
     messages: { display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: '16px' },
     userBubble: { alignSelf: 'flex-end', backgroundColor: '#1a2a00', border: '1px solid #84cc16', borderRadius: '14px 14px 2px 14px', padding: '10px 16px', maxWidth: '75%', fontSize: '14px', lineHeight: '1.6' },
-    aiBubble: { alignSelf: 'flex-start', backgroundColor: '#111', border: '1px solid #222', borderRadius: '14px 14px 14px 2px', padding: '12px 16px', maxWidth: '85%', fontSize: '14px', lineHeight: '1.7' },
+    aiBubble: { alignSelf: 'flex-start', backgroundColor: '#111', border: '1px solid #222', borderRadius: '14px 14px 14px 2px', padding: '12px 16px', maxWidth: '85%', fontSize: '14px', lineHeight: '1.7', minWidth: '40px', minHeight: '24px' },
     suggestions: { display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '14px' },
     suggBtn: { backgroundColor: '#111', border: '1px solid #333', borderRadius: '20px', padding: '6px 14px', fontSize: '12px', color: '#9ca3af', cursor: 'pointer', whiteSpace: 'nowrap' },
-    inputRow: { position: 'fixed', bottom: 0, left: 0, right: 0, backgroundColor: '#0a0a0a', borderTop: '1px solid #111', padding: '12px 20px', display: 'flex', gap: '10px', alignItems: 'center', maxWidth: '860px', margin: '0 auto' },
+    inputArea: { position: 'fixed', bottom: 0, left: 0, right: 0, backgroundColor: '#0a0a0a', borderTop: '1px solid #111', padding: '12px 20px', zIndex: 50 },
+    inputRow: { display: 'flex', gap: '10px', alignItems: 'center', maxWidth: '860px', margin: '0 auto' },
     input: { flex: 1, backgroundColor: '#111', border: '1px solid #333', borderRadius: '10px', padding: '11px 16px', color: '#fff', fontSize: '14px', outline: 'none' },
     sendBtn: { backgroundColor: '#84cc16', color: '#000', border: 'none', borderRadius: '10px', padding: '11px 20px', fontWeight: '700', fontSize: '14px', cursor: 'pointer', whiteSpace: 'nowrap' },
     modelSelect: { backgroundColor: '#111', border: '1px solid #333', borderRadius: '8px', padding: '8px 12px', color: '#9ca3af', fontSize: '12px', cursor: 'pointer' },
     errorBox: { backgroundColor: '#2a0000', border: '1px solid #dc2626', borderRadius: '8px', padding: '10px 14px', fontSize: '13px', color: '#f87171', marginBottom: '10px' },
+    spinner: { display: 'inline-block', width: '8px', height: '16px', backgroundColor: '#84cc16', animation: 'blink 1s step-end infinite' },
   };
 
   return (
     <div style={s.page}>
-      {/* Demo Banner */}
       <div style={s.banner}>
         <div style={s.bannerLeft}>
           <span>🔬</span>
@@ -172,8 +170,8 @@ export default function DemoPage() {
         {loadingDocs ? (
           <div style={s.loadBox}>
             <div style={{ fontSize: '40px' }}>📄</div>
-            <div style={s.loadTitle}>Loading Demo Documents</div>
-            <div style={s.loadSub}>{loadStatus}</div>
+            <div style={{ fontSize: '18px', fontWeight: '600' }}>Loading Demo Documents</div>
+            <div style={{ fontSize: '14px', color: '#9ca3af' }}>{loadStatus}</div>
             <div style={s.progressBar}>
               <div style={{ ...s.progressFill, width: loadProgress + '%' }} />
             </div>
@@ -181,29 +179,24 @@ export default function DemoPage() {
           </div>
         ) : (
           <>
-            {/* Loaded doc chips */}
             <div style={s.docChips}>
               {docs.map((d, i) => (
                 <div key={i} style={s.docChip}>📄 {d.name}</div>
               ))}
             </div>
 
-            {/* Messages */}
             <div style={s.messages}>
               {messages.map((m, i) => (
                 <div key={i} style={m.role === 'user' ? s.userBubble : s.aiBubble}>
                   {m.role === 'assistant' ? (
-                    <ReactMarkdown>{m.content || '▋'}</ReactMarkdown>
-                  ) : (
-                    m.content
-                  )}
+                    m.content ? <ReactMarkdown>{m.content}</ReactMarkdown> : <span style={{ color: '#84cc16' }}>▋</span>
+                  ) : m.content}
                 </div>
               ))}
               {error && <div style={s.errorBox}>{error}</div>}
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Suggested questions (show only before first user message) */}
             {messages.filter(m => m.role === 'user').length === 0 && (
               <div style={s.suggestions}>
                 {SUGGESTED_QUESTIONS.map((q, i) => (
@@ -215,23 +208,28 @@ export default function DemoPage() {
         )}
       </div>
 
-      {/* Fixed input bar */}
       {!loadingDocs && (
-        <div style={{ ...s.inputRow, position: 'fixed', bottom: 0, left: '50%', transform: 'translateX(-50%)', width: '100%', maxWidth: '860px', zIndex: 50 }}>
-          <select style={s.modelSelect} value={selectedModel} onChange={e => setSelectedModel(e.target.value)}>
-            {MODELS.map(m => <option key={m.id} value={m.id}>{m.label}</option>)}
-          </select>
-          <input
-            style={s.input}
-            value={input}
-            onChange={e => setInput(e.target.value)}
-            onKeyDown={e => e.key === 'Enter' && !e.shiftKey && sendMessage()}
-            placeholder="Ask anything about the demo documents..."
-            disabled={loading}
-          />
-          <button style={{ ...s.sendBtn, opacity: loading ? 0.6 : 1 }} onClick={() => sendMessage()} disabled={loading}>
-            {loading ? '...' : 'Send'}
-          </button>
+        <div style={s.inputArea}>
+          <div style={s.inputRow}>
+            <select style={s.modelSelect} value={selectedModel} onChange={e => setSelectedModel(e.target.value)}>
+              {MODELS.map(m => <option key={m.id} value={m.id}>{m.label}</option>)}
+            </select>
+            <input
+              style={s.input}
+              value={input}
+              onChange={e => setInput(e.target.value)}
+              onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }}
+              placeholder="Ask anything about the demo documents..."
+              disabled={loading}
+            />
+            <button
+              style={{ ...s.sendBtn, opacity: loading ? 0.6 : 1 }}
+              onClick={() => sendMessage()}
+              disabled={loading}
+            >
+              {loading ? '...' : 'Send'}
+            </button>
+          </div>
         </div>
       )}
     </div>
