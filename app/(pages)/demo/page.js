@@ -67,7 +67,7 @@ export default function DemoPage() {
       setProgressLabel('Loading ' + doc.label + '...');
       setProgress(Math.round((i / DEMO_DOCS.length) * 100));
       try {
-        const res = await fetch('/api/parse-demo?file=' + encodeURIComponent(doc.url));
+        const res = await fetch('/api/parse-demo', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ fileUrl: doc.url, fileName: doc.name }) });
         const data = await res.json();
         if (data.text) loaded.push({ name: doc.name, text: data.text, size: data.size || 0 });
       } catch (e) {}
