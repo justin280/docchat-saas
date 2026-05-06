@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import ReactMarkdown from 'react-markdown';
+import StickyBar from '@/app/components/StickyBar';
 
 const NAV_PAGES = [
   { slug: '/legal-ai', label: 'Legal AI' },
@@ -326,6 +327,7 @@ export default function DemoPage() {
           </button>
         )}
       </div>
+      <StickyBar />
     </div>
   );
 }
