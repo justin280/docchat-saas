@@ -55,6 +55,7 @@ export default function Home() {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [view, setView] = useState('landing');
+  const [showVideo, setShowVideo] = useState(false);
   const [selectedModel, setSelectedModel] = useState('meta/llama-3.1-70b-instruct');
   const [billing, setBilling] = useState('monthly');
   const [uploadError, setUploadError] = useState('');
@@ -402,6 +403,49 @@ export default function Home() {
         <p style={s.poweredBy}>Powered by NVIDIA NIM · Llama · Mistral · DeepSeek</p>
       </section>
 
+      {/* Video Demo Section */}
+      <section style={{...s.section, padding:'40px 24px', backgroundColor:'#050505'}}>
+        <div style={{textAlign:'center', maxWidth:'860px', margin:'0 auto'}}>
+          <div style={{display:'inline-block', backgroundColor:'#14532d', color:'#86efac', fontSize:'12px', fontWeight:'700', padding:'4px 14px', borderRadius:'20px', marginBottom:'14px', letterSpacing:'0.05em'}}>SEE IT IN ACTION</div>
+          <h2 style={{...s.h2, marginBottom:'10px'}}>Watch how it works</h2>
+          <p style={{color:'#9ca3af', marginBottom:'28px', fontSize:'16px'}}>Upload any document, ask questions in plain English — get instant answers. See it in 90 seconds.</p>
+          <div
+            onClick={()=>setShowVideo(true)}
+            style={{position:'relative', cursor:'pointer', borderRadius:'16px', overflow:'hidden', border:'2px solid #84cc16', maxWidth:'720px', margin:'0 auto', background:'#0a0a0a', aspectRatio:'16/9', display:'flex', alignItems:'center', justifyContent:'center'}}
+          >
+            <img src="/logo.png" alt="DocChat AI Demo" style={{position:'absolute', top:'50%', left:'50%', transform:'translate(-50%,-50%)', width:'80px', height:'80px', borderRadius:'16px', opacity:0.3}} />
+            <div style={{position:'relative', zIndex:2, width:'72px', height:'72px', borderRadius:'50%', backgroundColor:'#84cc16', display:'flex', alignItems:'center', justifyContent:'center', boxShadow:'0 0 40px rgba(132,204,22,0.5)'}}>
+              <span style={{fontSize:'28px', marginLeft:'4px'}}>▶</span>
+            </div>
+            <div style={{position:'absolute', bottom:'16px', left:'50%', transform:'translateX(-50%)', color:'#9ca3af', fontSize:'13px', whiteSpace:'nowrap'}}>Click to watch the 90-second demo</div>
+          </div>
+          <div style={{display:'flex', justifyContent:'center', gap:'24px', marginTop:'20px', flexWrap:'wrap'}}>
+            {[['📄','Upload any doc'],['💬','Ask in plain English'],['⚡','Get instant answers']].map(([icon,label],i)=>(
+              <div key={i} style={{display:'flex', alignItems:'center', gap:'6px', color:'#9ca3af', fontSize:'13px'}}>
+                <span style={{fontSize:'18px'}}>{icon}</span><span>{label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Video Modal */}
+      {showVideo && (
+        <div onClick={()=>setShowVideo(false)} style={{position:'fixed', inset:0, backgroundColor:'rgba(0,0,0,0.9)', zIndex:1000, display:'flex', alignItems:'center', justifyContent:'center', padding:'20px'}}>
+          <div onClick={e=>e.stopPropagation()} style={{position:'relative', width:'100%', maxWidth:'900px', aspectRatio:'16/9', borderRadius:'12px', overflow:'hidden', backgroundColor:'#000'}}>
+            <iframe
+              src="https://www.youtube.com/embed/live_stream?channel=UCbmNph6atAoGfqLoCL_duAg&autoplay=1"
+              title="DocChat AI Demo"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              style={{width:'100%', height:'100%', border:'none'}}
+            />
+            <button onClick={()=>setShowVideo(false)} style={{position:'absolute', top:'10px', right:'10px', backgroundColor:'rgba(0,0,0,0.7)', color:'#fff', border:'none', borderRadius:'50%', width:'36px', height:'36px', fontSize:'18px', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center'}}>✕</button>
+          </div>
+          <p style={{position:'absolute', bottom:'16px', color:'#6b7280', fontSize:'12px'}}>Click outside or ✕ to close · Or <a href="/demo" style={{color:'#84cc16', textDecoration:'none'}}>try the live demo →</a></p>
+        </div>
+      )}
+
       <section style={s.section}>
         <h2 style={s.h2}>Everything you need to work smarter with documents</h2>
         <p style={s.h2sub}>Advanced RAG architecture · Follow-up prompts · Document comparison · Auto-summarize</p>
@@ -543,6 +587,21 @@ export default function Home() {
         </div>
         <p style={{color:'#4b5563',fontSize:'12px',margin:0}}>© 2026 DocChat AI · Powered by NVIDIA NIM · Secure payments by Stripe</p>
       </footer>
+
+      {/* Sticky Bottom CTA */}
+      <div style={{position:'fixed', bottom:0, left:0, right:0, backgroundColor:'#0a0a0a', borderTop:'1px solid #84cc16', padding:'10px 20px', display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap', gap:'10px', zIndex:200}}>
+        <div style={{display:'flex', alignItems:'center', gap:'10px'}}>
+          <span style={{color:'#84cc16', fontSize:'20px'}}>⚡</span>
+          <div>
+            <span style={{color:'#fff', fontWeight:'700', fontSize:'14px'}}>DocChat AI is free to start</span>
+            <span style={{color:'#6b7280', fontSize:'12px', marginLeft:'8px'}}>No credit card · No email · No sign-up</span>
+          </div>
+        </div>
+        <div style={{display:'flex', gap:'10px'}}>
+          <a href="/demo" style={{color:'#9ca3af', fontSize:'13px', textDecoration:'none', border:'1px solid #333', borderRadius:'8px', padding:'7px 14px', whiteSpace:'nowrap'}}>Try Demo →</a>
+          <button onClick={()=>setView('chat')} style={{backgroundColor:'#84cc16', color:'#000', border:'none', borderRadius:'8px', padding:'8px 18px', fontSize:'13px', fontWeight:'700', cursor:'pointer', whiteSpace:'nowrap'}}>Start Free Now</button>
+        </div>
+      </div>
     </main>
   );
 }
