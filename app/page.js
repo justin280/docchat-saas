@@ -397,7 +397,8 @@ export default function Home() {
           ))}
         </div>
         <button style={s.ctaBtn} onClick={()=>setView('chat')}>Try Free — No Credit Card Needed</button>
-        <a href="/demo" style={{display:'inline-block', marginTop:'12px', backgroundColor:'transparent', color:'#84cc16', border:'2px solid #84cc16', borderRadius:'8px', padding:'12px 24px', fontSize:'15px', fontWeight:'600', cursor:'pointer', textDecoration:'none'}}>🔬 Try Live Demo</a>
+        <a href="/demo" style={{display:'inline-block', marginTop:'12px', backgroundColor:'transparent', color:'#84cc16', border:'2px solid #84cc16', borderRadius:'8px', padding:'12px 24px', fontSize:'15px', fontWeight:'600', cursor:'pointer', textDecoration:'none'}}>🔬 Try Live Demo — Free</a>
+        <p style={{color:'#6b7280', fontSize:'13px', marginTop:'12px', marginBottom:'0'}}>✓ No credit card &nbsp;·&nbsp; ✓ No email &nbsp;·&nbsp; ✓ No sign-up required &nbsp;·&nbsp; ✓ Free plan available forever</p>
         <p style={s.poweredBy}>Powered by NVIDIA NIM · Llama · Mistral · DeepSeek</p>
       </section>
 
