@@ -1,6 +1,7 @@
 'use client'; // v3
 import { useState, useRef } from 'react';
 import Link from 'next/link';
+import StickyBar from '@/app/components/StickyBar';
 
 const QUICK_PROMPTS = [
   { icon: '📝', label: 'Summarise' },
@@ -60,6 +61,9 @@ export default function Home() {
   const [billing, setBilling] = useState('monthly');
   const [uploadError, setUploadError] = useState('');
   const [uploading, setUploading] = useState(false);
+  const [viewerOpen, setViewerOpen] = useState(false);
+  const [activeDocIdx, setActiveDocIdx] = useState(0);
+  const [docModalOpen, setDocModalOpen] = useState(false);
   const fileInputRef = useRef(null);
 
   const models = [
@@ -250,9 +254,10 @@ export default function Home() {
     ctaSection: { backgroundColor:'#0f1f00', border:'1px solid #84cc16', borderRadius:'16px', padding:'48px', textAlign:'center', maxWidth:'800px', margin:'0 auto' },
     billingToggle: { display:'flex', gap:'8px', justifyContent:'center', alignItems:'center', marginBottom:'24px' },
     toggleBtn: { padding:'6px 16px', borderRadius:'20px', border:'1px solid #333', cursor:'pointer', fontSize:'13px' },
-    chatWrap: { display:'flex', height:'100vh', backgroundColor:'#0a0a0a' },
+    chatWrap: { display:'flex', height:'100vh', backgroundColor:'#0a0a0a', position:'relative' },
     sidebar: { width:'260px', minWidth:'200px', backgroundColor:'#111', borderRight:'1px solid #222', padding:'16px', display:'flex', flexDirection:'column', gap:'12px', overflowY:'auto' },
     mainChat: { flex:1, display:'flex', flexDirection:'column', minWidth:0 },
+    rightPanel: { width:'320px', minWidth:'260px', backgroundColor:'#0f0f0f', borderLeft:'1px solid #222', display:'flex', flexDirection:'column', overflow:'hidden' },
     chatHeader: { display:'flex', alignItems:'center', justifyContent:'space-between', padding:'12px 16px', borderBottom:'1px solid #222', backgroundColor:'#111', flexShrink:0 },
     msgArea: { flex:1, overflowY:'auto', padding:'16px', display:'flex', flexDirection:'column', gap:'12px' },
     userBubble: { alignSelf:'flex-end', backgroundColor:'#84cc16', color:'#000', borderRadius:'12px', padding:'10px 14px', maxWidth:'80%', fontSize:'14px', wordBreak:'break-word' },
@@ -375,7 +380,55 @@ export default function Home() {
             <button style={{...s.sendBtn, opacity: docs.length===0&&messages.length===0?0.5:1}} onClick={()=>sendMessage()} disabled={docs.length===0&&messages.length===0}>Send</button>
           </div>
         </div>
-      </main>
+      
+        {/* Right Panel — Document Viewer */}
+        {viewerOpen && docs.length > 0 && (
+          <aside style={s.rightPanel}>
+            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'10px 12px',borderBottom:'1px solid #222',backgroundColor:'#111',flexShrink:0}}>
+              <span style={{color:'#84cc16',fontWeight:'700',fontSize:'13px'}}>📄 Documents</span>
+              <div style={{display:'flex',gap:'6px',alignItems:'center'}}>
+                <button onClick={()=>setDocModalOpen(true)} title="Fullscreen" style={{background:'none',border:'1px solid #333',borderRadius:'4px',color:'#9ca3af',fontSize:'14px',cursor:'pointer',padding:'2px 6px'}}>⤢</button>
+                <button onClick={()=>setViewerOpen(false)} title="Close" style={{background:'none',border:'none',color:'#6b7280',fontSize:'18px',cursor:'pointer',lineHeight:1}}>✕</button>
+              </div>
+            </div>
+            <div style={{display:'flex',gap:'4px',padding:'8px 10px',borderBottom:'1px solid #222',flexWrap:'wrap',flexShrink:0}}>
+              {docs.map((d,i)=>(
+                <button key={i} onClick={()=>setActiveDocIdx(i)} style={{fontSize:'11px',padding:'3px 8px',borderRadius:'12px',border:'1px solid',borderColor:activeDocIdx===i?'#84cc16':'#333',backgroundColor:activeDocIdx===i?'#1a2e00':'transparent',color:activeDocIdx===i?'#84cc16':'#6b7280',cursor:'pointer',whiteSpace:'nowrap'}}>
+                  {d.name.length>20?d.name.substring(0,18)+'…':d.name}
+                </button>
+              ))}
+            </div>
+            <div style={{flex:1,overflowY:'auto',padding:'14px',fontFamily:'Georgia,serif',fontSize:'13px',lineHeight:'1.7',color:'#d1d5db',whiteSpace:'pre-wrap',wordBreak:'break-word'}}>
+              {docs[activeDocIdx]?.text || 'No content available.'}
+            </div>
+          </aside>
+        )}
+        {!viewerOpen && docs.length > 0 && (
+          <button onClick={()=>{setViewerOpen(true);}} style={{position:'absolute',right:'12px',top:'50%',transform:'translateY(-50%)',backgroundColor:'#1a1a1a',border:'1px solid #333',borderRadius:'8px',color:'#84cc16',padding:'8px 10px',fontSize:'12px',cursor:'pointer',zIndex:10,display:'flex',flexDirection:'column',alignItems:'center',gap:'2px'}} title="Open document viewer">
+            <span style={{fontSize:'16px'}}>📄</span>
+            <span style={{fontSize:'10px'}}>Docs</span>
+          </button>
+        )}
+        {docModalOpen && docs.length > 0 && (
+          <div onClick={()=>setDocModalOpen(false)} style={{position:'fixed',inset:0,backgroundColor:'rgba(0,0,0,0.85)',zIndex:1000,display:'flex',flexDirection:'column'}}>
+            <div onClick={e=>e.stopPropagation()} style={{flex:1,display:'flex',flexDirection:'column',backgroundColor:'#111',margin:'20px',borderRadius:'12px',overflow:'hidden',border:'1px solid #333'}}>
+              <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'12px 16px',borderBottom:'1px solid #222',backgroundColor:'#0f0f0f',flexShrink:0}}>
+                <div style={{display:'flex',gap:'8px',flexWrap:'wrap'}}>
+                  {docs.map((d,i)=>(
+                    <button key={i} onClick={()=>setActiveDocIdx(i)} style={{fontSize:'12px',padding:'4px 12px',borderRadius:'12px',border:'1px solid',borderColor:activeDocIdx===i?'#84cc16':'#333',backgroundColor:activeDocIdx===i?'#1a2e00':'transparent',color:activeDocIdx===i?'#84cc16':'#9ca3af',cursor:'pointer'}}>
+                      {d.name}
+                    </button>
+                  ))}
+                </div>
+                <button onClick={()=>setDocModalOpen(false)} style={{background:'none',border:'none',color:'#9ca3af',fontSize:'22px',cursor:'pointer',lineHeight:1,padding:'0 4px'}}>✕</button>
+              </div>
+              <div style={{flex:1,overflowY:'auto',padding:'32px',fontFamily:'Georgia,serif',fontSize:'15px',lineHeight:'1.8',color:'#e5e7eb',whiteSpace:'pre-wrap',wordBreak:'break-word',maxWidth:'900px',margin:'0 auto',width:'100%'}}>
+                {docs[activeDocIdx]?.text || 'No content available.'}
+              </div>
+            </div>
+          </div>
+        )}
+        </main>
     );
   }
   return (
@@ -579,7 +632,7 @@ export default function Home() {
         </div>
       </section>
 
-      <footer style={{borderTop:'1px solid #111',padding:'24px 20px',textAlign:'center'}}>
+      <footer style={{borderTop:'1px solid #111',padding:'24px 20px',paddingBottom:'80px',textAlign:'center'}}>
         <div style={{display:'flex',gap:'16px',justifyContent:'center',flexWrap:'wrap',alignItems:'center',marginBottom:'8px'}}>
           {NAV_PAGES.map(p=>(
             <a key={p.slug} href={p.slug} style={{color:'#6b7280',fontSize:'12px',textDecoration:'none'}}>{p.label}</a>
@@ -588,20 +641,7 @@ export default function Home() {
         <p style={{color:'#4b5563',fontSize:'12px',margin:0}}>© 2026 DocChat AI · Powered by NVIDIA NIM · Secure payments by Stripe</p>
       </footer>
 
-      {/* Sticky Bottom CTA */}
-      <div style={{position:'fixed', bottom:0, left:0, right:0, backgroundColor:'#0a0a0a', borderTop:'1px solid #84cc16', padding:'10px 20px', display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap', gap:'10px', zIndex:200}}>
-        <div style={{display:'flex', alignItems:'center', gap:'10px'}}>
-          <span style={{color:'#84cc16', fontSize:'20px'}}>⚡</span>
-          <div>
-            <span style={{color:'#fff', fontWeight:'700', fontSize:'14px'}}>DocChat AI is free to start</span>
-            <span style={{color:'#6b7280', fontSize:'12px', marginLeft:'8px'}}>No credit card · No email · No sign-up</span>
-          </div>
-        </div>
-        <div style={{display:'flex', gap:'10px'}}>
-          <a href="/demo" style={{color:'#9ca3af', fontSize:'13px', textDecoration:'none', border:'1px solid #333', borderRadius:'8px', padding:'7px 14px', whiteSpace:'nowrap'}}>Try Demo →</a>
-          <button onClick={()=>setView('chat')} style={{backgroundColor:'#84cc16', color:'#000', border:'none', borderRadius:'8px', padding:'8px 18px', fontSize:'13px', fontWeight:'700', cursor:'pointer', whiteSpace:'nowrap'}}>Start Free Now</button>
-        </div>
-      </div>
+      <StickyBar />
     </main>
   );
 }
