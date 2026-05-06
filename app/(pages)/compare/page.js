@@ -49,4 +49,5 @@ export default function Page() {
         </div>
       <StickyBar />
     </div>
+  );
 }
