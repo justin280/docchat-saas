@@ -208,7 +208,7 @@ export default function Home() {
   }
 
   const s = {
-    page: { minHeight:'100vh', backgroundColor:'#0a0a0a', color:'#fff', fontFamily:'system-ui,sans-serif' },
+    page: { minHeight:'100vh', backgroundColor:'#0a0a0a', color:'#fff', fontFamily:'system-ui,sans-serif', paddingBottom:'60px' },
     hero: { textAlign:'center', padding:'60px 20px 40px' },
     logo: { display:'inline-flex', alignItems:'center', gap:'10px', marginBottom:'20px' },
     dot: { width:'40px', height:'40px', borderRadius:'50%', backgroundColor:'#84cc16' },
