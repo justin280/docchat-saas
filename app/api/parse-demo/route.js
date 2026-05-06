@@ -2,6 +2,8 @@ export const runtime = 'nodejs';
 
 import mammoth from 'mammoth';
 import * as XLSX from 'xlsx';
+import { readFile } from 'fs/promises';
+import { join } from 'path';
 
 function extractPdfText(buffer) {
   try {
@@ -9,22 +11,20 @@ function extractPdfText(buffer) {
     const btBlocks = raw.match(/BT[\s\S]*?ET/g) || [];
     const parts = [];
     for (const block of btBlocks) {
-      const tjs = block.match(/\(([^)\\]|\\[\s\S])*\)\s*Tj/g) || [];
+      const tjs = block.match(/\([^)]*\)\s*Tj/g) || [];
       for (const tj of tjs) {
-        const m = tj.match(/\(([^)\\]|\\[\s\S])*\)/);
-        if (m) parts.push(m[0].slice(1, -1).replace(/\\n/g, '\n').replace(/\\t/g, ' '));
+        const m = tj.match(/\(([^)]*)\)/);
+        if (m) parts.push(m[1]);
       }
-      // Also extract TJ arrays
       const arrMatches = block.match(/\[([^\]]*)\]\s*TJ/g) || [];
       for (const arr of arrMatches) {
-        const strs = arr.match(/\(([^)\\]|\\[\s\S])*\)/g) || [];
-        for (const s of strs) parts.push(s.slice(1,-1));
+        const strs = arr.match(/\(([^)]*)\)/g) || [];
+        for (const s of strs) parts.push(s.slice(1, -1));
       }
     }
     if (parts.length > 20) return parts.join(' ');
-    // Fallback: extract printable ASCII sequences of length > 4
     const words = raw.match(/[a-zA-Z0-9 ,.'":;!?\-]{5,}/g) || [];
-    return words.join(' ');
+    return words.slice(0, 2000).join(' ');
   } catch {
     return '';
   }
@@ -37,19 +37,17 @@ export async function POST(req) {
       return Response.json({ text: '', error: 'Missing fileUrl or fileName' }, { status: 400 });
     }
 
-    // Fetch the static sample file from the /public folder using a relative-style URL
-    // On Vercel, VERCEL_URL is the deployment hostname (no protocol prefix)
-    const host = process.env.VERCEL_URL || 'docchat-saas.vercel.app';
-    const baseUrl = host.startsWith('http') ? host : 'https://' + host;
-    const fullUrl = fileUrl.startsWith('http') ? fileUrl : baseUrl + fileUrl;
+    // Read file directly from filesystem (works on Vercel - public files are bundled)
+    const relativePath = fileUrl.startsWith('/') ? fileUrl.slice(1) : fileUrl;
+    const filePath = join(process.cwd(), 'public', relativePath.replace(/^public\//, ''));
 
-    const fileRes = await fetch(fullUrl, { cache: 'no-store' });
-    if (!fileRes.ok) {
-      return Response.json({ text: '', error: 'Could not fetch: ' + fullUrl + ' (' + fileRes.status + ')' }, { status: 500 });
+    let buffer;
+    try {
+      buffer = await readFile(filePath);
+    } catch (fsErr) {
+      return Response.json({ text: '', error: 'File not found: ' + filePath }, { status: 404 });
     }
 
-    const arrayBuffer = await fileRes.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
     const ext = fileName.split('.').pop().toLowerCase();
     let text = '';
 
