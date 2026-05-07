@@ -1,4 +1,4 @@
-'use client'; // v3
+'use client'; // v4
 import { useState, useRef } from 'react';
 import Link from 'next/link';
 import StickyBar from '@/app/components/StickyBar';
