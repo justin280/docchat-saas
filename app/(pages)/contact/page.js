@@ -8,7 +8,7 @@ export const metadata = {
 
 export default function ContactPage() {
   const s = {
-    page: { minHeight:'100vh', backgroundColor:'#0a0a0a', color:'#fff', fontFamily:'system-ui,sans-serif', paddingBottom: '70px' ,
+    page: { minHeight:'100vh', backgroundColor:'#0a0a0a', color:'#fff', fontFamily:'system-ui,sans-serif', paddingBottom: '70px' },
     nav: { display:'flex', alignItems:'center', gap:'16px', padding:'14px 20px', borderBottom:'1px solid #111', backgroundColor:'#0a0a0a' },
     content: { maxWidth:'900px', margin:'0 auto', padding:'60px 20px' },
     h1: { fontSize:'clamp(28px,4vw,44px)', fontWeight:'700', marginBottom:'12px' },
