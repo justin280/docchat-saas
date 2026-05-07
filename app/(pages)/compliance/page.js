@@ -1,11 +1,11 @@
-import Nav,paddingBottom:'70px'ar from '@/app/components/NavBar';
+import NavBar from '@/app/components/NavBar';
 import StickyBar from '@/app/components/StickyBar';
 export const metadata = { title: 'SOC2, HIPAA and Security Compliance | DocChat AI', description: 'DocChat AI security and compliance information. SOC2-aligned, HIPAA-ready, zero data retention, encrypted communications.',
   alternates: { canonical: '/compliance' }
 };
 export default function Page() {
   return (
-    <div style={{backgroundColor:'#0a0a0a',minHeight:'100vh',color:'#fff',fontFamily:'system-ui,sans-serif'}}>
+    <div style={{backgroundColor:'#0a0a0a',minHeight:'100vh',color:'#fff',fontFamily:'system-ui,sans-serif',paddingBottom:'70px'}}>
       <NavBar activePath="/compliance" />
       <main style={{minHeight:'100vh',backgroundColor:'#0a0a0a',color:'#fff',fontFamily:'system-ui,sans-serif',padding:'60px 20px',maxWidth:'900px',margin:'0 auto'}}>
       <a href="/" style={{color:'#84cc16',textDecoration:'none',fontSize:'14px'}}>&#8592; Back to DocChat AI</a>
