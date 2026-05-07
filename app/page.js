@@ -64,9 +64,6 @@ export default function Home() {
   const [viewerOpen, setViewerOpen] = useState(false);
   const [activeDocIdx, setActiveDocIdx] = useState(0);
   const [docModalOpen, setDocModalOpen] = useState(false);
-  const [viewerOpen, setViewerOpen] = useState(false);
-  const [activeDocIdx, setActiveDocIdx] = useState(0);
-  const [docModalOpen, setDocModalOpen] = useState(false);
   const fileInputRef = useRef(null);
 
   const models = [
