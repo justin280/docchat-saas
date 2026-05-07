@@ -61,6 +61,12 @@ export default function Home() {
   const [billing, setBilling] = useState('monthly');
   const [uploadError, setUploadError] = useState('');
   const [uploading, setUploading] = useState(false);
+  const [viewerOpen, setViewerOpen] = useState(false);
+  const [activeDocIdx, setActiveDocIdx] = useState(0);
+  const [docModalOpen, setDocModalOpen] = useState(false);
+  const [viewerOpen, setViewerOpen] = useState(false);
+  const [activeDocIdx, setActiveDocIdx] = useState(0);
+  const [docModalOpen, setDocModalOpen] = useState(false);
   const fileInputRef = useRef(null);
 
   const models = [
@@ -129,6 +135,7 @@ export default function Home() {
         const data = await res.json();
         if (data.text && data.text.trim().length > 0) {
           setDocs(prev => [...prev, { name: file.name, text: data.text, size: file.size }]);
+          setViewerOpen(true);
           added++;
         } else if (data.error) {
           setUploadError('Error reading ' + file.name + ': ' + data.error);
@@ -251,9 +258,10 @@ export default function Home() {
     ctaSection: { backgroundColor:'#0f1f00', border:'1px solid #84cc16', borderRadius:'16px', padding:'48px', textAlign:'center', maxWidth:'800px', margin:'0 auto' },
     billingToggle: { display:'flex', gap:'8px', justifyContent:'center', alignItems:'center', marginBottom:'24px' },
     toggleBtn: { padding:'6px 16px', borderRadius:'20px', border:'1px solid #333', cursor:'pointer', fontSize:'13px' },
-    chatWrap: { display:'flex', height:'100vh', backgroundColor:'#0a0a0a' },
+    chatWrap: { display:'flex', height:'100vh', backgroundColor:'#0a0a0a', position:'relative', overflow:'hidden' },
     sidebar: { width:'260px', minWidth:'200px', backgroundColor:'#111', borderRight:'1px solid #222', padding:'16px', display:'flex', flexDirection:'column', gap:'12px', overflowY:'auto' },
     mainChat: { flex:1, display:'flex', flexDirection:'column', minWidth:0 },
+    rightPanel: { width:'320px', minWidth:'240px', borderLeft:'1px solid #1a1a1a', backgroundColor:'#0d0d0d', display:'flex', flexDirection:'column', overflow:'hidden', flexShrink:0 },
     chatHeader: { display:'flex', alignItems:'center', justifyContent:'space-between', padding:'12px 16px', borderBottom:'1px solid #222', backgroundColor:'#111', flexShrink:0 },
     msgArea: { flex:1, overflowY:'auto', padding:'16px', display:'flex', flexDirection:'column', gap:'12px' },
     userBubble: { alignSelf:'flex-end', backgroundColor:'#84cc16', color:'#000', borderRadius:'12px', padding:'10px 14px', maxWidth:'80%', fontSize:'14px', wordBreak:'break-word' },
@@ -376,7 +384,44 @@ export default function Home() {
             <button style={{...s.sendBtn, opacity: docs.length===0&&messages.length===0?0.5:1}} onClick={()=>sendMessage()} disabled={docs.length===0&&messages.length===0}>Send</button>
           </div>
         </div>
-      
+
+      {/* Right panel: Document viewer */}
+      {viewerOpen && docs.length > 0 && (
+        <aside style={s.rightPanel}>
+          <div style={{padding:'8px 10px',borderBottom:'1px solid #1a1a1a',backgroundColor:'#111',display:'flex',alignItems:'center',justifyContent:'space-between',flexShrink:0}}>
+            <div style={{display:'flex',gap:'4px',flex:1,minWidth:0,overflowX:'auto'}}>
+              {docs.map((d,i) => (
+                <button key={i} onClick={()=>setActiveDocIdx(i)} style={{padding:'4px 10px',borderRadius:'6px',border:'none',cursor:'pointer',fontSize:'12px',whiteSpace:'nowrap',backgroundColor:activeDocIdx===i?'#84cc16':'#222',color:activeDocIdx===i?'#000':'#aaa',fontWeight:activeDocIdx===i?'700':'400'}}>
+                  {d.name.length > 18 ? d.name.slice(0,16)+'...' : d.name}
+                </button>
+              ))}
+            </div>
+            <div style={{display:'flex',gap:'6px',marginLeft:'8px'}}>
+              <button onClick={()=>setDocModalOpen(true)} title="Enlarge" style={{background:'none',border:'none',color:'#6b7280',cursor:'pointer',fontSize:'16px',padding:'2px 4px',lineHeight:1}}>⤢</button>
+              <button onClick={()=>setViewerOpen(false)} title="Close" style={{background:'none',border:'none',color:'#6b7280',cursor:'pointer',fontSize:'16px',padding:'2px 4px',lineHeight:1}}>✕</button>
+            </div>
+          </div>
+          <div style={{flex:1,overflowY:'auto',padding:'16px',fontFamily:'Georgia,serif',fontSize:'13px',lineHeight:'1.7',color:'#d1d5db',whiteSpace:'pre-wrap'}}>
+            {docs[activeDocIdx] ? docs[activeDocIdx].text : ''}
+          </div>
+        </aside>
+      )}
+      {docs.length > 0 && !viewerOpen && (
+        <button onClick={()=>setViewerOpen(true)} style={{position:'absolute',right:'12px',bottom:'70px',background:'#111',border:'1px solid #333',color:'#84cc16',borderRadius:'8px',padding:'6px 12px',fontSize:'12px',cursor:'pointer',zIndex:10}}>📄 Docs</button>
+      )}
+      {docModalOpen && docs[activeDocIdx] && (
+        <div style={{position:'fixed',inset:0,backgroundColor:'rgba(0,0,0,0.85)',zIndex:1000,display:'flex',flexDirection:'column'}} onClick={()=>setDocModalOpen(false)}>
+          <div style={{backgroundColor:'#0d0d0d',margin:'24px auto',width:'90%',maxWidth:'900px',maxHeight:'90vh',borderRadius:'12px',display:'flex',flexDirection:'column',overflow:'hidden'}} onClick={e=>e.stopPropagation()}>
+            <div style={{padding:'12px 16px',borderBottom:'1px solid #1a1a1a',display:'flex',justifyContent:'space-between',alignItems:'center',backgroundColor:'#111',flexShrink:0}}>
+              <span style={{fontWeight:'700',color:'#fff',fontSize:'14px'}}>{docs[activeDocIdx].name}</span>
+              <button onClick={()=>setDocModalOpen(false)} style={{background:'none',border:'none',color:'#6b7280',cursor:'pointer',fontSize:'20px',lineHeight:1}}>✕</button>
+            </div>
+            <div style={{flex:1,overflowY:'auto',padding:'24px',fontFamily:'Georgia,serif',fontSize:'14px',lineHeight:'1.8',color:'#d1d5db',whiteSpace:'pre-wrap'}}>
+              {docs[activeDocIdx].text}
+            </div>
+          </div>
+        </div>
+      )}      
       </main>
     );
   }
