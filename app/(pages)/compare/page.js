@@ -27,7 +27,6 @@ export default function Page() {
       </ul>
       <a href="/" style={{display:'inline-block',backgroundColor:'#84cc16',color:'#000',padding:'14px 28px',borderRadius:'8px',fontWeight:'700',textDecoration:'none',marginTop:'24px'}}>Try DocChat AI Free</a>
     </main>
-      </div>
       {/* Detailed Comparison Pages */}
       <div style={{maxWidth:'900px', margin:'0 auto 60px', padding:'0 24px'}}>
         <h2 style={{fontSize:'1.4rem', fontWeight:'800', color:'#fff', marginBottom:'20px', textAlign:'center'}}>
@@ -45,6 +44,7 @@ export default function Page() {
             </a>
           ))}
         </div>
+      </div>
       <StickyBar />
     </div>
   );
