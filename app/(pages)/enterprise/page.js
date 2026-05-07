@@ -1,9 +1,9 @@
-import Nav,paddingBottom:'70px'ar from '@/app/components/NavBar';
+import NavBar from '@/app/components/NavBar';
 import StickyBar from '@/app/components/StickyBar';
 export const metadata = { title: 'Enterprise Document AI — SOC2, SSO, Admin Controls | DocChat AI', description: 'DocChat AI for enterprise teams. SOC2-ready, SSO (Google/Microsoft), admin dashboard, API access and team workspaces.' , alternates: { canonical: '/enterprise' } };
 export default function Page() {
   return (
-    <div style={{backgroundColor:'#0a0a0a',minHeight:'100vh',color:'#fff',fontFamily:'system-ui,sans-serif'}}>
+    <div style={{backgroundColor:'#0a0a0a',minHeight:'100vh',color:'#fff',fontFamily:'system-ui,sans-serif',paddingBottom:'70px'}}>
       <NavBar activePath="/enterprise" />
       <main style={{minHeight:'100vh',backgroundColor:'#0a0a0a',color:'#fff',fontFamily:'system-ui,sans-serif',padding:'60px 20px',maxWidth:'900px',margin:'0 auto'}}>
       <a href="/" style={{color:'#84cc16',textDecoration:'none',fontSize:'14px'}}>&#8592; Back to DocChat AI</a>
