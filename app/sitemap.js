@@ -9,7 +9,6 @@ export default function sitemap() {
     { url: baseUrl + '/legal-ai', lastModified, changeFrequency: 'monthly', priority: 0.9 },
     { url: baseUrl + '/pricing', lastModified, changeFrequency: 'monthly', priority: 0.9 },
     { url: baseUrl + '/security', lastModified, changeFrequency: 'monthly', priority: 0.9 },
-    { url: baseUrl + '/security/documents', lastModified, changeFrequency: 'monthly', priority: 0.8 },
     { url: baseUrl + '/compare', lastModified, changeFrequency: 'monthly', priority: 0.8 },
     { url: baseUrl + '/compare/chatpdf-vs-docchat', lastModified, changeFrequency: 'monthly', priority: 0.85 },
     { url: baseUrl + '/compare/humata-vs-docchat', lastModified, changeFrequency: 'monthly', priority: 0.85 },
