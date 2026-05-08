@@ -86,7 +86,7 @@ export default function Home() {
     },
     {
       tier: 'BUSINESS', name: '$49/mo', price: 49, annualPrice: 39,
-      features: ['Everything in Pro', 'API access', 'Priority support', 'Team workspace (Q3 2026)'],
+      features: ['Everything in Pro', 'API access (Q3 2026)', 'Priority support', 'Team workspace (Q3 2026)'],
       cta: 'Get Business', ctaAction: () => handleCheckout('business'),
     },
   ];
