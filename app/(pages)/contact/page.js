@@ -98,7 +98,7 @@ export default function ContactPage() {
         {/* FOOTER NOTE */}
         <div style={{textAlign:'center',color:'#4b5563',fontSize:'13px'}}>
           <p style={{marginBottom:'4px'}}>&#169; 2026 DocChat AI &middot; Powered by NVIDIA NIM &middot; Secure payments by Stripe</p>
-          <p style={{margin:0}}><a href="/" style={{color:'#6b7280',textDecoration:'none'}}>Home</a> &nbsp;&middot;&nbsp; <a href="/compliance" style={{color:'#6b7280',textDecoration:'none'}}>Compliance</a> &nbsp;&middot;&nbsp; <a href="/api-docs" style={{color:'#6b7280',textDecoration:'none'}}>API Docs</a></p>
+          <p style={{margin:0}}><a href="/" style={{color:'#6b7280',textDecoration:'none'}}>Home</a> &nbsp;&middot;&nbsp; <a href="/pricing" style={{color:'#6b7280',textDecoration:'none'}}>Pricing</a> &nbsp;&middot;&nbsp; <a href="/security" style={{color:'#6b7280',textDecoration:'none'}}>Security</a> &nbsp;&middot;&nbsp; <a href="/compliance" style={{color:'#6b7280',textDecoration:'none'}}>Compliance</a> &nbsp;&middot;&nbsp; <a href="/api-docs" style={{color:'#6b7280',textDecoration:'none'}}>API Docs</a></p>
         </div>
       </div>
       <StickyBar />
