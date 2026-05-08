@@ -32,7 +32,7 @@ Stripe for payments
 Vercel for hosting
 
 ## Use Cases
-Legal contract review, financial report analysis, healthcare research, academic research, AI Excel analyzer, technical documentation
+Legal contract review, financial report analysis, academic research, AI Excel analyzer, technical documentation
 
 ## Supported Formats
 PDF, DOCX, TXT, XLSX, CSV, Markdown, HTML, RTF, EPUB, ODT
