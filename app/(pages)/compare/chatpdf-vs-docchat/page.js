@@ -1,4 +1,5 @@
 import NavBar from '@/app/components/NavBar';
+import StickyBar from '@/app/components/StickyBar';
 
 export const metadata = {
   title: 'DocChat AI vs ChatPDF — Which is Better in 2026?',
@@ -125,6 +126,7 @@ export default function ChatPDFvsDocChatPage() {
         <p style={s.ctaSub}>DocChat AI is free to start — no credit card, no account required. Upload your first document in seconds.</p>
         <a href="/" style={s.ctaBtn}>Try DocChat AI Free</a>
       </div>
+                    <StickyBar />
     </div>
   );
 }
