@@ -43,7 +43,6 @@ export default function ChatPDFvsDocChatPage() {
     ['File Formats', 'PDF, DOCX, XLSX, CSV, TXT, Markdown, HTML, RTF, EPUB', 'PDF only', '#84cc16', '#ef4444'],
     ['Multi-document', 'Up to 5 docs simultaneously', 'Single doc per session', '#84cc16', '#ef4444'],
     ['Data Retention', 'Zero retention — never stored', 'Data stored on servers', '#84cc16', '#ef4444'],
-    ['HIPAA Ready', 'Yes (Business plan)', 'No', '#84cc16', '#ef4444'],
     ['Document Comparison', 'Yes — compare two documents side-by-side', 'No', '#84cc16', '#ef4444'],
     ['Export Chat', 'Yes — export as .txt', 'Limited', '#84cc16', '#f59e0b'],
     ['API Access', 'Yes (Business plan)', 'Yes (paid only)', '#84cc16', '#9ca3af'],
@@ -94,7 +93,6 @@ export default function ChatPDFvsDocChatPage() {
                 'Zero data retention — documents never stored on any server',
                 'Supports 10+ file formats including Excel, CSV, Markdown',
                 'Multi-document chat — analyze 5 docs simultaneously',
-                'HIPAA-ready with BAA for healthcare teams',
                 'Powered by NVIDIA NIM — enterprise-grade infrastructure',
                 'Document comparison mode built-in',
                 'Free plan with no credit card required'
@@ -111,7 +109,6 @@ export default function ChatPDFvsDocChatPage() {
                 'PDF-only support — no Excel, CSV, DOCX native',
                 'Data stored on ChatPDF servers after upload',
                 'No multi-document analysis',
-                'No HIPAA compliance or BAA available',
                 'Limited free tier (2 PDFs/day)',
                 'No document comparison feature',
                 'Single document per conversation'
