@@ -18,7 +18,7 @@ DocChat AI is an AI-powered document analysis platform. Users upload PDFs, DOCX,
 ## Pricing
 - Starter: Free (15 docs/month, 100 questions/month)
 - Pro: $19/month (unlimited documents and questions)
-- Business: $49/month (API access, SSO, HIPAA-ready)
+- Business: $49/month (API access, priority support)
 - Annual discount: 20% off
 
 ## Contact
