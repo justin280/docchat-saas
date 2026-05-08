@@ -151,9 +151,9 @@ export default function PricingPage() {
           <ul style={s.featureList}>
             <li style={s.feature}><span style={s.featureCheck}>&#10003;</span> Everything in Pro</li>
             <li style={s.feature}><span style={s.featureCheck}>&#10003;</span> API access + webhooks (Q3 2026)</li>
-            <li style={s.feature}><span style={s.featureCheck}>&#10003;</span> Audit logs</li>
-            <li style={s.feature}><span style={s.featureCheck}>&#10003;</span> Admin dashboard</li>
-            <li style={s.feature}><span style={s.featureCheck}>&#10003;</span> Priority support + SLA</li>
+            <li style={s.feature}><span style={s.featureCheck}>&#10003;</span> Audit logs (Q3 2026)</li>
+            <li style={s.feature}><span style={s.featureCheck}>&#10003;</span> Admin dashboard (Q3 2026)</li>
+            <li style={s.feature}><span style={s.featureCheck}>&#10003;</span> Priority support</li>
           </ul>
           <a href="/contact" style={s.ctaFree}>Contact Sales</a>
         </div>
