@@ -5,7 +5,6 @@ export default function sitemap() {
   return [
     { url: baseUrl, lastModified, changeFrequency: 'weekly', priority: 1.0 },
     { url: baseUrl + '/enterprise', lastModified, changeFrequency: 'monthly', priority: 0.9 },
-    { url: baseUrl + '/healthcare', lastModified, changeFrequency: 'monthly', priority: 0.9 },
     { url: baseUrl + '/legal-ai', lastModified, changeFrequency: 'monthly', priority: 0.9 },
     { url: baseUrl + '/pricing', lastModified, changeFrequency: 'monthly', priority: 0.9 },
     { url: baseUrl + '/security', lastModified, changeFrequency: 'monthly', priority: 0.9 },
