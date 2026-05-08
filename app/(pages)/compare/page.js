@@ -35,7 +35,7 @@ export default function Page() {
         <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(280px,1fr))', gap:'16px'}}>
           {[
             {href:'/compare/chatpdf-vs-docchat', title:'DocChat AI vs ChatPDF', desc:'11 AI models vs 1 · Zero retention · Multi-format support'},
-            {href:'/compare/humata-vs-docchat', title:'DocChat AI vs Humata', desc:'Open-source models · HIPAA-ready · Excel & CSV analysis'},
+            {href:'/compare/humata-vs-docchat', title:'DocChat AI vs Humata', desc:'Open-source models · Multi-format support · Excel & CSV analysis'},
           ].map(({href,title,desc}) => (
             <a key={href} href={href} style={{display:'block', background:'#111', border:'1px solid #222', borderRadius:'12px', padding:'20px', textDecoration:'none', color:'inherit', transition:'border-color 0.2s'}}>
               <div style={{fontWeight:'700', color:'#fff', marginBottom:'8px'}}>{title}</div>
