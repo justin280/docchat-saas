@@ -67,8 +67,8 @@ export default function PricingPage() {
     ['File formats', 'PDF, DOCX, XLSX, TXT', 'All formats', 'All formats'],
     ['Document comparison', '&#10007;', '&#10003;', '&#10003;'],
     ['Export chat history', '&#10007;', '&#10003;', '&#10003;'],
-    ['API access', '&#10007;', '&#10007;', '&#10003;'],
-    ['Audit logs', '&#10007;', '&#10007;', '&#10003;'],
+    ['API access (Q3 2026)', '&#10007;', '&#10007;', '&#10003;'],
+    ['Audit logs (Q3 2026)', '&#10007;', '&#10007;', '&#10003;'],
     ['Support', 'Community', 'Email', 'Priority + SLA'],
   ];
 
@@ -150,7 +150,7 @@ export default function PricingPage() {
           <div style={s.divider} />
           <ul style={s.featureList}>
             <li style={s.feature}><span style={s.featureCheck}>&#10003;</span> Everything in Pro</li>
-            <li style={s.feature}><span style={s.featureCheck}>&#10003;</span> API access + webhooks</li>
+            <li style={s.feature}><span style={s.featureCheck}>&#10003;</span> API access + webhooks (Q3 2026)</li>
             <li style={s.feature}><span style={s.featureCheck}>&#10003;</span> Audit logs</li>
             <li style={s.feature}><span style={s.featureCheck}>&#10003;</span> Admin dashboard</li>
             <li style={s.feature}><span style={s.featureCheck}>&#10003;</span> Priority support + SLA</li>
@@ -194,7 +194,7 @@ export default function PricingPage() {
       </div>
 
       <div style={s.trustSection}>
-        <p style={{color: '#6b7280', marginBottom: '8px', fontSize: '0.85rem', letterSpacing: '0.1em'}}>TRUSTED BY PROFESSIONALS WORLDWIDE</p>
+        <p style={{color: '#6b7280', marginBottom: '8px', fontSize: '0.85rem', letterSpacing: '0.1em'}}>WHAT YOU GET</p>
         <div style={s.trustGrid}>
           {[['11', 'AI Models'], ['10+', 'File Formats'], ['0', 'Data Retained'], ['14-day', 'Money-Back Guarantee']].map(([num, label]) => (
             <div key={label} style={s.trustItem}>
