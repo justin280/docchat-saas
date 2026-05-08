@@ -105,14 +105,6 @@ const faqSchema = {
     },
     {
       "@type": "Question",
-      "name": "Is DocChat AI HIPAA compliant?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "DocChat AI uses a zero-retention architecture. Documents are processed in-session only and never written to persistent storage. Business plan customers can sign a Business Associate Agreement (BAA) for HIPAA compliance."
-      }
-    },
-    {
-      "@type": "Question",
       "name": "How many documents can I upload at once?",
       "acceptedAnswer": {
         "@type": "Answer",
