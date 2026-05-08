@@ -3,7 +3,7 @@ import StickyBar from '@/app/components/StickyBar';
 
 export const metadata = {
   title: 'Pricing — DocChat AI Plans | Free, Pro & Business',
-  description: 'DocChat AI pricing: Free Starter plan with no credit card, Pro at \$19/month, Business at \$49/month. Unlimited documents, 11 AI models, HIPAA-ready options.',
+  description: 'DocChat AI pricing: Free Starter plan with no credit card, Pro at \$19/month, Business at \$49/month. Unlimited documents and 11 AI models.',
   alternates: { canonical: '/pricing' }
 };
 
@@ -57,7 +57,6 @@ export default function PricingPage() {
     ['What happens if I exceed my document limit?', "On the Starter plan, you'll be prompted to upgrade when you hit your limit. Pro and Business plans have unlimited uploads."],
     ['Do you offer refunds?', 'Yes — we offer a 14-day money-back guarantee on all paid plans. No questions asked.'],
     ['What is zero-retention architecture?', 'Your documents are processed entirely in-session and are never written to disk, stored in databases, or used to train AI models.'],
-    ['Can I get a BAA for HIPAA compliance?', 'Yes — Business plan customers can request a signed Business Associate Agreement (BAA) from our security team.'],
   ];
 
   const tableRows = [
@@ -68,9 +67,6 @@ export default function PricingPage() {
     ['File formats', 'PDF, DOCX, XLSX, TXT', 'All formats', 'All formats'],
     ['Document comparison', '&#10007;', '&#10003;', '&#10003;'],
     ['Export chat history', '&#10007;', '&#10003;', '&#10003;'],
-    ['HIPAA-ready config', '&#10007;', '&#10007;', '&#10003;'],
-    ['BAA available', '&#10007;', '&#10007;', '&#10003;'],
-    ['SSO (Google / Microsoft)', '&#10007;', '&#10007;', '&#10003;'],
     ['API access', '&#10007;', '&#10007;', '&#10003;'],
     ['Audit logs', '&#10007;', '&#10007;', '&#10003;'],
     ['Support', 'Community', 'Email', 'Priority + SLA'],
@@ -150,13 +146,10 @@ export default function PricingPage() {
             <span style={{...s.priceNum, color: '#fff'}}>&#36;49</span>
             <span style={s.pricePer}>/month</span>
           </div>
-          <p style={s.planDesc}>For teams needing compliance, audit trails, and API access.</p>
+          <p style={s.planDesc}>For teams needing audit trails and API access.</p>
           <div style={s.divider} />
           <ul style={s.featureList}>
             <li style={s.feature}><span style={s.featureCheck}>&#10003;</span> Everything in Pro</li>
-            <li style={s.feature}><span style={s.featureCheck}>&#10003;</span> HIPAA-ready configuration</li>
-            <li style={s.feature}><span style={s.featureCheck}>&#10003;</span> BAA available</li>
-            <li style={s.feature}><span style={s.featureCheck}>&#10003;</span> SSO (Google + Microsoft)</li>
             <li style={s.feature}><span style={s.featureCheck}>&#10003;</span> API access + webhooks</li>
             <li style={s.feature}><span style={s.featureCheck}>&#10003;</span> Audit logs</li>
             <li style={s.feature}><span style={s.featureCheck}>&#10003;</span> Admin dashboard</li>
@@ -211,7 +204,7 @@ export default function PricingPage() {
           ))}
         </div>
         <p style={{color: '#4b5563', marginTop: '32px', fontSize: '0.85rem'}}>
-          Powered by <strong style={{color: '#9ca3af'}}>NVIDIA NIM</strong> &#183; SOC2-aligned &#183; HIPAA-ready &#183; Zero retention
+          Powered by <strong style={{color: '#9ca3af'}}>NVIDIA NIM</strong> &#183; Zero retention &#183; TLS encrypted
         </p>
       </div>
       <StickyBar />
