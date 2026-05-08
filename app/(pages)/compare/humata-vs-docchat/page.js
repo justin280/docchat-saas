@@ -1,4 +1,5 @@
 import NavBar from '@/app/components/NavBar';
+import StickyBar from '@/app/components/StickyBar';
 
 export const metadata = {
   title: 'DocChat AI vs Humata — Which is Better in 2026?',
@@ -117,6 +118,7 @@ export default function HumatavsDocChatPage() {
         <p style={s.ctaSub}>More models, better privacy, and a genuinely free plan. No credit card needed to get started.</p>
         <a href="/" style={s.ctaBtn}>Try DocChat AI Free</a>
       </div>
+                  <StickyBar />
     </div>
   );
 }
