@@ -7,7 +7,7 @@ const QUICK_PROMPTS = [
   { icon: '📝', label: 'Summarise' },
   { icon: '🎯', label: 'Key Points' },
   { icon: '✅', label: 'Action Items' },
-  { icon: '📅', label: 'Key Dates' },h
+  { icon: '📅', label: 'Key Dates' },hh
   { icon: '⚠️', label: 'Risks' },
   { icon: '❓', label: 'FAQ' },
 ];
@@ -15,7 +15,6 @@ const QUICK_PROMPTS = [
 const USE_CASES = [
   { icon: '⚖️', title: 'Legal & Contract Review AI', desc: 'Upload contracts, NDAs, lease agreements. Instantly extract clauses, obligations, red flags and compliance requirements.' },
   { icon: '📊', title: 'AI Excel & Spreadsheet Analyzer', desc: 'Chat with Excel, CSV and financial reports. Ask questions across multiple sheets simultaneously with advanced analysis.' },
-  { icon: '🏥', title: 'Healthcare Research', desc: 'Process clinical studies, medical literature and research documents. Extract insights from complex health data.' },
   { icon: '🎓', title: 'Academic & Research', desc: 'Chat across multiple research papers simultaneously. Generate citations, summaries and cross-paper analysis instantly.' },
   { icon: '💼', title: 'Business Intelligence', desc: 'Analyse financial reports, board decks and market research. Get executive summaries and data-driven insights in seconds.' },
   { icon: '🔧', title: 'Technical Documentation', desc: 'Navigate complex manuals, API docs and spec sheets. Get precise answers without reading hundreds of pages.' },
@@ -33,12 +32,6 @@ const FEATURES = [
   { icon: '🔍', title: 'Auto-Summarize', desc: 'Toggle auto-summarize on upload to get an instant overview before you start chatting.' },
 ];
 
-const TESTIMONIALS = [
-  { name: 'Sarah M.', role: 'Contract Lawyer', text: 'I review 20+ contracts a week. DocChat AI cuts my time in half. The contract review AI is incredibly accurate.' },
-  { name: 'James T.', role: 'Financial Analyst', text: 'The AI Excel analyzer is a game changer. I uploaded 3 quarterly reports and asked cross-document questions instantly.' },
-  { name: 'Dr. Priya R.', role: 'Medical Researcher', text: 'Perfect for healthcare research. I process clinical studies and get structured summaries in minutes, not hours.' },
-  { name: 'Alex W.', role: 'Startup Founder', text: 'We use DocChat AI for due diligence. Uploading investor reports and chatting with them saves us days of manual work.' },
-];
 
 const NAV_PAGES = [
   { slug: '/legal-ai', label: 'Legal AI' },
@@ -280,7 +273,7 @@ export default function Home() {
   const faqs = [
     { q: 'What file formats does DocChat AI support?', a: 'PDF, DOCX, TXT, XLSX, CSV, Markdown, HTML, RTF, EPUB, ODT and more.' },
     { q: 'Can I chat with multiple PDFs at once?', a: 'Yes! Upload up to 5 documents simultaneously and ask questions across all of them. Our advanced RAG architecture ensures accurate, grounded answers.' },
-    { q: 'Is DocChat AI suitable for contract review?', a: 'Absolutely. Our contract review AI is used by lawyers and paralegals to extract clauses, flag obligations and identify risks in seconds.' },
+    { q: 'Is DocChat AI suitable for contract review?', a: 'Yes. The contract review AI is built for extracting clauses, flagging obligations and identifying risks in seconds.' },
     { q: 'Can it analyse Excel and CSV files?', a: 'Yes. Our AI Excel analyzer supports deep table and multi-sheet analysis. Upload financial reports, budgets or datasets and ask natural language questions.' },
     { q: 'Which AI models are available?', a: 'Llama 3.1 70B, Mistral Large and DeepSeek R1 — all powered by NVIDIA NIM infrastructure.' },
     { q: 'Are my documents private?', a: 'Yes. Documents are processed in-session only and never persisted to any database.' },
@@ -586,20 +579,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section style={{...s.section, paddingTop:'20px'}}>
-        <h2 style={s.h2}>Trusted by professionals worldwide</h2>
-        <p style={s.h2sub}>Join thousands of lawyers, analysts, researchers and founders</p>
-        <div style={s.testimonialGrid}>
-          {TESTIMONIALS.map((t,i)=>(
-            <div key={i} style={s.testimonialCard}>
-              <div style={s.stars}>★★★★★</div>
-              <p style={s.testimonialText}>"{t.text}"</p>
-              <div style={s.testimonialName}>{t.name}</div>
-              <div style={s.testimonialRole}>{t.role}</div>
-            </div>
-          ))}
-        </div>
-      </section>
+
 
       <section style={{...s.section, paddingTop:'20px'}}>
         <h2 style={s.h2}>Frequently Asked Questions</h2>
