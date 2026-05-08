@@ -7,7 +7,7 @@ const QUICK_PROMPTS = [
   { icon: '📝', label: 'Summarise' },
   { icon: '🎯', label: 'Key Points' },
   { icon: '✅', label: 'Action Items' },
-  { icon: '📅', label: 'Key Dates' },
+  { icon: '📅', label: 'Key Dates' },h
   { icon: '⚠️', label: 'Risks' },
   { icon: '❓', label: 'FAQ' },
 ];
@@ -15,7 +15,7 @@ const QUICK_PROMPTS = [
 const USE_CASES = [
   { icon: '⚖️', title: 'Legal & Contract Review AI', desc: 'Upload contracts, NDAs, lease agreements. Instantly extract clauses, obligations, red flags and compliance requirements.' },
   { icon: '📊', title: 'AI Excel & Spreadsheet Analyzer', desc: 'Chat with Excel, CSV and financial reports. Ask questions across multiple sheets simultaneously with advanced analysis.' },
-  { icon: '🏥', title: 'Healthcare Research', desc: 'Process clinical studies, medical literature and HIPAA-compliant documents. Extract insights from complex health data.' },
+  { icon: '🏥', title: 'Healthcare Research', desc: 'Process clinical studies, medical literature and research documents. Extract insights from complex health data.' },
   { icon: '🎓', title: 'Academic & Research', desc: 'Chat across multiple research papers simultaneously. Generate citations, summaries and cross-paper analysis instantly.' },
   { icon: '💼', title: 'Business Intelligence', desc: 'Analyse financial reports, board decks and market research. Get executive summaries and data-driven insights in seconds.' },
   { icon: '🔧', title: 'Technical Documentation', desc: 'Navigate complex manuals, API docs and spec sheets. Get precise answers without reading hundreds of pages.' },
@@ -93,7 +93,7 @@ export default function Home() {
     },
     {
       tier: 'BUSINESS', name: '$49/mo', price: 49, annualPrice: 39,
-      features: ['Everything in Pro', 'API access', 'Priority support', 'Team workspace (Q3 2026)', 'SSO (Google/Microsoft)', 'Admin controls', 'SOC2 & HIPAA ready'],
+      features: ['Everything in Pro', 'API access', 'Priority support', 'Team workspace (Q3 2026)'],
       cta: 'Get Business', ctaAction: () => handleCheckout('business'),
     },
   ];
@@ -282,7 +282,6 @@ export default function Home() {
     { q: 'Can I chat with multiple PDFs at once?', a: 'Yes! Upload up to 5 documents simultaneously and ask questions across all of them. Our advanced RAG architecture ensures accurate, grounded answers.' },
     { q: 'Is DocChat AI suitable for contract review?', a: 'Absolutely. Our contract review AI is used by lawyers and paralegals to extract clauses, flag obligations and identify risks in seconds.' },
     { q: 'Can it analyse Excel and CSV files?', a: 'Yes. Our AI Excel analyzer supports deep table and multi-sheet analysis. Upload financial reports, budgets or datasets and ask natural language questions.' },
-    { q: 'Is it HIPAA compliant for healthcare use?', a: 'Our Business plan includes HIPAA-ready processing. Documents are never stored after your session ends.' },
     { q: 'Which AI models are available?', a: 'Llama 3.1 70B, Mistral Large and DeepSeek R1 — all powered by NVIDIA NIM infrastructure.' },
     { q: 'Are my documents private?', a: 'Yes. Documents are processed in-session only and never persisted to any database.' },
     { q: 'Can I cancel my subscription?', a: 'Yes, cancel anytime from your account settings. No lock-in contracts.' },
@@ -547,7 +546,6 @@ export default function Home() {
                   ['Advanced RAG','✅','Limited','Limited','✅'],
                   ['Free docs/month','15','3','5','3'],
                   ['Export chat','✅','❌','✅','❌'],
-                  ['HIPAA / Enterprise ready','✅ Business plan','❌','❌','✅'],
                   ['NVIDIA NIM powered','✅','❌','❌','❌'],
                 ].map(([feat,...vals],i)=>(
                   <tr key={i}>
