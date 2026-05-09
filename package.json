@@ -8,16 +8,18 @@
     "start": "next start"
   },
   "dependencies": {
+    "@supabase/ssr": "^0.5.2",
+    "@supabase/supabase-js": "^2.45.4",
+    "mammoth": "^1.7.2",
     "next": "14.2.3",
+    "node-html-parser": "^6.1.13",
+    "openai": "^4.47.1",
     "react": "^18",
     "react-dom": "^18",
-    "openai": "^4.47.1",
-    "mammoth": "^1.7.2",
-    "react-markdown": "^9.0.1",
     "react-dropzone": "^14.2.3",
+    "react-markdown": "^9.0.1",
     "stripe": "^15.7.0",
-    "xlsx": "^0.18.5",
-    "node-html-parser": "^6.1.13"
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "autoprefixer": "^10.0.1",
