@@ -7,7 +7,7 @@ const QUICK_PROMPTS = [
   { icon: '📝', label: 'Summarise' },
   { icon: '🎯', label: 'Key Points' },
   { icon: '✅', label: 'Action Items' },
-  { icon: '📅', label: 'Key Dates' },hh
+  { icon: '📅', label: 'Key Dates' },
   { icon: '⚠️', label: 'Risks' },
   { icon: '❓', label: 'FAQ' },
 ];
