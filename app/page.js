@@ -15,6 +15,18 @@ const NAV_PAGES = [
   { slug: '/', label: 'Home' },
   { slug: '/contact', label: 'Contact' },
 ];
+
+const FEATURES = [
+  { icon: '📁', title: 'Chat With Multiple PDFs', desc: 'Upload up to 5 documents simultaneously and ask questions across all of them at once.' },
+  { icon: '🤖', title: '11 AI Models', desc: 'Choose from 11 AI models: Llama 3.3, DeepSeek V3, Gemma 3, Phi-4, Qwen 2.5, Nemotron and more.' },
+  { icon: '⚡', title: 'Quick Prompts', desc: 'One-click: Summarise, Key Points, Action Items, Risks, Dates.' },
+  { icon: '📊', title: 'AI Excel Analyzer', desc: 'Deep spreadsheet and CSV analysis with multi-sheet support.' },
+  { icon: '⬇️', title: 'Export Chat', desc: 'Download your entire conversation as a .txt file.' },
+  { icon: '🔒', title: 'Private & Secure', desc: 'Documents are never stored. Advanced RAG architecture ensures accurate, grounded answers.' },
+  { icon: '💬', title: 'Follow-Up Prompts', desc: 'AI suggests intelligent follow-up questions based on your document context.' },
+  { icon: '🔄', title: 'Document Comparison', desc: 'Compare two contracts or reports side-by-side to spot differences instantly.' },
+  { icon: '🔍', title: 'Auto-Summarize', desc: 'Toggle auto-summarize on upload to get an instant overview before you start chatting.' },
+];
 export default function Home() {
   const [docs, setDocs] = useState([]);
   const [messages, setMessages] = useState([]);
@@ -380,6 +392,20 @@ export default function Home() {
               <strong>Upload error:</strong> {uploadError}
             </div>
           )}
+        </div>
+      </section>
+
+      <section style={{...s.section, paddingTop:'40px'}}>
+        <h2 style={s.h2}>Everything you need to work smarter with documents</h2>
+        <p style={s.h2sub}>Advanced RAG architecture · Follow-up prompts · Document comparison · Auto-summarize</p>
+        <div style={s.grid3}>
+          {FEATURES.map((f,i)=>(
+            <div key={i} style={s.card}>
+              <div style={s.cardIcon}>{f.icon}</div>
+              <h3 style={s.cardTitle}>{f.title}</h3>
+              <p style={s.cardDesc}>{f.desc}</p>
+            </div>
+          ))}
         </div>
       </section>
 
