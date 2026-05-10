@@ -4,14 +4,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 const NAV_PAGES = [
-  { slug: '/legal-ai', label: 'Legal AI' },
-  { slug: '/enterprise', label: 'Enterprise' },
-  { slug: '/healthcare', label: 'Healthcare' },
-  { slug: '/compare', label: 'vs Competitors' },
-  { slug: '/api-docs', label: 'API Docs' },
-  { slug: '/contact', label: 'Contact' },
-  { slug: '/security', label: 'Security' },
-];
+      { slug: '/healthcare', label: 'Healthcare' },
+      { slug: '/contact', label: 'Contact' },
+  ];
 
 export default function NavBar({ activePath }) {
   const [menuOpen, setMenuOpen] = useState(false);
