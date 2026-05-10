@@ -7,7 +7,6 @@ export default function sitemap() {
     { url: baseUrl + '/enterprise', lastModified, changeFrequency: 'monthly', priority: 0.9 },
     { url: baseUrl + '/healthcare', lastModified, changeFrequency: 'monthly', priority: 0.9 },
     { url: baseUrl + '/legal-ai', lastModified, changeFrequency: 'monthly', priority: 0.9 },
-    { url: baseUrl + '/pricing', lastModified, changeFrequency: 'monthly', priority: 0.9 },
     { url: baseUrl + '/security', lastModified, changeFrequency: 'monthly', priority: 0.9 },
     { url: baseUrl + '/security/documents', lastModified, changeFrequency: 'monthly', priority: 0.8 },
     { url: baseUrl + '/compare', lastModified, changeFrequency: 'monthly', priority: 0.8 },
