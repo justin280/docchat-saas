@@ -4,7 +4,6 @@ export default function sitemap() {
   
   return [
     { url: baseUrl, lastModified, changeFrequency: 'weekly', priority: 1.0 },
-    { url: baseUrl + '/healthcare', lastModified, changeFrequency: 'monthly', priority: 0.9 },
     { url: baseUrl + '/compliance', lastModified, changeFrequency: 'monthly', priority: 0.8 },
     { url: baseUrl + '/contact', lastModified, changeFrequency: 'monthly', priority: 0.7 },
     { url: baseUrl + '/blog/ai-healthcare-research', lastModified, changeFrequency: 'monthly', priority: 0.7 },
