@@ -44,7 +44,6 @@ export default function HumatavsDocChatPage() {
     ['HIPAA Ready', 'Yes (Business plan + BAA)', 'No', '#84cc16', '#ef4444'],
     ['Excel / CSV Support', 'Full XLSX and CSV analysis', 'Limited', '#84cc16', '#f59e0b'],
     ['Export Chat', 'Yes — download as .txt', 'No', '#84cc16', '#ef4444'],
-    ['API Access', 'Yes (Business plan)', 'Yes (paid)', '#84cc16', '#9ca3af'],
     ['Pro Plan Price', '\$19/month', '\$14.99/month', '#9ca3af', '#84cc16'],
     ['Open Source Models', 'Yes — Llama, Mistral, DeepSeek', 'No — GPT-4 only', '#84cc16', '#ef4444'],
   ];
