@@ -10,7 +10,6 @@ const NAV_PAGES = [
   { slug: '/compare', label: 'vs Competitors' },
   { slug: '/api-docs', label: 'API Docs' },
   { slug: '/contact', label: 'Contact' },
-  { slug: '/pricing', label: 'Pricing' },
   { slug: '/security', label: 'Security' },
 ];
 

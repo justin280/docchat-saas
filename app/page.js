@@ -48,8 +48,7 @@ const NAV_PAGES = [
   { slug: '/api-docs', label: 'API Docs' },
   { slug: '/contact', label: 'Contact' },
 
-  { slug: '/pricing', label: 'Pricing' },
-  { slug: '/security', label: 'Security' },];
+    { slug: '/security', label: 'Security' },];
 export default function Home() {
   const [docs, setDocs] = useState([]);
   const [messages, setMessages] = useState([]);
@@ -58,7 +57,6 @@ export default function Home() {
   const [view, setView] = useState('landing');
   const [showVideo, setShowVideo] = useState(false);
   const [selectedModel, setSelectedModel] = useState('meta/llama-3.1-70b-instruct');
-  const [billing, setBilling] = useState('monthly');
   const [uploadError, setUploadError] = useState('');
   const [uploading, setUploading] = useState(false);
   const [viewerOpen, setViewerOpen] = useState(false);
@@ -79,34 +77,6 @@ export default function Home() {
     { id: 'qwen2.5-72b',    label: 'Qwen 2.5 72B',      badge: 'New' },
     { id: 'nemotron-70b',   label: 'Nemotron 70B',      badge: null },
   ];
-
-  const pricingPlans = [
-    {
-      tier: 'STARTER', name: 'Free', price: 0, annualPrice: 0,
-      features: ['15 documents/month', '100 questions/month', 'TXT, DOCX, PDF support', 'Follow-up prompts'],
-      cta: 'Start Free', ctaAction: () => setView('chat'),
-    },
-    {
-      tier: 'PRO', name: '$19/mo', price: 19, annualPrice: 15,
-      features: ['Unlimited documents', 'Unlimited questions', 'All file formats', 'Chat with multiple PDFs', 'All AI models', 'Priority responses', 'Auto-summarize', 'Document comparison'],
-      cta: 'Get Pro', popular: true, ctaAction: () => handleCheckout('pro'),
-    },
-    {
-      tier: 'BUSINESS', name: '$49/mo', price: 49, annualPrice: 39,
-      features: ['Everything in Pro', 'API access', 'Priority support', 'Team workspace (Q3 2026)', 'SSO (Google/Microsoft)', 'Admin controls', 'SOC2 & HIPAA ready'],
-      cta: 'Get Business', ctaAction: () => handleCheckout('business'),
-    },
-  ];
-
-  async function handleCheckout(plan) {
-    try {
-      const res = await fetch('/api/checkout', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({plan}) });
-      const data = await res.json();
-      if (data.url) window.location.href = data.url;
-    } catch(e) {
-      alert('Checkout error: ' + e.message);
-    }
-  }
 
   async function handleUpload(e) {
     const files = Array.from(e.target.files || []);
@@ -545,8 +515,7 @@ export default function Home() {
                   ['Auto-summarize on upload','✅','❌','✅','✅'],
                   ['Follow-up prompts','✅ AI-suggested','❌','❌','❌'],
                   ['Advanced RAG','✅','Limited','Limited','✅'],
-                  ['Free docs/month','15','3','5','3'],
-                  ['Export chat','✅','❌','✅','❌'],
+                                    ['Export chat','✅','❌','✅','❌'],
                   ['HIPAA / Enterprise ready','✅ Business plan','❌','❌','✅'],
                   ['NVIDIA NIM powered','✅','❌','❌','❌'],
                 ].map(([feat,...vals],i)=>(
@@ -560,31 +529,6 @@ export default function Home() {
               </tbody>
             </table>
           </div>
-        </div>
-      </section>
-
-      <section style={s.section}>
-        <h2 style={s.h2}>Simple, transparent pricing</h2>
-        <p style={s.h2sub}>Start free. Upgrade when you need more power.</p>
-        <div style={s.billingToggle}>
-          <button style={{...s.toggleBtn, backgroundColor: billing==='monthly'?'#84cc16':'transparent', color: billing==='monthly'?'#000':'#9ca3af', border: billing==='monthly'?'1px solid #84cc16':'1px solid #333'}} onClick={()=>setBilling('monthly')}>Monthly</button>
-          <button style={{...s.toggleBtn, backgroundColor: billing==='annual'?'#84cc16':'transparent', color: billing==='annual'?'#000':'#9ca3af', border: billing==='annual'?'1px solid #84cc16':'1px solid #333'}} onClick={()=>setBilling('annual')}>Annual <span style={{color: billing==='annual'?'#000':'#84cc16',fontSize:'11px',fontWeight:'700'}}> SAVE 20%</span></button>
-        </div>
-        <div style={s.pricingGrid}>
-          {pricingPlans.map((plan,i)=>(
-            <div key={i} style={plan.popular?s.pricingCardPop:s.pricingCard}>
-              {plan.popular&&<div style={s.popularBadge}>MOST POPULAR</div>}
-              <div style={s.pricingTier}>{plan.tier}</div>
-              <div style={s.pricingName}>
-                {plan.price===0 ? 'Free' : (billing==='annual'?'$'+plan.annualPrice:'$'+plan.price)+'/mo'}
-                {plan.price>0&&billing==='annual'&&<span style={{fontSize:'12px',color:'#84cc16',marginLeft:'8px'}}>billed annually</span>}
-              </div>
-              {plan.features.map((f,j)=>(
-                <div key={j} style={s.pricingFeature}><span style={s.check}>✓</span>{f}</div>
-              ))}
-              <button style={{...s.pricingBtn, backgroundColor: plan.popular?'#84cc16':'transparent', color: plan.popular?'#000':'#fff', border: plan.popular?'none':'1px solid #333'}} onClick={plan.ctaAction}>{plan.cta}</button>
-            </div>
-          ))}
         </div>
       </section>
 
@@ -629,7 +573,7 @@ export default function Home() {
             <a key={p.slug} href={p.slug} style={{color:'#6b7280',fontSize:'12px',textDecoration:'none'}}>{p.label}</a>
           ))}
         </div>
-        <p style={{color:'#4b5563',fontSize:'12px',margin:0}}>© 2026 DocChat AI · Powered by NVIDIA NIM · Secure payments by Stripe</p>
+        <p style={{color:'#4b5563',fontSize:'12px',margin:0}}>© 2026 DocChat AI · Powered by NVIDIA NIM</p>
       </footer>
 
       <StickyBar />
