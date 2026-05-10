@@ -41,14 +41,10 @@ const TESTIMONIALS = [
 ];
 
 const NAV_PAGES = [
-  { slug: '/legal-ai', label: 'Legal AI' },
-  { slug: '/enterprise', label: 'Enterprise' },
-  { slug: '/healthcare', label: 'Healthcare' },
-  { slug: '/compare', label: 'vs Competitors' },
-  { slug: '/api-docs', label: 'API Docs' },
-  { slug: '/contact', label: 'Contact' },
+      { slug: '/healthcare', label: 'Healthcare' },
+      { slug: '/contact', label: 'Contact' },
 
-    { slug: '/security', label: 'Security' },];
+    ];
 export default function Home() {
   const [docs, setDocs] = useState([]);
   const [messages, setMessages] = useState([]);
