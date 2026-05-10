@@ -12,36 +12,11 @@ const QUICK_PROMPTS = [
   { icon: '❓', label: 'FAQ' },
 ];
 
-const USE_CASES = [
-  { icon: '⚖️', title: 'Legal & Contract Review AI', desc: 'Upload contracts, NDAs, lease agreements. Instantly extract clauses, obligations, red flags and compliance requirements.' },
-  { icon: '📊', title: 'AI Excel & Spreadsheet Analyzer', desc: 'Chat with Excel, CSV and financial reports. Ask questions across multiple sheets simultaneously with advanced analysis.' },
-  { icon: '🎓', title: 'Academic & Research', desc: 'Chat across multiple research papers simultaneously. Generate citations, summaries and cross-paper analysis instantly.' },
-  { icon: '💼', title: 'Business Intelligence', desc: 'Analyse financial reports, board decks and market research. Get executive summaries and data-driven insights in seconds.' },
-  { icon: '🔧', title: 'Technical Documentation', desc: 'Navigate complex manuals, API docs and spec sheets. Get precise answers without reading hundreds of pages.' },
-];
-
-const FEATURES = [
-  { icon: '📁', title: 'Chat With Multiple PDFs', desc: 'Upload up to 5 documents simultaneously and ask questions across all of them at once.' },
-  { icon: '🤖', title: '11 AI Models', desc: 'Choose from 11 AI models: Llama 3.3, DeepSeek V3, Gemma 3, Phi-4, Qwen 2.5, Nemotron and more.' },
-  { icon: '⚡', title: 'Quick Prompts', desc: 'One-click: Summarise, Key Points, Action Items, Risks, Dates.' },
-  { icon: '📊', title: 'AI Excel Analyzer', desc: 'Deep spreadsheet and CSV analysis with multi-sheet support.' },
-  { icon: '⬇️', title: 'Export Chat', desc: 'Download your entire conversation as a .txt file.' },
-  { icon: '🔒', title: 'Private & Secure', desc: 'Documents are never stored. Advanced RAG architecture ensures accurate, grounded answers.' },
-  { icon: '💬', title: 'Follow-Up Prompts', desc: 'AI suggests intelligent follow-up questions based on your document context.' },
-  { icon: '🔄', title: 'Document Comparison', desc: 'Compare two contracts or reports side-by-side to spot differences instantly.' },
-  { icon: '🔍', title: 'Auto-Summarize', desc: 'Toggle auto-summarize on upload to get an instant overview before you start chatting.' },
-];
-
-const TESTIMONIALS = [
-  { name: 'Sarah M.', role: 'Contract Lawyer', text: 'I review 20+ contracts a week. DocChat AI cuts my time in half. The contract review AI is incredibly accurate.' },
-  { name: 'James T.', role: 'Financial Analyst', text: 'The AI Excel analyzer is a game changer. I uploaded 3 quarterly reports and asked cross-document questions instantly.' },
-  { name: 'Alex W.', role: 'Startup Founder', text: 'We use DocChat AI for due diligence. Uploading investor reports and chatting with them saves us days of manual work.' },
-];
-
 const NAV_PAGES = [
-      { slug: '/contact', label: 'Contact' },
-
-    ];
+  { slug: '/', label: 'Home' },
+  { slug: '/contact', label: 'Contact' },
+  { slug: '/blog', label: 'Blog' },
+];
 export default function Home() {
   const [docs, setDocs] = useState([]);
   const [messages, setMessages] = useState([]);
@@ -238,17 +213,6 @@ export default function Home() {
     backBtn: { backgroundColor:'transparent', border:'1px solid #333', borderRadius:'6px', padding:'6px 12px', color:'#9ca3af', fontSize:'12px', cursor:'pointer' },
     errorBox: { backgroundColor:'#1f0a0a', border:'1px solid #ef4444', borderRadius:'8px', padding:'10px 12px', fontSize:'12px', color:'#ef4444' },
   };
-  const [openFaq, setOpenFaq] = useState(null);
-  const faqs = [
-    { q: 'What file formats does DocChat AI support?', a: 'PDF, DOCX, TXT, XLSX, CSV, Markdown, HTML, RTF, EPUB, ODT and more.' },
-    { q: 'Can I chat with multiple PDFs at once?', a: 'Yes! Upload up to 5 documents simultaneously and ask questions across all of them. Our advanced RAG architecture ensures accurate, grounded answers.' },
-    { q: 'Is DocChat AI suitable for contract review?', a: 'Absolutely. Our contract review AI is used by lawyers and paralegals to extract clauses, flag obligations and identify risks in seconds.' },
-    { q: 'Can it analyse Excel and CSV files?', a: 'Yes. Our AI Excel analyzer supports deep table and multi-sheet analysis. Upload financial reports, budgets or datasets and ask natural language questions.' },
-    { q: 'Which AI models are available?', a: 'Llama 3.1 70B, Mistral Large and DeepSeek R1 — all powered by NVIDIA NIM infrastructure.' },
-    { q: 'Are my documents private?', a: 'Yes. Documents are processed in-session only and never persisted to any database.' },
-    { q: 'Can I cancel my subscription?', a: 'Yes, cancel anytime from your account settings. No lock-in contracts.' },
-  ];
-
   if (view === 'chat') {
     return (
       <main style={s.chatWrap}>
@@ -390,99 +354,34 @@ export default function Home() {
         {NAV_PAGES.map(p=>(
           <a key={p.slug} href={p.slug} style={{color:'#9ca3af',fontSize:'13px',textDecoration:'none'}}>{p.label}</a>
         ))}
-        <button style={{...s.ctaBtn, padding:'8px 18px', fontSize:'13px'}} onClick={()=>setView('chat')}>Try Free</button>
       </nav>
 
 
-      <section style={{...s.section, backgroundColor:'#0f0f0f', maxWidth:'100%', padding:'60px 20px'}}>
-        <div style={{maxWidth:'1100px',margin:'0 auto'}}>
-          <h2 style={s.h2}>Built for every industry</h2>
-          <p style={s.h2sub}>From legal contract review AI to financial analysis and technical documentation</p>
-          <div style={s.grid3}>
-            {USE_CASES.map((u,i)=>(
-              <div key={i} style={s.card}>
-                <div style={s.cardIcon}>{u.icon}</div>
-                <h3 style={s.cardTitle}>{u.title}</h3>
-                <p style={s.cardDesc}>{u.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <section style={{...s.hero, padding:'80px 20px 40px'}}>
+        <h1 style={s.h1}>Chat with any <span style={s.h1green}>PDF or document</span> instantly</h1>
+        <p style={s.subtitle}>Upload your file and start asking questions. No sign-up required.</p>
 
-      <section style={s.compareSec}>
-        <div style={{maxWidth:'1100px',margin:'0 auto'}}>
-          <h2 style={s.h2}>DocChat AI vs ChatPDF vs ChatDOC vs Humata</h2>
-          <p style={s.h2sub}>See why professionals choose DocChat AI for document analysis</p>
-          <div style={{overflowX:'auto'}}>
-            <table style={s.compareTable}>
-              <thead>
-                <tr>
-                  <th style={s.th}>Feature</th>
-                  <th style={s.thGreen}>DocChat AI</th>
-                  <th style={s.th}>ChatPDF</th>
-                  <th style={s.th}>ChatDOC</th>
-                  <th style={s.th}>Humata</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  ['Chat with multiple PDFs','✅ Up to 5','❌ 1 at a time','✅','✅'],
-                  ['AI Excel / CSV analyzer','✅ Full support','❌','Limited','Limited'],
-                  ['Contract review AI','✅ Specialized','Basic','Basic','Basic'],
-                  ['AI models available','11 models (Llama, Mistral, DeepSeek + more)','1','1','1'],
-                  ['Document comparison','✅','❌','❌','❌'],
-                  ['Auto-summarize on upload','✅','❌','✅','✅'],
-                  ['Follow-up prompts','✅ AI-suggested','❌','❌','❌'],
-                  ['Advanced RAG','✅','Limited','Limited','✅'],
-                                    ['Export chat','✅','❌','✅','❌'],
-                  ['NVIDIA NIM powered','✅','❌','❌','❌'],
-                ].map(([feat,...vals],i)=>(
-                  <tr key={i}>
-                    <td style={s.td}>{feat}</td>
-                    {vals.map((v,j)=>(
-                      <td key={j} style={j===0?s.tdGreen:s.td}>{v}</td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <section style={{...s.section, paddingTop:'20px'}}>
-        <h2 style={s.h2}>Trusted by professionals worldwide</h2>
-        <p style={s.h2sub}>Join thousands of lawyers, analysts, researchers and founders</p>
-        <div style={s.testimonialGrid}>
-          {TESTIMONIALS.map((t,i)=>(
-            <div key={i} style={s.testimonialCard}>
-              <div style={s.stars}>★★★★★</div>
-              <p style={s.testimonialText}>"{t.text}"</p>
-              <div style={s.testimonialName}>{t.name}</div>
-              <div style={s.testimonialRole}>{t.role}</div>
+        <div style={{maxWidth:'520px', margin:'32px auto 0', padding:'0 20px'}}>
+          <label style={{...s.uploadLabel, padding:'18px', fontSize:'15px', display:'block', cursor:uploading?'not-allowed':'pointer', opacity:uploading?0.6:1}}>
+            {uploading ? 'Uploading...' : '📄  Upload a document to start chatting'}
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".pdf,.docx,.txt,.xlsx,.csv,.md,.html,.rtf,.epub,.odt"
+              multiple
+              disabled={uploading}
+              style={{display:'none'}}
+              onChange={handleUpload}
+            />
+          </label>
+          <p style={{color:'#6b7280', fontSize:'12px', marginTop:'12px', textAlign:'center'}}>
+            PDF · DOCX · TXT · XLSX · CSV · MD · HTML · RTF · EPUB · ODT
+          </p>
+          {uploadError && (
+            <div style={{...s.errorBox, marginTop:'16px'}}>
+              <strong>Upload error:</strong> {uploadError}
             </div>
-          ))}
-        </div>
-      </section>
-
-      <section style={{...s.section, paddingTop:'20px'}}>
-        <h2 style={s.h2}>Frequently Asked Questions</h2>
-        <div style={{maxWidth:'700px',margin:'0 auto'}}>
-          {faqs.map((f,i)=>(
-            <div key={i} style={s.faqItem} onClick={()=>setOpenFaq(openFaq===i?null:i)}>
-              <div style={s.faqQ}><span>{f.q}</span><span>{openFaq===i?'−':'+'}</span></div>
-              {openFaq===i&&<div style={s.faqA}>{f.a}</div>}
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section style={s.section}>
-        <div style={s.ctaSection}>
-          <h2 style={{...s.h2, marginBottom:'12px'}}>Ready to stop scrolling through documents?</h2>
-          <p style={{color:'#9ca3af',marginBottom:'24px'}}>Join professionals who use DocChat AI to work smarter across any document format.</p>
-          <button style={s.ctaBtn} onClick={()=>setView('chat')}>Start for Free</button>
+          )}
         </div>
       </section>
 
