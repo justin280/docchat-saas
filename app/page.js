@@ -9,13 +9,11 @@ const QUICK_PROMPTS = [
   { icon: '✅', label: 'Action Items' },
   { icon: '📅', label: 'Key Dates' },
   { icon: '⚠️', label: 'Risks' },
-  { icon: '❓', label: 'FAQ' },
 ];
 
 const NAV_PAGES = [
   { slug: '/', label: 'Home' },
   { slug: '/contact', label: 'Contact' },
-  { slug: '/blog', label: 'Blog' },
 ];
 export default function Home() {
   const [docs, setDocs] = useState([]);

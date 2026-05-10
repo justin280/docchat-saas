@@ -6,10 +6,5 @@ export default function sitemap() {
     { url: baseUrl, lastModified, changeFrequency: 'weekly', priority: 1.0 },
     { url: baseUrl + '/compliance', lastModified, changeFrequency: 'monthly', priority: 0.8 },
     { url: baseUrl + '/contact', lastModified, changeFrequency: 'monthly', priority: 0.7 },
-    { url: baseUrl + '/blog/ai-healthcare-research', lastModified, changeFrequency: 'monthly', priority: 0.7 },
-    { url: baseUrl + '/blog/deepseek-ai', lastModified, changeFrequency: 'monthly', priority: 0.7 },
-    { url: baseUrl + '/blog/excel-ai', lastModified, changeFrequency: 'monthly', priority: 0.7 },
-    { url: baseUrl + '/blog/financial-report-analysis', lastModified, changeFrequency: 'monthly', priority: 0.7 },
-    { url: baseUrl + '/blog/mistral-ai', lastModified, changeFrequency: 'monthly', priority: 0.7 },
   ];
 }
