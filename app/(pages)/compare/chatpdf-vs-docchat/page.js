@@ -42,11 +42,9 @@ export default function ChatPDFvsDocChatPage() {
     ['Free Plan', '15 docs/month, 100 questions — No credit card', '2 docs/day limit', '#84cc16', '#f59e0b'],
     ['File Formats', 'PDF, DOCX, XLSX, CSV, TXT, Markdown, HTML, RTF, EPUB', 'PDF only', '#84cc16', '#ef4444'],
     ['Multi-document', 'Up to 5 docs simultaneously', 'Single doc per session', '#84cc16', '#ef4444'],
-    ['Data Retention', 'Zero retention — never stored', 'Data stored on servers', '#84cc16', '#ef4444'],
-    ['HIPAA Ready', 'Yes (Business plan)', 'No', '#84cc16', '#ef4444'],
+    ['Data Retention', 'Zero retention — never stored', 'Data stored on servers', '#84cc16', '#ef4444'],      ['HIPAA Ready', 'Yes', 'No', '#84cc16', '#ef4444'],
     ['Document Comparison', 'Yes — compare two documents side-by-side', 'No', '#84cc16', '#ef4444'],
     ['Export Chat', 'Yes — export as .txt', 'Limited', '#84cc16', '#f59e0b'],
-    ['API Access', 'Yes (Business plan)', 'Yes (paid only)', '#84cc16', '#9ca3af'],
     ['Powered By', 'NVIDIA NIM (enterprise-grade)', 'OpenAI GPT', '#84cc16', '#9ca3af'],
     ['Pro Plan Price', '\$19/month', '\$20/month', '#84cc16', '#f59e0b'],
   ];
