@@ -4,8 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 const NAV_PAGES = [
-      { slug: '/healthcare', label: 'Healthcare' },
-      { slug: '/contact', label: 'Contact' },
+            { slug: '/contact', label: 'Contact' },
   ];
 
 export default function NavBar({ activePath }) {
